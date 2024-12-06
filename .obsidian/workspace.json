@@ -39,13 +39,14 @@
             "id": "5358c62c46547879",
             "type": "leaf",
             "state": {
-              "type": "diff-view",
+              "type": "markdown",
               "state": {
-                "file": ".obsidian/plugins/obsidian-git/styles.css",
-                "staged": false
+                "file": "wip/C++ Test.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "git-pull-request",
-              "title": "Diff View (styles.css)"
+              "icon": "lucide-file",
+              "title": "C++ Test"
             }
           }
         ],
@@ -167,10 +168,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "wip/Model Quantization.md"
+                "file": "wip/C++ Test.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of Model Quantization"
+              "title": "Outline of C++ Test"
             }
           },
           {
@@ -201,20 +202,21 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e7b5a648071cb71c",
+  "active": "5358c62c46547879",
   "lastOpenFiles": [
+    "wip/C++ static_cast的几种情况.md",
+    "wip/C++ implicit conversion.md",
+    "images/Pasted image 20241206164159.png",
+    "images",
     "wip/Model Quantization.md",
     "plugin.md",
     "wip/C++ Test.md",
     "wip/create a link.md",
     "Welcome.md",
     "wip",
-    "Pasted image 20240409164108.png",
+    "images/Pasted image 20240409164108.png",
     "Untitled.canvas",
     "Pytorch源码相关/CUDACachingAllocator.md",
-    "Pasted image 20241206164159.png",
-    "wip/C++ static_cast的几种情况.md",
-    "wip/C++ implicit conversion.md",
     "wip/C++ 重载解析（overload resolution）.md",
     "Pytorch源码相关"
   ]
