@@ -1,0 +1,221 @@
+{
+  "main": {
+    "id": "c7d880b753014cd1",
+    "type": "split",
+    "children": [
+      {
+        "id": "5121c22d2e5d7569",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a6853b382bd49c82",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wip/C++ implicit conversion.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "C++ implicit conversion"
+            }
+          },
+          {
+            "id": "e08180803b4c1e32",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wip/C++ static_cast的几种情况.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "C++ static_cast的几种情况"
+            }
+          },
+          {
+            "id": "5358c62c46547879",
+            "type": "leaf",
+            "state": {
+              "type": "diff-view",
+              "state": {
+                "file": ".obsidian/plugins/obsidian-git/styles.css",
+                "staged": false
+              },
+              "icon": "git-pull-request",
+              "title": "Diff View (styles.css)"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "beecbdce9415767d",
+    "type": "split",
+    "children": [
+      {
+        "id": "57738024531cca74",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "35332dc5f3f3e7d4",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "8c98dcdacb9294d8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "1eed02a32bab0a82",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "ac1ae2433336d196",
+    "type": "split",
+    "children": [
+      {
+        "id": "fb28b14b8696802f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7755388b0599efeb",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "wip/Model Quantization.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Model Quantization"
+            }
+          },
+          {
+            "id": "0ebf11574abe3b2c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "wip/Model Quantization.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Model Quantization"
+            }
+          },
+          {
+            "id": "a66433b5cdbdac7d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "3877e7c732ac712a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "wip/Model Quantization.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Model Quantization"
+            }
+          },
+          {
+            "id": "e7b5a648071cb71c",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "e7b5a648071cb71c",
+  "lastOpenFiles": [
+    "wip/Model Quantization.md",
+    "plugin.md",
+    "wip/C++ Test.md",
+    "wip/create a link.md",
+    "Welcome.md",
+    "wip",
+    "Pasted image 20240409164108.png",
+    "Untitled.canvas",
+    "Pytorch源码相关/CUDACachingAllocator.md",
+    "Pasted image 20241206164159.png",
+    "wip/C++ static_cast的几种情况.md",
+    "wip/C++ implicit conversion.md",
+    "wip/C++ 重载解析（overload resolution）.md",
+    "Pytorch源码相关"
+  ]
+}
