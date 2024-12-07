@@ -11,4 +11,9 @@ ssh -L 8080:localhost:33062 harttle@mysql.example.com
 使用`ssh -R` 命令进行远程端口转发，基本相当于上文`ssh -L` 的反向过程。主要用于本机向外部暴露某个服务。
 ![[Pasted image 20241207150933.png]]
 
-
+与`ssh -L` 不用的是，`ssh -R` 会在ssh server侧开启一个端口，并监听所有对该远程端口的访问，将这些访问转发到local addr的local port端口。
+示例：
+```bash
+ssh -R 8080:localhost:32400 harttle@example.com
+```
+假设本地的32400端口上有一个mysql的管理后端，通过上述`ssh -R` 命令，可以在ssh server，即`example.com` 上开启8080端口，ssh server会监听所有对该端口的访问并转发到本地的32400端口。通过这种方式，外部用户可以通过`example.com:8080` 访问mysql管理后端。

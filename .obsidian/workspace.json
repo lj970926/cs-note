@@ -53,13 +53,14 @@
             "id": "96bf4711ccca8031",
             "type": "leaf",
             "state": {
-              "type": "diff-view",
+              "type": "markdown",
               "state": {
-                "file": ".obsidian/plugins/obsidian-git/data.json",
-                "staged": false
+                "file": "wip/SSH 端口转发.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "git-pull-request",
-              "title": "Diff View (data.json)"
+              "icon": "lucide-file",
+              "title": "SSH 端口转发"
             }
           }
         ],
@@ -119,7 +120,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "ac1ae2433336d196",
@@ -215,7 +217,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e7b5a648071cb71c",
+  "active": "96bf4711ccca8031",
   "lastOpenFiles": [
     "wip/SSH 端口转发.md",
     "Pasted image 20241207150933.png",
