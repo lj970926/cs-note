@@ -2,7 +2,7 @@
 使用`ssh -L` 命令
 ![[Pasted image 20241207145502.png]]
 创建一个监听local_port的socket，将所有对local_port的转发通过ssh channel转发到ssh server，在由ssh server转发到对应的host_port，这里的host_port可以是和ssh server不同的另一条机器。
-示例：
+* 示例：
 ```bash
 ssh -L 8080:localhost:33062 harttle@mysql.example.com
 ```
@@ -12,8 +12,17 @@ ssh -L 8080:localhost:33062 harttle@mysql.example.com
 ![[Pasted image 20241207150933.png]]
 
 与`ssh -L` 不用的是，`ssh -R` 会在ssh server侧开启一个端口，并监听所有对该远程端口的访问，将这些访问转发到local addr的local port端口。
-示例：
+* 示例：
 ```bash
 ssh -R 8080:localhost:32400 harttle@example.com
 ```
 假设本地的32400端口上有一个mysql的管理后端，通过上述`ssh -R` 命令，可以在ssh server，即`example.com` 上开启8080端口，ssh server会监听所有对该端口的访问并转发到本地的32400端口。通过这种方式，外部用户可以通过`example.com:8080` 访问mysql管理后端。
+# 动态(SOCKS)端口转发
+`ssh -D` 命令可以利用ssh创建一个动态application-level proxy。
+![[Pasted image 20241207155322.png]]
+ssh 默认使用SOCKS协议，监听port端口，并转发所有对该端口的访问。该转发的目的地址将由使用的应用层协议（socks)决定。
+* 示例：
+```bash
+ssh -D localhost:8080 harttle@example.com
+```
+将在8080端口创建一个socks proxy.
