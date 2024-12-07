@@ -48,9 +48,22 @@
               "icon": "lucide-file",
               "title": "C++ Test"
             }
+          },
+          {
+            "id": "96bf4711ccca8031",
+            "type": "leaf",
+            "state": {
+              "type": "diff-view",
+              "state": {
+                "file": ".obsidian/plugins/obsidian-git/data.json",
+                "staged": false
+              },
+              "icon": "git-pull-request",
+              "title": "Diff View (data.json)"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -202,15 +215,19 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5358c62c46547879",
+  "active": "e7b5a648071cb71c",
   "lastOpenFiles": [
+    "wip/SSH 端口转发.md",
+    "Pasted image 20241207150933.png",
+    "Pasted image 20241207145502.png",
+    "wip/C++ Test.md",
+    "Untitled",
     "wip/C++ static_cast的几种情况.md",
     "wip/C++ implicit conversion.md",
     "images/Pasted image 20241206164159.png",
     "images",
     "wip/Model Quantization.md",
     "plugin.md",
-    "wip/C++ Test.md",
     "wip/create a link.md",
     "Welcome.md",
     "wip",
