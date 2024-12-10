@@ -11,14 +11,12 @@
             "id": "a6853b382bd49c82",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "wip/C++ Test.md",
-                "mode": "source",
-                "source": false
+                "file": "images/Pasted image 20241206164159.png"
               },
-              "icon": "lucide-file",
-              "title": "C++ Test"
+              "icon": "lucide-image",
+              "title": "Pasted image 20241206164159"
             }
           }
         ]
@@ -175,22 +173,22 @@
   },
   "active": "a6853b382bd49c82",
   "lastOpenFiles": [
-    "images/20241210134114.png",
-    "wip/C++ Test.md",
-    "命令行工具/SSH 端口转发.md",
-    "images/test_img.png",
-    "images/Pasted image 20241206164159.png",
-    "wip/C++ implicit conversion.md",
     "images/Pasted image 20240409164108.png",
+    "images/Pasted image 20241206164159.png",
+    "命令行工具/SSH 端口转发.md",
+    "Pasted image 20241207155322.png",
+    "Pasted image 20241207150933.png",
+    "Pasted image 20241207145502.png",
+    "wip/C++ Test.md",
+    "images/20241210134114.png",
+    "images/test_img.png",
+    "wip/C++ implicit conversion.md",
     "命令行工具/shell 快捷键.md",
     "命令行工具/LD Flag.md",
     "命令行工具",
     "ML sys/Model Quantization.md",
     "ML sys",
     "wip/SSH 端口转发.md",
-    "Pasted image 20241207155322.png",
-    "Pasted image 20241207150933.png",
-    "Pasted image 20241207145502.png",
     "wip/C++ static_cast的几种情况.md",
     "images",
     "wip/Model Quantization.md",
