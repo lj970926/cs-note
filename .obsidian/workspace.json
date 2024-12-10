@@ -11,14 +11,12 @@
             "id": "a6853b382bd49c82",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "wip/C++ implicit conversion.md",
-                "mode": "source",
-                "source": false
+                "file": "images/Pasted image 20241206164159.png"
               },
-              "icon": "lucide-file",
-              "title": "C++ implicit conversion"
+              "icon": "lucide-image",
+              "title": "Pasted image 20241206164159"
             }
           }
         ]
@@ -175,12 +173,12 @@
   },
   "active": "a6853b382bd49c82",
   "lastOpenFiles": [
+    "wip/C++ implicit conversion.md",
     "images/Pasted image 20240409164108.png",
     "images/Pasted image 20241206164159.png",
-    "images/Pasted image 20241210115651.png",
+    "Pasted image 20241210115651.png",
     "命令行工具/SSH 端口转发.md",
     "命令行工具/shell 快捷键.md",
-    "wip/C++ implicit conversion.md",
     "命令行工具/LD Flag.md",
     "命令行工具",
     "ML sys/Model Quantization.md",
