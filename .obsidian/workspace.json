@@ -22,16 +22,17 @@
             }
           },
           {
-            "id": "e08180803b4c1e32",
+            "id": "2daf4bdc94f5a5f9",
             "type": "leaf",
             "state": {
-              "type": "diff-view",
+              "type": "markdown",
               "state": {
-                "file": ".obsidian/workspace.json",
-                "staged": true
+                "file": "命令行工具/shell 快捷键.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "git-pull-request",
-              "title": "Diff View (workspace.json)"
+              "icon": "lucide-file",
+              "title": "shell 快捷键"
             }
           }
         ],
@@ -187,8 +188,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e08180803b4c1e32",
+  "active": "2daf4bdc94f5a5f9",
   "lastOpenFiles": [
+    "wip/C++ implicit conversion.md",
+    "命令行工具/shell 快捷键.md",
     "命令行工具/SSH 端口转发.md",
     "命令行工具/LD Flag.md",
     "命令行工具",
@@ -200,7 +203,6 @@
     "Pasted image 20241207150933.png",
     "Pasted image 20241207145502.png",
     "wip/C++ static_cast的几种情况.md",
-    "wip/C++ implicit conversion.md",
     "images/Pasted image 20241206164159.png",
     "images",
     "wip/Model Quantization.md",
