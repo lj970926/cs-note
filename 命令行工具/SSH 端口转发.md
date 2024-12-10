@@ -1,6 +1,6 @@
 # 本地端口转发
 使用`ssh -L` 命令
-![](Pasted%20image%2020241210115651.png)
+![](./images/test_img.png)
 ![[Pasted image 20241207145502.png]]
 创建一个监听local_port的socket，将所有对local_port的转发通过ssh channel转发到ssh server，在由ssh server转发到对应的host_port，这里的host_port可以是和ssh server不同的另一条机器。
 * 示例：
