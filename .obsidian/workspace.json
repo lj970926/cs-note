@@ -46,9 +46,23 @@
               "icon": "lucide-file",
               "title": "A Philosophy of Software Design"
             }
+          },
+          {
+            "id": "b51453f70331e0b2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "命令行工具/tmux 快捷键.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "tmux 快捷键"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -200,10 +214,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3e80cec25e3a7069",
+  "active": "b51453f70331e0b2",
   "lastOpenFiles": [
-    "命令行工具/git 常用命令.md",
     "book/A Philosophy of Software Design.md",
+    "命令行工具/tmux 快捷键.md",
+    "命令行工具/git 常用命令.md",
     "book",
     "images/Pasted image 20241206164159.png",
     "images/Pasted image 20240409164108.png",
