@@ -67,12 +67,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "book/A Philosophy of Software Design.md",
+                "file": "paper/Is Flash Attention Stable?.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "A Philosophy of Software Design"
+              "title": "Is Flash Attention Stable?"
             }
           }
         ],
@@ -230,10 +230,12 @@
   },
   "active": "fcb3d3306f12d2ab",
   "lastOpenFiles": [
+    "book/A Philosophy of Software Design.md",
+    "paper/Is Flash Attention Stable?.md",
+    "paper",
     "VIM使用/neo-tree.md",
     "命令行工具/tmux 快捷键.md",
     "VIM使用",
-    "book/A Philosophy of Software Design.md",
     "命令行工具/git 常用命令.md",
     "book",
     "images/Pasted image 20241206164159.png",
