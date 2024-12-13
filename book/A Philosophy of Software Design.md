@@ -3,3 +3,10 @@
 	$C = \sum_{p}{c_{p}t_{p}}$
 	
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241212153540.png)
+# 4.6 Classitis
+以Java为代表的许多编程语言倡导class should be small，然而这会导致软件复杂度大幅增加，原因在于其破坏了本文深模块的原则，过度封装的class实际上并未带来很大的信息隐藏，反而增加了彼此之前的依赖和用户的使用难度。作者将这种现象称为classitis.
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241213102421.png)
+上面的Jave IO例子可以很好的概况这一点。为了顺序读取文件数据，用户需要创建三个Class，且每个class要依赖上一个class并在其基础上扩展功能。相较之下，Unix的文件IO接口只需要open打开一个文件描述符即可read/write数据。
+
+接口设计需要让普遍性的使用场景尽可能简单
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241213104018.png)
