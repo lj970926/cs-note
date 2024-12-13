@@ -12,3 +12,7 @@
 
 接口设计需要让普遍性的使用场景尽可能简单
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241213104018.png)
+
+# 5.1 Information hiding
+
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241213113403.png)
