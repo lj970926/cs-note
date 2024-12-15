@@ -16,3 +16,5 @@
 # 5.1 Information hiding
 
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241213113403.png)
+# 5.2 Information leaking
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241216001727.png)
