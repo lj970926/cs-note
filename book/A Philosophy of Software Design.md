@@ -18,3 +18,10 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241213113403.png)
 # 5.2 Information leaking
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241216001727.png)
+# 5.3 Temporal decomposition
+指把按时间顺序发生的多个相关事件拆分到多个不同类中去，从而导致information leakage。例如，对于读-修改-写文件这一事件序列，拆分成三个不同的类来做，就引入了类之间对于文件格式等信息的依赖，导致information leakage.
+
+解决办法是不要把文件的读写拆成多个类，所有文件操作共同抽象成一个大类（类似4.6节的classitis)
+
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241216122032.png)
+当设计模块时，从功能和knowledge来划分而非时间上的先后。
