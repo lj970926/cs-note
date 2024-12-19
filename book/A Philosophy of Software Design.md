@@ -25,3 +25,8 @@
 
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241216122032.png)
 当设计模块时，从功能和knowledge来划分而非时间上的先后。
+# 5.4 HTTP Server
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241217194035.png)
+聚合class使class变得更大总是可以提升信息隐藏度，主要是把与某种能力相关的代码都组织到一个类中，以及减少了用户需要调用接口的数量及彼此之间的依赖性。
+# 5.7 Example: defaults in HTTP responses
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241218111743.png)
