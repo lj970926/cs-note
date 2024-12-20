@@ -7,5 +7,8 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241220114956.png)
 # 技巧 8： 把撤销单元切成块
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241220121102.png)
-# 技巧 9 构造可重复的修改
+# 技巧 9:  构造可重复的修改
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241220123202.png)
+# 技巧 11 : 能够重复，就别用次数
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221002017.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221002154.png)
