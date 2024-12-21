@@ -12,3 +12,6 @@
 # 技巧 11 : 能够重复，就别用次数
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221002017.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221002154.png)
+# 技巧12：双剑合璧，天下无敌
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221114832.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221121746.png)
