@@ -15,3 +15,5 @@
 # 技巧12：双剑合璧，天下无敌
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221114832.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221121746.png)
+# 技巧 17: 用字符编码插入非常用字符
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241224134836.png)
