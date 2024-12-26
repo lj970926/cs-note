@@ -19,3 +19,5 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241224134836.png)
 # 技巧 20: 深入理解可视模式
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241226130234.png)
+# 技巧 21: 选择高亮选区
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241226133557.png)
