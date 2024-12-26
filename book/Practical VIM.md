@@ -17,3 +17,5 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241221121746.png)
 # 技巧 17: 用字符编码插入非常用字符
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241224134836.png)
+# 技巧 20: 深入理解可视模式
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241226130234.png)
