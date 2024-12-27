@@ -27,3 +27,7 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227211800.png)
 # 技巧 25: 修改列文本
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227215218.png)
+# 技巧 26 在长短不一的高亮块后添加文本
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227220224.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227220240.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227220530.png)
