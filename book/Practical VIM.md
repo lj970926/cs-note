@@ -21,3 +21,7 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241226130234.png)
 # 技巧 21: 选择高亮选区
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241226133557.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227134211.png)
+# 技巧 23 只要可能，最好用操作符命令，而不是可视命令
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227211443.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227211800.png)
