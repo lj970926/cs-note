@@ -31,3 +31,7 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227220224.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227220240.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241227220530.png)
+# 技巧 27: 结识 Vim 的命令行模式
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228153327.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228154050.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228154911.png)
