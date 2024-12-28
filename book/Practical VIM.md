@@ -35,3 +35,8 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228153327.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228154050.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228154911.png)
+# 技巧 28: 在一行或多个连续行上执行命令
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228160554.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228160946.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228161144.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241228161527.png)
