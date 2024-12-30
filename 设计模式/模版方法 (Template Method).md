@@ -42,6 +42,10 @@ int main() {
 }
 ```
 
+# 优势
+如果将稳定的Run流程集成到Library中去，则需要在不用的应用程序中提供相同的操作代码，从而降低了代码的复用性。
+在非面向对象的结构化设计流程中，Application依赖Library提供的各个step方法组合自己的功能，即所谓的早绑定
+而在面向对象的模版方法设计流程中，Library依赖Application提供的方法实现，即所谓的晚绑定
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241230174911.png)
 
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241230175114.png)
