@@ -1,4 +1,4 @@
-* category：单一职责模式
+>[!note] category：单一职责模式
 # Motivation
 在某些情况下可能过度使用继承拓展类的功能，从而导致子类数量的急剧膨胀，比如下面这个`Stream`的例子，FileStream、NetworkStream、MemoryStream分别继承Stream的抽象，并提供内存流、网络流、文件流的实现。
 现在需要给上述三个Stream是提供加密和Buffer缓冲的功能。一个可能的做法是直接在上面三个Stream上扩展出`CryptoFileStream`、`CryptoNetworkStream` 等类，如下图所示：
