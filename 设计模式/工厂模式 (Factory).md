@@ -43,6 +43,8 @@ class ConcreteFactory2: public Factory {
 	}
 }
 ```
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250104231128.png)
+
 # 抽象工厂模式
 主要用于解决由于系统中概念交织导致工厂数量指数级膨胀的问题。
 众所周知，国内知名的电器厂有海尔、海信(姑且就认为是2个)，电器厂会生产电视机、电冰箱、空调(姑且就认为是3种产品)。
@@ -78,6 +80,9 @@ public class ConcreteFactory1 extends AbstractFactory {
     }
 }
 ```
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250104234121.png)
+
 # 设计思想
 * 开闭原则：工厂方法模式新类型的支持可以通过拓展实现，无需像简单工厂一样修改if-else
 * 依赖倒置：用户代码依赖抽象的Factory接口，而不是具体的类
+* 封装变化点
