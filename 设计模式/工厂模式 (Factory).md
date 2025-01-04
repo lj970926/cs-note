@@ -1,3 +1,5 @@
+>[!note] category: 对象创建模式
+
 # 简单工厂模式
 最朴素的想法，提供一个函数根据用户传入的参数创建对象。所创建的对象有公共的基类
 ```c++
@@ -76,3 +78,6 @@ public class ConcreteFactory1 extends AbstractFactory {
     }
 }
 ```
+# 设计思想
+* 开闭原则：工厂方法模式新类型的支持可以通过拓展实现，无需像简单工厂一样修改if-else
+* 依赖倒置：用户代码依赖抽象的Factory接口，而不是具体的类
