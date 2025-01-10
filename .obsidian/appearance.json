@@ -1,6 +1,7 @@
 {
   "accentColor": "",
-  "cssTheme": "Solarized",
+  "cssTheme": "Minimal",
   "textFontFamily": "FiraCode Nerd Font",
-  "interfaceFontFamily": "FiraCode Nerd Font"
+  "interfaceFontFamily": "FiraCode Nerd Font",
+  "theme": "obsidian"
 }
