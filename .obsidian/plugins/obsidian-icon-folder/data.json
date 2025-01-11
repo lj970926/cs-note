@@ -9,7 +9,14 @@
       "📁"
     ],
     "recentlyUsedIconsSize": 5,
-    "rules": [],
+    "rules": [
+      {
+        "rule": ".\\.md",
+        "icon": "FabMarkdown",
+        "for": "everything",
+        "order": 0
+      }
+    ],
     "extraMargin": {
       "top": 0,
       "right": 4,
