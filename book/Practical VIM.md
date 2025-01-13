@@ -43,5 +43,7 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250110133724.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250110133812.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250110134130.png)
+# 技巧 29 使用‘:t’和‘:m’命令复制和移动行
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250110214449.png)
 # 技巧30: 在指定范围上执行普通模式命令
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250111235354.png)
