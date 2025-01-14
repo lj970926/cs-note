@@ -47,3 +47,5 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250110214449.png)
 # 技巧30: 在指定范围上执行普通模式命令
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250111235354.png)
+技巧 32: 自动补全 Ex 命令
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250114112357.png)
