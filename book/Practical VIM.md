@@ -47,5 +47,14 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250110214449.png)
 # 技巧30: 在指定范围上执行普通模式命令
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250111235354.png)
-技巧 32: 自动补全 Ex 命令
+# 技巧 32: 自动补全 Ex 命令
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250114112357.png)
+# 技巧 33: 把当前单词插入到命令行
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115002528.png)
+# 技巧 34: 回溯历史命令
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115194900.png)
+
+# 技巧 35: 运行 Shell 命令
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115194818.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115195458.png)
+vim中使用\<C-z\>可以挂起vim并返回到启动vim的shell中。后续通过fg返回
