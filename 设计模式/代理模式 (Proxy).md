@@ -3,7 +3,7 @@
 	* 有些类型接口可能比较复杂，需要Client写大量样板代码
 	* 有些类由于安全原因，难以直接访问
 	* 分布式环境下其他机器上的类有时候难以访问
-* Proxy模式通过建立一个继承相同接口的Proxy对象，即屏蔽了实际类的访问细节，又像用户屏蔽了二者的差异，使用户类可以像使用Real subject一样使用Proxy。
+* Proxy模式通过建立一个继承相同接口的Proxy对象，即屏蔽了实际类的访问细节，又向用户屏蔽了二者的差异，使用户类可以像使用Real subject一样使用Proxy。
 # Definition
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250118124352.png)
 # Code Demo
