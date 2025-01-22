@@ -58,3 +58,4 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115194818.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115195458.png)
 vim中使用\<C-z\>可以挂起vim并返回到启动vim的shell中。后续通过fg返回
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250122101510.png)
