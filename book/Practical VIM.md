@@ -59,3 +59,7 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250115195458.png)
 vim中使用\<C-z\>可以挂起vim并返回到启动vim的shell中。后续通过fg返回
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250122101510.png)
+# 技巧 36: 用缓冲区列表管理打开的文件
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250126172114.png)
+# 
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250126175649.png)
