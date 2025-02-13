@@ -8,3 +8,6 @@
 ## 2.2 条件变量
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250212115801.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250212115818.png)
+# 2.4 Muduo的Mutex MutexGuard、Condition实现
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250212194406.png)
+提供灵活性固然是本事，然而在不需要灵活性的地方把代码写死，更需要大智慧。
