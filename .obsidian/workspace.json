@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "设计模式/构建器 (Builder).md",
+                "file": "book/Linux 多线程服务端编程 使用 muduo C++ 网络库.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "构建器 (Builder)"
+              "title": "Linux 多线程服务端编程 使用 muduo C++ 网络库"
             }
           }
         ]
@@ -40,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -170,11 +171,13 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-git:Open Git source control": false
+      "obsidian-git:Open Git source control": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
   "active": "f6f3c3794c59701a",
   "lastOpenFiles": [
+    "设计模式/构建器 (Builder).md",
     "设计模式/原型模式 (Prototype).md",
     "设计模式/装饰器模式(Decorator).md",
     "设计模式/桥模式 (Bridge).md",
@@ -182,7 +185,6 @@
     "设计模式/工厂模式 (Factory).md",
     "设计模式/策略模式 (Strategy).md",
     "设计模式/模版方法 (Template Method).md",
-    "设计模式/构建器 (Builder).md",
     "设计模式/设计原则.md",
     "book/A Philosophy of Software Design.md",
     "命令行工具/tmux 快捷键.md",

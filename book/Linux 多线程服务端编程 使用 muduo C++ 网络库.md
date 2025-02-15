@@ -13,3 +13,5 @@
 提供灵活性固然是本事，然而在不需要灵活性的地方把代码写死，更需要大智慧。
 ## 2.7归纳与总结
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250213103423.png)
+## 3.1 进程与线程
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250215230607.png)
