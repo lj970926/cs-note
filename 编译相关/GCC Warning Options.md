@@ -5,3 +5,4 @@
 * -Wno-xxx: 压制xxx类型的警告，主要用于将-Wxxx开启的某类警告中的某个排除
 >[!note] 这里有一个优先级的概念，更具体的选项优先级高于更通用的选项。例如，-Wno-error=unused-variable可以覆盖-Werror=unused的效果
 
+ ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250321184229.png)
