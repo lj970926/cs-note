@@ -44,3 +44,26 @@ NV的一篇关于整形量化的文章，主要是对业界主流整形量化方
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407170613.png)
 	对weight进行Max calibration在部分模型效果很差（异常极大值的影响）
 	比较好的是Entropy和 > 99.9%的calibration方法
+# Techniques to Recover Accuracy
+这一节主要是一些提升量化精度的方法
+## Partial Quantization
+识别模型中的敏感层，不对这些layer进行量化。
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407173913.png)
+
+本文提出的方法是在原始的非量化模型的基础上分别对每个layer做ablation study，看量化该层对模型的精度损失，从中选择若干layers作为量化黑名单。
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407174041.png)
+实验结果显示，除了BERT，其实模型都可以在拉黑极少的层数后基本追回性能回退。对于bert，作者的解释是消融实验显示每层对精度的影响很接近，所以需要大量的unquantized layers。
+## Quantization-Aware Training（QAT）
+主要指对训练过程进行修改以提升量化性能的方法。文章里提的方法是fake quantization，即对要进行量化层的输入添加虚假的quantization模型量化后的精度损失。
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407181755.png)
+这里主要的问题是该操作是不可微的，因此需要对方向应用STE（Straight-through Estimator）策略：
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407181922.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407181947.png)
+即在量化区间内的值直接传递输出的梯度，区间外的值梯度置0。
+实验结果显示QAT在大多数场景下能够取得性能提升
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407182114.png)
+# Recommended Workflow
+主要是根据上面内容总结出的量化使用best practice
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407194502.png)
+关于activation为什么用per-tensor文章里似乎没有提
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407194547.png)
