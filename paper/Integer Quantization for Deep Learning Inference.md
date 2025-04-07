@@ -9,13 +9,17 @@ NV的一篇关于整形量化的文章，主要是对业界主流整形量化方
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407105531.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407105718.png)
 
-仿射变换，适用于真值区间不对称的场景
+仿射变换，适用于真值区间不对称的场景。
 ## Scale Quantization
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407105735.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407105749.png)
 只有一个scale参数，适用于真值区间对称的场景
+## Comparision
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407115839.png)
+如上图所示，affine quantization会带来一些额外的计算，性能不及scale quantization，且不会带来明显的精度提升，因此实际使用中主要还是scale quantization。
+
 # Quantization Granularity
 关于量化粒度，主要有以下三个级别：
 * per-element：最极端的情况，tensor中的每个元素对应一度scale和bias参数，本质上是给一个tensor做elementwise的仿射变换。无法利用整形计算，无性能提升，实际很少用
 * per-row/column/channel：每一行/列/channel的局部量化。对于weight,可以offline预先计算，不会有性能损失。对于activation，需要有运行时的量化与反量化，理论上会影响性能
-* per-tensor：每个tensor使用一组scale/bias
+* per-tensor：每个tensor使用一组scale/bias。对于输入数据范围比较固定的场景x和w的参数都可以offline计算。
