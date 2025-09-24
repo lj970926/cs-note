@@ -3,6 +3,7 @@
 git reset --hard origin/master
 ```
 上面的命令会把当前HEAD对应的分支指向origin/master
+
 * 不在track某个已经添加进git的文件
 ```bash
 git update-index --skip-worktree <file>
