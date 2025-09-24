@@ -15,3 +15,5 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250213103423.png)
 ## 3.1 进程与线程
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250215230607.png)
+## 3.2 单线程服务器的常⽤编程模型
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250215231217.png)
