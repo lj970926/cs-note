@@ -56,5 +56,6 @@
   "源码/Linux-0.11": "📁",
   "编译相关": "📁",
   "language/shellscript": "📁",
-  "ML sys/PD分离": "📁"
+  "ML sys/PD分离": "📁",
+  "language/CMake": "📁"
 }
