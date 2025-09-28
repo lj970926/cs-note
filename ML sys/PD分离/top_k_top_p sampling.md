@@ -45,7 +45,7 @@ probs /= temperature
 temperature大时，最终得到的probs会偏小，上述top_p sampling会选择数量更多的token进入最终的采样过程，最终得到的结果也就更多样化，但也更有可能采样到概率较低的，不准确的token。temperature小时则相反
 2. top_k sampling：对每行保留概率前topk个token，其余概率置0
 3. top_p sampling：从高概率token开始，将token依次加入被选择的集合中，直到选择token的概率总和超过top_p，其余未选中token概率置0。这里使用的是temperature处理过的probs
-4. sampling：通过`torch.multinormal` 从top_k_top_p过程得到的最终概率分布中随机采样一个token。
+4. sampling：通过`torch.multinomial` 从top_k_top_p过程得到的最终概率分布中随机采样一个token。
 采用这种方式，多次运行会输出不同的token，且概率分布符合主模型的logits输出。
 # Ref
 https://www.ibm.com/docs/en/watsonx/saas?topic=prompts-model-parameters-prompting
