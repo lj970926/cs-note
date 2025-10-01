@@ -16,6 +16,15 @@ class MyObject: public std::enable_shared_from_this<MyObject> {
 };
 ```
 采用类似上面的方式，可以保证所有通过`GetSharedObject`拿到的shared_ptr和管理该对象的shared_ptr共享同一组引用计数。
+# Impl
+参考Ref 3，实现包含两个部分：
+
+1. enable_shared_from_this抽象类中需要提供一个接口，用于在shared_ptr创建对象时在enable_shared_from_this中记录下当前管理该对象的shared_ptr
+2. shared_ptr初始化时，针对enable_shared_from_this需要调用其上述接口设置自身。
+
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20251001234231.png)
+![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20251001234340.png)
 # Ref
-https://zhuanlan.zhihu.com/p/393571228
-https://en.cppreference.com/w/cpp/memory/enable_shared_from_this.html
+1. https://zhuanlan.zhihu.com/p/393571228
+2. https://en.cppreference.com/w/cpp/memory/enable_shared_from_this.html
+3. https://blog.guorongfei.com/2017/01/25/enbale-shared-from-this-implementaion/
