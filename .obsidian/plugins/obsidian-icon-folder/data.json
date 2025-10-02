@@ -47,5 +47,9 @@
   "language": "📁",
   "language/CMake": "📁",
   "language/shellscript": "📁",
-  "language/C++": "📁"
+  "language/C++": "📁",
+  "源码": "📁",
+  "源码/Linux-0.11": "📁",
+  "源码/Paddle": "📁",
+  "源码/folly": "📁"
 }
