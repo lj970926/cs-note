@@ -47,19 +47,5 @@
   "language": "📁",
   "language/CMake": "📁",
   "language/shellscript": "📁",
-  "language/C++": "📁",
-  "源码": "📁",
-  "源码/Linux-0.11": "📁",
-  "源码/Paddle": "📁",
-  "源码/folly": "📁",
-  "ML sys/Models": "📁",
-  "ML sys/PD分离": "📁",
-  "images": "📁",
-  "命令行工具": "📁",
-  "编译相关": "📁",
-  "其他": "📁",
-  "paper": "📁",
-  "Pytorch源码相关": "📁",
-  "website": "📁",
-  "ML sys/算子": "📁"
+  "website/vllm": "📁"
 }
