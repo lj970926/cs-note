@@ -4,20 +4,20 @@
 
 核心文件分层如下：
 
-| 层次 | 关键文件 | 作用 |
-| --- | --- | --- |
-| 对外 API | `bthread.h`, `bthread.cpp` | 提供 `bthread_start_*`, `join`, `yield`, `usleep`, mutex/cond/rwlock/semaphore/timer 等 C API |
-| 全局调度控制 | `task_control.h`, `task_control.cpp` | 管理 worker pthread、`TaskGroup` 集合、work stealing、worker 唤醒、tag/concurrency |
-| 单 worker 调度器 | `task_group.h`, `task_group.cpp`, `task_group_inl.h` | 每个 worker 对应一个 `TaskGroup`，持有本地运行队列并执行上下文切换 |
-| bthread 元数据 | `task_meta.h` | 描述一个 bthread 的 tid、函数、参数、栈、状态、TLS、等待/睡眠信息 |
-| 栈与上下文 | `stack.h`, `stack.cpp`, `stack_inl.h`, `context.h`, `context.cpp` | 分配用户态栈，封装 `make_fcontext/jump_fcontext` |
-| 队列 | `work_stealing_queue.h`, `remote_task_queue.h`, `parking_lot.h` | 本地无锁 work-stealing 队列、远程加锁队列、worker park/unpark |
-| 等待/唤醒基础 | `butex.h`, `butex.cpp`, `sys_futex.*` | bthread 版 futex，支持 bthread/pthread 混合等待 |
-| 同步原语 | `mutex.*`, `condition_variable.*`, `rwlock.*`, `semaphore.*`, `countdown_event.*` | 基于 butex 实现常用同步原语 |
-| 定时器 | `timer_thread.*` | 全局 timer pthread，支撑 `bthread_usleep`、butex 超时、用户 timer |
-| 高层执行队列 | `execution_queue.*`, `execution_queue_inl.h` | MPSC 串行执行队列，按需启动执行 bthread/pthread |
-| bthread TLS | `key.cpp`, `singleton_on_bthread_once.h`, `bthread_once.cpp` | bthread local storage 和 once 语义 |
-| 诊断/扩展 | `task_tracer.*`, `id.*`, `fd.cpp`, `interrupt_pthread.*` | tracing、ABA-free id、fd/epoll 集成、pthread interrupt |
+| 层次           | 关键文件                                                                              | 作用                                                                                         |
+| ------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| 对外 API       | `bthread.h`, `bthread.cpp`                                                        | 提供 `bthread_start_*`, `join`, `yield`, `usleep`, mutex/cond/rwlock/semaphore/timer 等 C API |
+| 全局调度控制       | `task_control.h`, `task_control.cpp`                                              | 管理 worker pthread、`TaskGroup` 集合、work stealing、worker 唤醒、tag/concurrency                   |
+| 单 worker 调度器 | `task_group.h`, `task_group.cpp`, `task_group_inl.h`                              | 每个 worker 对应一个 `TaskGroup`，持有本地运行队列并执行上下文切换                                                |
+| bthread 元数据  | `task_meta.h`                                                                     | 描述一个 bthread 的 tid、函数、参数、栈、状态、TLS、等待/睡眠信息                                                  |
+| 栈与上下文        | `stack.h`, `stack.cpp`, `stack_inl.h`, `context.h`, `context.cpp`                 | 分配用户态栈，封装 `make_fcontext/jump_fcontext`                                                    |
+| 队列           | `work_stealing_queue.h`, `remote_task_queue.h`, `parking_lot.h`                   | 本地无锁 work-stealing 队列、远程加锁队列、worker park/unpark                                            |
+| 等待/唤醒基础      | `butex.h`, `butex.cpp`, `sys_futex.*`                                             | bthread 版 futex，支持 bthread/pthread 混合等待                                                    |
+| 同步原语         | `mutex.*`, `condition_variable.*`, `rwlock.*`, `semaphore.*`, `countdown_event.*` | 基于 butex 实现常用同步原语                                                                          |
+| 定时器          | `timer_thread.*`                                                                  | 全局 timer pthread，支撑 `bthread_usleep`、butex 超时、用户 timer                                     |
+| 高层执行队列       | `execution_queue.*`, `execution_queue_inl.h`                                      | MPSC 串行执行队列，按需启动执行 bthread/pthread                                                         |
+| bthread TLS  | `key.cpp`, `singleton_on_bthread_once.h`, `bthread_once.cpp`                      | bthread local storage 和 once 语义                                                            |
+| 诊断/扩展        | `task_tracer.*`, `id.*`, `fd.cpp`, `interrupt_pthread.*`                          | tracing、ABA-free id、fd/epoll 集成、pthread interrupt                                          |
 
 ## 2. 核心对象关系
 
