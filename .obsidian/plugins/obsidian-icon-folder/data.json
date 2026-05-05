@@ -38,7 +38,6 @@
     "useInternalPlugins": false
   },
   "设计模式": "📁",
-  "book": "📁",
   "Excalidraw": "📁",
   "ML sys": "📁",
   "VIM使用": "📁",
@@ -47,5 +46,6 @@
   "language": "📁",
   "language/CMake": "📁",
   "language/shellscript": "📁",
-  "website/vllm": "📁"
+  "website/vllm": "📁",
+  "book-notes": "📁"
 }
