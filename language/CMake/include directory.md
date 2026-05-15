@@ -17,5 +17,3 @@ target_include_directories(your_target_name PRIVATE ${CMAKE_SOURCE_DIR}/include)
 - `${CMAKE_SOURCE_DIR}` — 项目根目录（最顶层 `CMakeLists.txt` 所在目录）
 - `${CMAKE_CURRENT_SOURCE_DIR}` — 当前 `CMakeLists.txt` 所在目录
 - `${PROJECT_SOURCE_DIR}` — 当前项目目录（`project()` 命令所在位置）
-
-你想引用哪个路径？我可以帮你直接改好。
