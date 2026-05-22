@@ -107,3 +107,83 @@ b = a + 1;   // 依赖 a，b 必须看到 a==1
 ## 一句话总结
 
 重排在硬件和编译器层面真实存在，但 C++ 用 as-if 规则保证它对**单线程自身完全透明**；这个透明性**不延伸到其他线程**，所以多线程下你必须靠原子和锁来重新建立顺序保证。换句话说：单线程的「顺序执行」是一个语言精心维护的、对自己绝对可靠、对别人不作数的承诺。
+
+# Release Sequence
+好问题，x86 是讲这个的绝佳例子，因为它的硬件内存模型很强，导致 acquire/release 在 x86 上几乎「免费」。
+
+## 先说 x86 的硬件内存模型：TSO
+
+x86（含 x86-64）用的是 **TSO（Total Store Order）**，是一种相当强的内存模型。它默认就保证了：
+
+- **Load-Load 不重排**（读不会越过读）
+- **Load-Store 不重排**（读不会越过后面的写）
+- **Store-Store 不重排**（写不会越过写）
+- **唯一允许的重排：Store-Load**，即一个写可以被推迟到后面的读之后变得可见。这正是 store buffer 造成的——写先进 store buffer，后面的读可以先从缓存/内存拿数据。
+
+关键结论：x86 硬件**天然就提供了 acquire 和 release 语义**，因为 acquire（读之后的操作不能上移）和 release（写之前的操作不能下移）需要禁止的，恰好都不在 x86 允许重排的那一项里。
+
+## 对应的底层指令
+
+**普通 load / store 本身就够了**——不需要任何特殊屏障指令。
+
+```cpp
+std::atomic<int> x;
+
+x.load(std::memory_order_acquire);   // 编译成普通的 MOV（读）
+x.store(1, std::memory_order_release); // 编译成普通的 MOV（写）
+x.load(std::memory_order_relaxed);   // 同样是普通 MOV
+x.store(1, std::memory_order_relaxed); // 同样是普通 MOV
+```
+
+也就是说在 x86 上，`relaxed`、`acquire`、`release`、`acq_rel` 的**纯 load 和纯 store**，生成的机器码是**完全一样的**——都是普通 `mov`。区别只存在于**编译器层面**：内存序会限制**编译器**的重排和优化，但不需要插入任何硬件屏障指令。
+
+这就是为什么在 x86 上「acquire/release 是免费的」这个说法成立——运行时零开销，唯一的约束发生在编译期。
+
+## seq_cst 才是要付费的那个
+
+差异出现在 `seq_cst`，因为它要禁止那个唯一被允许的 Store-Load 重排。通常的做法是在 **store** 上加屏障：
+
+```cpp
+x.store(1, std::memory_order_seq_cst);
+```
+
+常见编译成：
+
+```asm
+; 方式一（GCC/Clang 常用）：用带 lock 前缀的 xchg
+mov  eax, 1
+xchg eax, [x]      ; xchg 隐含 lock，是一个 full barrier
+
+; 方式二：普通 mov + 显式 full fence
+mov  [x], 1
+mfence             ; 刷 store buffer，禁止 store-load 重排
+```
+
+而 seq_cst 的 **load** 仍然是普通 `mov`（因为屏障已经由 store 那侧负担了）。这是一种常见的非对称实现：把全部开销放在 store 上，load 保持便宜。注意 ABI 约定要求编译器对 store 和 load 的实现方式配套，不能一边用旧约定一边用新约定。
+
+`mfence` 和 `lock` 前缀指令（`xchg`、`lock add` 等）都是 **full barrier**——它们会把 store buffer 排空，连唯一允许的 Store-Load 重排也禁掉，从而恢复顺序一致性。
+
+## RMW 操作
+
+读-改-写（`fetch_add`、`compare_exchange`、`exchange` 等）在 x86 上无论什么内存序，本来就要用 `lock` 前缀指令（`lock add`、`lock cmpxchg`、`xchg`）来保证原子性，而 `lock` 前缀**本身就是 full barrier**。所以在 x86 上，RMW 操作的不同内存序之间机器码差异也很小——硬件已经顺带给了你最强的序。
+
+## 小结对照表
+
+|操作|x86 指令|运行时开销|
+|---|---|---|
+|load relaxed/acquire/seq_cst|普通 `MOV`|零|
+|store relaxed/release|普通 `MOV`|零|
+|store seq_cst|`XCHG` 或 `MOV + MFENCE`|有（full barrier）|
+|RMW（任何序）|`LOCK` 前缀指令|有（full barrier，原子性本来就需要）|
+
+## 对比一下弱内存架构
+
+这也解释了为什么 acquire/release 的设计在 x86 上看不出价值，到了 **ARM / AArch64 / Power** 才显出区别。那些架构是弱内存模型，几乎所有重排都允许，所以：
+
+- acquire load 要用 `ldar`（或 `ldapr`），release store 要用 `stlr`
+- relaxed 才是普通 `ldr`/`str`
+- 不同内存序生成**真的不同**的指令，开销差异明显
+
+所以你写 acquire/release 而不是无脑 seq_cst，**在 x86 上几乎没区别，但写出来的代码移植到 ARM 上能省下实打实的屏障开销**——这正是用精确内存序而非默认 seq_cst 的意义所在。
+
+如果你想，我可以把同一段 release/acquire 代码在 x86 和 ARM64 下的实际汇编对照贴出来，差异会非常直观。
