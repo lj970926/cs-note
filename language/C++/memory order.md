@@ -109,81 +109,73 @@ b = a + 1;   // 依赖 a，b 必须看到 a==1
 重排在硬件和编译器层面真实存在，但 C++ 用 as-if 规则保证它对**单线程自身完全透明**；这个透明性**不延伸到其他线程**，所以多线程下你必须靠原子和锁来重新建立顺序保证。换句话说：单线程的「顺序执行」是一个语言精心维护的、对自己绝对可靠、对别人不作数的承诺。
 
 # Release Sequence
-好问题，x86 是讲这个的绝佳例子，因为它的硬件内存模型很强，导致 acquire/release 在 x86 上几乎「免费」。
+好问题，release sequence 是内存模型里一个比较细但很重要的概念，专门用来处理「一个 release 写之后，被一串 RMW 操作接力修改」的情况。我从问题出发讲。
 
-## 先说 x86 的硬件内存模型：TSO
+## 它要解决什么问题
 
-x86（含 x86-64）用的是 **TSO（Total Store Order）**，是一种相当强的内存模型。它默认就保证了：
+回忆一下 release/acquire 建立 happens-before 的基本规则：
 
-- **Load-Load 不重排**（读不会越过读）
-- **Load-Store 不重排**（读不会越过后面的写）
-- **Store-Store 不重排**（写不会越过写）
-- **唯一允许的重排：Store-Load**，即一个写可以被推迟到后面的读之后变得可见。这正是 store buffer 造成的——写先进 store buffer，后面的读可以先从缓存/内存拿数据。
+> 一个 release 写 W，与一个 acquire 读 R 构成 synchronizes-with，**条件是 R 读到了 W 写入的那个值**。
 
-关键结论：x86 硬件**天然就提供了 acquire 和 release 语义**，因为 acquire（读之后的操作不能上移）和 release（写之前的操作不能下移）需要禁止的，恰好都不在 x86 允许重排的那一项里。
+注意「读到了 W 写入的值」这个条件。问题来了：如果在 W 之后，又有别的线程对同一个原子变量做了修改，那 acquire 读到的就不是 W 写的原值了，按字面规则它就**不**和 W 同步了——可这往往不是我们想要的。
 
-## 对应的底层指令
-
-**普通 load / store 本身就够了**——不需要任何特殊屏障指令。
+来看一个例子：
 
 ```cpp
-std::atomic<int> x;
+std::atomic<int> x{0};
+int data = 0;
 
-x.load(std::memory_order_acquire);   // 编译成普通的 MOV（读）
-x.store(1, std::memory_order_release); // 编译成普通的 MOV（写）
-x.load(std::memory_order_relaxed);   // 同样是普通 MOV
-x.store(1, std::memory_order_relaxed); // 同样是普通 MOV
+// 线程 1（生产者）
+data = 42;
+x.store(1, std::memory_order_release);   // W：release 写
+
+// 线程 2（中间插一脚）
+x.fetch_add(1, std::memory_order_relaxed); // RMW：把 x 改成 2
+
+// 线程 3（消费者）
+while (x.load(std::memory_order_acquire) < 2)  // R：读到的是 2，不是 1
+    ;
+assert(data == 42);   // 这能保证吗？
 ```
 
-也就是说在 x86 上，`relaxed`、`acquire`、`release`、`acq_rel` 的**纯 load 和纯 store**，生成的机器码是**完全一样的**——都是普通 `mov`。区别只存在于**编译器层面**：内存序会限制**编译器**的重排和优化，但不需要插入任何硬件屏障指令。
+线程 3 的 acquire 读到的是 `2`，而这个 `2` 是线程 2 写的，不是线程 1 的 release 写 W 写的 `1`。按最朴素的规则，R 没读到 W 的值，似乎就不和 W 同步，那 `data == 42` 就没保证了——这显然反直觉，也不实用。
 
-这就是为什么在 x86 上「acquire/release 是免费的」这个说法成立——运行时零开销，唯一的约束发生在编译期。
+**release sequence 就是为了把这种「被后续 RMW 接力」的情况也纳入同步关系。**
 
-## seq_cst 才是要付费的那个
+## 定义
 
-差异出现在 `seq_cst`，因为它要禁止那个唯一被允许的 Store-Load 重排。通常的做法是在 **store** 上加屏障：
+在一个 release 写 W 之后，沿着这个原子变量的**修改顺序**（modification order，每个原子变量自身的所有写都有一个全序），从 W 开始往后，由以下操作组成的最长连续序列，叫做 W 的 **release sequence**：
 
-```cpp
-x.store(1, std::memory_order_seq_cst);
-```
+1. W 本身，加上
+2. 后续的写，只要它是：
+    - **同一个线程**对该变量的写（C++20 起这条被移除了，见下文），**或**
+    - **任意线程的读-改-写（RMW）操作**（不论该 RMW 用什么内存序，哪怕是 relaxed）
 
-常见编译成：
+一旦中间出现了一个**来自其他线程的普通 store**（非 RMW），release sequence 就**断了**，到此为止。
 
-```asm
-; 方式一（GCC/Clang 常用）：用带 lock 前缀的 xchg
-mov  eax, 1
-xchg eax, [x]      ; xchg 隐含 lock，是一个 full barrier
+## 关键规则
 
-; 方式二：普通 mov + 显式 full fence
-mov  [x], 1
-mfence             ; 刷 store buffer，禁止 store-load 重排
-```
+如果一个 acquire 读 R 读到的值，是 W 的 release sequence 里**任何一个**操作写入的，那么 **W synchronizes-with R**。
 
-而 seq_cst 的 **load** 仍然是普通 `mov`（因为屏障已经由 store 那侧负担了）。这是一种常见的非对称实现：把全部开销放在 store 上，load 保持便宜。注意 ABI 约定要求编译器对 store 和 load 的实现方式配套，不能一边用旧约定一边用新约定。
+回到上面的例子：W（store 1）的 release sequence 是 `{store 1, fetch_add→2}`，因为 `fetch_add` 是 RMW，它接在后面。线程 3 读到的 `2` 正是这个 release sequence 中 RMW 写的值，所以 **W synchronizes-with R 成立**，`data == 42` **有保证**。✓
 
-`mfence` 和 `lock` 前缀指令（`xchg`、`lock add` 等）都是 **full barrier**——它们会把 store buffer 排空，连唯一允许的 Store-Load 重排也禁掉，从而恢复顺序一致性。
+这就是 release sequence 的意义：让 release 写的同步效力能「穿透」中间的 RMW 接力，传递给最终的 acquire 读。
 
-## RMW 操作
+## 为什么是 RMW 而不是普通 store
 
-读-改-写（`fetch_add`、`compare_exchange`、`exchange` 等）在 x86 上无论什么内存序，本来就要用 `lock` 前缀指令（`lock add`、`lock cmpxchg`、`xchg`）来保证原子性，而 `lock` 前缀**本身就是 full barrier**。所以在 x86 上，RMW 操作的不同内存序之间机器码差异也很小——硬件已经顺带给了你最强的序。
+直觉上的区别在于：
 
-## 小结对照表
+- **RMW** 是「读旧值 + 写新值」的原子操作，它和前面的写有数据上的衔接关系，相当于「接棒」——它读到了链条上的前一个值，所以可以认为它延续了这条 release 链。
+- **其他线程的普通 store** 是「凭空覆盖」，它不关心旧值是什么，等于「另起炉灶」，所以它会切断 release sequence——它后面的读，不该再认为和原来的 W 有同步关系。
 
-|操作|x86 指令|运行时开销|
-|---|---|---|
-|load relaxed/acquire/seq_cst|普通 `MOV`|零|
-|store relaxed/release|普通 `MOV`|零|
-|store seq_cst|`XCHG` 或 `MOV + MFENCE`|有（full barrier）|
-|RMW（任何序）|`LOCK` 前缀指令|有（full barrier，原子性本来就需要）|
+经典用例就是这种场景：用 relaxed 的 `fetch_sub` 做引用计数递减，最后一个把计数减到 0 的线程负责释放资源。引用计数中间的那些 relaxed RMW 操作正是靠 release sequence 把各次 release 串起来，保证最后做释放的线程能看到之前所有线程对被管理对象的写入。
 
-## 对比一下弱内存架构
+## C++20 的一个变化
 
-这也解释了为什么 acquire/release 的设计在 x86 上看不出价值，到了 **ARM / AArch64 / Power** 才显出区别。那些架构是弱内存模型，几乎所有重排都允许，所以：
+值得一提：C++20 **收窄**了 release sequence 的定义，去掉了「同一线程的后续普通 store 也算在内」这一条。现在 release sequence 里除了 W 自己，**只接受 RMW 操作**。原因是原来那条「同线程 store 也续上」的规则会带来一些反直觉、难以推理的情况，标准委员会认为它弊大于利。所以现代代码里，你可以简化记成：
 
-- acquire load 要用 `ldar`（或 `ldapr`），release store 要用 `stlr`
-- relaxed 才是普通 `ldr`/`str`
-- 不同内存序生成**真的不同**的指令，开销差异明显
+> release sequence = 那个 release 写 W + 紧随其后（按修改顺序）的所有 RMW 操作，直到被一个非 RMW 的写打断为止。
 
-所以你写 acquire/release 而不是无脑 seq_cst，**在 x86 上几乎没区别，但写出来的代码移植到 ARM 上能省下实打实的屏障开销**——这正是用精确内存序而非默认 seq_cst 的意义所在。
+## 一句话总结
 
-如果你想，我可以把同一段 release/acquire 代码在 x86 和 ARM64 下的实际汇编对照贴出来，差异会非常直观。
+release sequence 解决的是「release 写之后被一连串 RMW 接力修改，acquire 读到的是接力后的值」时，同步关系会不会断的问题。规则是：RMW 操作能延续这条链（同步关系保留），而其他线程的普通 store 会切断它。它的典型价值体现在引用计数这类「多个线程接力修改同一个原子量、最后一个负责收尾」的模式里。
