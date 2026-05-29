@@ -138,10 +138,3 @@ ASAN_OPTIONS=detect_leaks=1:halt_on_error=0:verbosity=1 ./foo
 > 6. 怀疑是数据竞争而非内存越界 → 改用 TSan
 
 ---
-
-## 相关笔记
-
-- [[Debug时如何不被思维定势影响]]
-- [[ThreadSanitizer (TSan) 使用]]
-- [[malloc 线程安全]]
-- [[内存错误类型速查]]
