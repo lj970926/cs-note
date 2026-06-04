@@ -1,0 +1,24 @@
+{
+  "id": "conv-1780572037875-qmp1n7ftd",
+  "providerId": "claude",
+  "title": "Add Excalidraw to notes",
+  "titleGenerationStatus": "success",
+  "createdAt": 1780572037876,
+  "updatedAt": 1780572254081,
+  "lastResponseAt": 1780572254081,
+  "sessionId": "4e89fc42-671e-4348-ac2a-e30f3c549df2",
+  "providerState": {
+    "providerSessionId": "4e89fc42-671e-4348-ac2a-e30f3c549df2"
+  },
+  "currentNote": "源码/vllm/vllm 源码随手记.md",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 3,
+    "cacheCreationInputTokens": 723,
+    "cacheReadInputTokens": 14038,
+    "contextWindow": 200000,
+    "contextTokens": 14764,
+    "percentage": 7,
+    "contextWindowIsAuthoritative": true
+  }
+}
