@@ -1,0 +1,24 @@
+{
+  "id": "conv-1780551767034-7ecx0o3l0",
+  "providerId": "claude",
+  "title": "Explain document content",
+  "titleGenerationStatus": "success",
+  "createdAt": 1780551767034,
+  "updatedAt": 1780551833832,
+  "lastResponseAt": 1780551833832,
+  "sessionId": "16a79459-6418-4374-a4e0-d2003cc26060",
+  "providerState": {
+    "providerSessionId": "16a79459-6418-4374-a4e0-d2003cc26060"
+  },
+  "currentNote": "ML sys/算子/Rotary Embedding.md",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 3,
+    "cacheCreationInputTokens": 507,
+    "cacheReadInputTokens": 15357,
+    "contextWindow": 200000,
+    "contextTokens": 15867,
+    "percentage": 8,
+    "contextWindowIsAuthoritative": true
+  }
+}
