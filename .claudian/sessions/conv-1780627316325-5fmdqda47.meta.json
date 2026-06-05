@@ -1,0 +1,23 @@
+{
+  "id": "conv-1780627316325-5fmdqda47",
+  "providerId": "claude",
+  "title": "你是哪个模型？",
+  "titleGenerationStatus": "failed",
+  "createdAt": 1780627316329,
+  "updatedAt": 1780630939742,
+  "lastResponseAt": 1780630939742,
+  "sessionId": "b9c439ef-5c5f-41a7-bb68-6008bddbe297",
+  "providerState": {
+    "providerSessionId": "b9c439ef-5c5f-41a7-bb68-6008bddbe297"
+  },
+  "currentNote": "源码/vllm/vllm 源码随手记.md",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 339,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 23040,
+    "contextWindow": 200000,
+    "contextTokens": 23379,
+    "percentage": 12
+  }
+}
