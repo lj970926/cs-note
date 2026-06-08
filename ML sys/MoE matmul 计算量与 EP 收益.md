@@ -1,18 +1,19 @@
 ---
-
 aliases:
-
-- MoE grouped GEMM FLOPs
-- EP 扩展收益 tags:
-- permanent-note
-- mlsys/inference
-- mlsys/moe
-- gpu/gemm created: 2026-06-08 source: 与 Claude 的讨论整理 related:
-- "[[DeepGEMM]]"
-- "[[Expert Parallel]]"
-- "[[Roofline 模型]]"
-- "[[DeepSeek-V3]]"
-
+  - MoE grouped GEMM FLOPs
+  - EP 扩展收益
+tags:
+  - permanent-note
+  - mlsys/inference
+  - mlsys/moe
+  - gpu/gemm
+created: 2026-06-08
+source: 与 Claude 的讨论整理
+related:
+  - "[[DeepGEMM]]"
+  - "[[Expert Parallel]]"
+  - "[[Roofline 模型]]"
+  - "[[DeepSeek-V3]]"
 ---
 
 # MoE matmul 计算量与 EP 收益
