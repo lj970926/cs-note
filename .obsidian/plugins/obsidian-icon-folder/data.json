@@ -15,6 +15,12 @@
         "icon": "FabMarkdown",
         "for": "everything",
         "order": 0
+      },
+      {
+        "rule": ".*",
+        "icon": "📁",
+        "for": "folders",
+        "order": 1
       }
     ],
     "extraMargin": {
@@ -42,9 +48,29 @@
   "ML sys": "📁",
   "VIM使用": "📁",
   "wip": "📁",
-  "C++": "📁",
+  "language/C++": "📁",
   "language": "📁",
   "language/CMake": "📁",
   "language/shellscript": "📁",
-  "website/vllm": "📁"
+  "website/vllm": "📁",
+  "Pytorch源码相关": "📁",
+  "ML sys/Models": "📁",
+  "ML sys/PD分离": "📁",
+  "ML sys/算子": "📁",
+  "book-notes": "📁",
+  "images": "📁",
+  "language/汇编": "📁",
+  "obsidian-usage": "📁",
+  "paper": "📁",
+  "website": "📁",
+  "其他": "📁",
+  "命令行工具": "📁",
+  "源码": "📁",
+  "源码/Linux-0.11": "📁",
+  "源码/Paddle": "📁",
+  "源码/brpc": "📁",
+  "源码/folly": "📁",
+  "源码/uthreads": "📁",
+  "源码/vllm": "📁",
+  "编译相关": "📁"
 }

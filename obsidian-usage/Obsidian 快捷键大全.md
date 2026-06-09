@@ -15,17 +15,17 @@ updated: 2026-06-08
 
 ## 1. 通用
 
-| 快捷键 (macOS) | 快捷键 (Win/Linux) | 功能 |
-|:---:|:---:|---|
-| `⌘ N` | `Ctrl+N` | 新建笔记 |
-| `⌘ P` | `Ctrl+P` | 命令面板 (Command Palette) |
-| `⌘ O` | `Ctrl+O` | 快速切换器 (Quick Switcher) |
-| `⌘ S` | `Ctrl+S` | 保存当前文件 |
-| `⌘ ,` | `Ctrl+,` | 打开设置 |
-| `⌘ Q` | `Ctrl+Q` | 退出 Obsidian |
-| `⌘ W` | `Ctrl+W` | 关闭当前标签页 |
-| `⌘ Shift N` | `Ctrl+Shift+N` | 打开新的 Obsidian 窗口 |
-| `⌘ Shift A` | `Ctrl+Shift+A` | 在文件管理器中显示当前文件 |
+| 快捷键 (macOS) | 快捷键 (Win/Linux) | 功能                     |
+| :---------: | :-------------: | ---------------------- |
+|    `⌘ N`    |    `Ctrl+N`     | 新建笔记                   |
+|    `⌘ P`    |    `Ctrl+P`     | 命令面板 (Command Palette) |
+|    `⌘ O`    |    `Ctrl+O`     | 快速切换器 (Quick Switcher) |
+|    `⌘ S`    |    `Ctrl+S`     | 保存当前文件                 |
+|    `⌘ ,`    |    `Ctrl+,`     | 打开设置                   |
+|    `⌘ Q`    |    `Ctrl+Q`     | 退出 Obsidian            |
+|    `⌘ W`    |    `Ctrl+W`     | 关闭当前标签页                |
+| `⌘ Shift N` | `Ctrl+Shift+N`  | 打开新的 Obsidian 窗口       |
+| `⌘ Shift A` | `Ctrl+Shift+A`  | 在文件管理器中显示当前文件          |
 
 ---
 
