@@ -3,5 +3,6 @@
   "cssTheme": "Minimal",
   "textFontFamily": "FiraCode Nerd Font",
   "interfaceFontFamily": "FiraCode Nerd Font",
-  "theme": "obsidian"
+  "theme": "obsidian",
+  "baseFontSize": 16
 }
