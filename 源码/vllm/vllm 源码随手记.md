@@ -308,3 +308,179 @@ classDiagram
 ## KVCacheSpec
 ![[Drawing 2026-06-04 19.22.08.excalidraw|800]]
 
+# FusedMOE
+![[Drawing 2026-06-16 20.09.42.excalidraw]]
+
+```mermaid
+classDiagram
+    direction TB
+    
+    %% 基类和接口
+    class QuantizeMethodBase {
+        <<abstract>>
+    }
+    
+    class CustomOp {
+        <<abstract>>
+        +name: str
+        +forward(*args, **kwargs)
+        +forward_native(*args, **kwargs)
+        +forward_cuda(*args, **kwargs)
+        +forward_xpu(*args, **kwargs)
+        +enabled() bool
+        +register(name) decorator
+        +register_oot() decorator
+    }
+    
+    class FusedMoEMethodBase {
+        <<abstract>>
+        +moe: FusedMoEConfig
+        +moe_quant_config: FusedMoEQuantConfig | None
+        +moe_kernel: FusedMoEKernel | None
+        +supports_eplb: bool
+        +method_name: str
+        +create_weights(layer, num_experts, ...)
+        +get_fused_moe_quant_config(layer)
+        +apply(layer, x, topk_weights, topk_ids, shared_experts_input)
+        +select_gemm_impl(prepare_finalize, layer)
+    }
+    
+    %% FusedMoEModularMethod
+    class FusedMoEModularMethod {
+        +moe_quant_config
+        +moe_kernel: FusedMoEKernel
+        +disable_expert_map: bool
+        +old_quant_method: FusedMoEMethodBase
+        +make(moe_layer, old_quant_method, prepare_finalize, shared_experts)
+        +apply(layer, x, topk_weights, topk_ids, shared_experts_input)
+    }
+    
+    %% Modular Kernel 相关类
+    class FusedMoEPrepareAndFinalize {
+        <<abstract>>
+        +activation_format
+        +topk_indices_dtype()
+        +max_num_tokens_per_rank()
+        +num_dispatchers()
+        +output_is_reduced()
+        +supports_async() bool
+        +post_init_setup(fused_experts)
+    }
+    
+    class FusedMoEPrepareAndFinalizeModular {
+        <<abstract>>
+        +prepare(a1, topk_weights, topk_ids, ...) PrepareResultType
+        +prepare_async(...)
+        +finalize(output, fused_expert_output, ...)
+    }
+    
+    class FusedMoEPrepareAndFinalizeMonolithic {
+        <<abstract>>
+        +prepare(a1, router_logits, ...) PrepareMonolithicResultType
+        +finalize(fused_expert_output)
+    }
+    
+    class FusedMoEExperts {
+        <<abstract>>
+        +moe_config: FusedMoEConfig
+        +quant_config: FusedMoEQuantConfig
+        +max_num_tokens: int | None
+        +num_dispatchers: int | None
+        +activation_format() FusedMoEActivationFormat
+        +is_monolithic() bool
+        +supports_expert_map() bool
+        +is_supported_config(cls, moe_config, ...) bool
+    }
+    
+    class FusedMoEExpertsModular {
+        <<abstract>>
+        +apply(output, hidden_states, w1, w2, ...)
+        +workspace_shapes(M, N, K, topk, ...)
+        +finalize_weight_and_reduce_impl() TopKWeightAndReduce
+        +moe_problem_size(a1, w1, w2, topk_ids)
+    }
+    
+    class FusedMoEExpertsMonolithic {
+        <<abstract>>
+        +apply(hidden_states, w1, w2, router_logits, ...)
+    }
+    
+    class FusedMoEKernel {
+        +prepare_finalize: FusedMoEPrepareAndFinalizeModular
+        +fused_experts: FusedMoEExpertsModular
+        +shared_experts: SharedExperts | None
+        +inplace: bool
+        +owns_shared_experts: bool
+        +is_monolithic: bool
+        +apply(hidden_states, w1, w2, topk_weights, topk_ids, ...)
+    }
+    
+    class SharedExperts {
+        +_layer: torch.nn.Module
+        +_moe_config: FusedMoEConfig
+        +_quant_method: FusedMoEMethodBase
+        +_stream
+        +enable_dbo: bool
+        +run(hidden_states)
+    }
+    
+    class TopKWeightAndReduce {
+        <<abstract>>
+        +apply(output, fused_expert_output, topk_weights, topk_ids, ...)
+    }
+    
+    class FusedMoEActivationFormat {
+        <<enumeration>>
+        Standard
+        BatchedExperts
+    }
+    
+    class SharedExpertsOrder {
+        <<enumeration>>
+        NONE
+        NO_OVERLAP
+        MK_INTERNAL_OVERLAPPED
+        MULTI_STREAM_OVERLAPPED
+    }
+    
+    %% 继承关系
+    QuantizeMethodBase <|-- FusedMoEMethodBase
+    CustomOp <|-- FusedMoEModularMethod
+    FusedMoEMethodBase <|-- FusedMoEModularMethod
+    
+    FusedMoEPrepareAndFinalize <|-- FusedMoEPrepareAndFinalizeModular
+    FusedMoEPrepareAndFinalize <|-- FusedMoEPrepareAndFinalizeMonolithic
+    
+    FusedMoEExperts <|-- FusedMoEExpertsModular
+    FusedMoEExperts <|-- FusedMoEExpertsMonolithic
+    
+    %% 组合关系
+    FusedMoEModularMethod *-- FusedMoEKernel : moe_kernel
+    FusedMoEModularMethod o-- FusedMoEMethodBase : old_quant_method
+    
+    FusedMoEKernel *-- FusedMoEPrepareAndFinalizeModular : prepare_finalize
+    FusedMoEKernel *-- FusedMoEExpertsModular : fused_experts
+    FusedMoEKernel o-- SharedExperts : shared_experts
+    
+    FusedMoEExpertsModular --> TopKWeightAndReduce : creates
+    FusedMoEExpertsModular --> FusedMoEActivationFormat : uses
+    
+    SharedExperts --> SharedExpertsOrder : uses
+    SharedExperts o-- FusedMoEMethodBase : _quant_method
+    
+    %% FusedMoE Layer
+    class FusedMoE {
+        <<PluggableLayer>>
+        +w13_weight
+        +w2_weight
+        +activation: MoEActivation
+        +global_num_experts: int
+        +expert_map
+        +apply_router_weight_on_input: bool
+        +forward(hidden_states)
+    }
+    
+    FusedMoE --> FusedMoEMethodBase : quant_method
+    FusedMoE --> SharedExperts : shared_experts
+```
+* FusedMoeMethodBase:
