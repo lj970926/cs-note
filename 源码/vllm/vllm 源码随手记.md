@@ -316,8 +316,10 @@ classDiagram
     direction TB
     
     %% 基类和接口
-    class QuantizeMethodBase {
+    class PluggableLayer {
         <<abstract>>
+        +register(name) decorator
+        +register_oot() decorator
     }
     
     class CustomOp {
@@ -332,6 +334,11 @@ classDiagram
         +register_oot() decorator
     }
     
+    class QuantizeMethodBase {
+        <<abstract>>
+    }
+    
+    %% FusedMoEMethodBase 层次
     class FusedMoEMethodBase {
         <<abstract>>
         +moe: FusedMoEConfig
@@ -339,13 +346,14 @@ classDiagram
         +moe_kernel: FusedMoEKernel | None
         +supports_eplb: bool
         +method_name: str
+        +is_monolithic: bool
         +create_weights(layer, num_experts, ...)
         +get_fused_moe_quant_config(layer)
         +apply(layer, x, topk_weights, topk_ids, shared_experts_input)
+        +apply_monolithic(layer, x, router_logits, ...)
         +select_gemm_impl(prepare_finalize, layer)
     }
     
-    %% FusedMoEModularMethod
     class FusedMoEModularMethod {
         +moe_quant_config
         +moe_kernel: FusedMoEKernel
@@ -353,6 +361,41 @@ classDiagram
         +old_quant_method: FusedMoEMethodBase
         +make(moe_layer, old_quant_method, prepare_finalize, shared_experts)
         +apply(layer, x, topk_weights, topk_ids, shared_experts_input)
+    }
+    
+    %% MoERunner 层次
+    class MoERunnerInterface {
+        <<abstract>>
+        +forward(hidden_states, router_logits, input_ids) torch.Tensor
+        +is_internal_router() bool
+        +shared_experts: SharedExperts | None
+        +_replace_quant_method(quant_method)
+    }
+    
+    class MoERunner {
+        +moe_config: FusedMoEConfig
+        +router: FusedMoERouter
+        +gate: torch.nn.Module | None
+        +routed_input_transform: torch.nn.Module | None
+        +routed_output_transform: torch.nn.Module | None
+        +routed_scaling_factor: float
+        +layer_name: str
+        +enable_dbo: bool
+        +forward(hidden_states, router_logits, input_ids)
+        +_forward_impl(layer, hidden_states, router_logits, ...)
+        +_apply_quant_method(layer, hidden_states, router_logits, ...)
+        +apply_routed_input_transform(hidden_states)
+        +apply_routed_output_transform(fused_output)
+        +_maybe_dispatch(layer, hidden_states, router_logits)
+        +_maybe_combine(shared_output, hidden_states)
+    }
+    
+    %% Router
+    class FusedMoERouter {
+        <<abstract>>
+        +routing_method_type: RoutingMethodType
+        +select_experts(hidden_states, router_logits, input_ids) tuple[topk_weights, topk_ids]
+        +set_capture_fn(capture_fn)
     }
     
     %% Modular Kernel 相关类
@@ -412,6 +455,7 @@ classDiagram
         +inplace: bool
         +owns_shared_experts: bool
         +is_monolithic: bool
+        +output_is_reduced() bool
         +apply(hidden_states, w1, w2, topk_weights, topk_ids, ...)
     }
     
@@ -421,7 +465,10 @@ classDiagram
         +_quant_method: FusedMoEMethodBase
         +_stream
         +enable_dbo: bool
+        +output: torch.Tensor | None
         +run(hidden_states)
+        +apply(hidden_states, order)
+        +maybe_sync_shared_experts_stream(hidden_states)
     }
     
     class TopKWeightAndReduce {
@@ -443,10 +490,29 @@ classDiagram
         MULTI_STREAM_OVERLAPPED
     }
     
+    %% FusedMoE Layer
+    class FusedMoE {
+        <<PluggableLayer>>
+        +w13_weight
+        +w2_weight
+        +activation: MoEActivation
+        +global_num_experts: int
+        +expert_map
+        +apply_router_weight_on_input: bool
+        +runner: MoERunner
+        +quant_method: FusedMoEMethodBase
+        +shared_experts: SharedExperts | None
+        +forward(hidden_states)
+        +ensure_moe_quant_config_init()
+    }
+    
     %% 继承关系
+    PluggableLayer <|-- MoERunnerInterface
     QuantizeMethodBase <|-- FusedMoEMethodBase
     CustomOp <|-- FusedMoEModularMethod
     FusedMoEMethodBase <|-- FusedMoEModularMethod
+    
+    MoERunnerInterface <|-- MoERunner
     
     FusedMoEPrepareAndFinalize <|-- FusedMoEPrepareAndFinalizeModular
     FusedMoEPrepareAndFinalize <|-- FusedMoEPrepareAndFinalizeMonolithic
@@ -455,6 +521,15 @@ classDiagram
     FusedMoEExperts <|-- FusedMoEExpertsMonolithic
     
     %% 组合关系
+    FusedMoE *-- MoERunner : runner
+    FusedMoE --> FusedMoEMethodBase : quant_method
+    FusedMoE o-- SharedExperts : shared_experts
+    
+    MoERunner *-- FusedMoERouter : router
+    MoERunner o-- SharedExperts : _shared_experts
+    MoERunner --> FusedMoEMethodBase : _quant_method
+    MoERunner o-- torch.nn.Module : gate, routed_input_transform, routed_output_transform
+    
     FusedMoEModularMethod *-- FusedMoEKernel : moe_kernel
     FusedMoEModularMethod o-- FusedMoEMethodBase : old_quant_method
     
@@ -468,19 +543,7 @@ classDiagram
     SharedExperts --> SharedExpertsOrder : uses
     SharedExperts o-- FusedMoEMethodBase : _quant_method
     
-    %% FusedMoE Layer
-    class FusedMoE {
-        <<PluggableLayer>>
-        +w13_weight
-        +w2_weight
-        +activation: MoEActivation
-        +global_num_experts: int
-        +expert_map
-        +apply_router_weight_on_input: bool
-        +forward(hidden_states)
-    }
-    
-    FusedMoE --> FusedMoEMethodBase : quant_method
-    FusedMoE --> SharedExperts : shared_experts
+    FusedMoERouter --> RoutingMethodType : uses
 ```
-* FusedMoeMethodBase:
+* FusedMoeMethodBase: 所有Modular 和 base quantization method 的基类
+* 
