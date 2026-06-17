@@ -546,4 +546,9 @@ classDiagram
     FusedMoERouter --> RoutingMethodType : uses
 ```
 * FusedMoeMethodBase: 所有Modular 和 base quantization method 的基类
+```python
+def use_all2all_kernels(self):
+        return self.dp_size > 1 and self.use_ep
+```
+* use_all2all_kernels：只有 dp_size > 1 且开启 EP，才需要 all_to_all
 * 
