@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: blog.lj970926.top
+  baseUrl: lj970926.github.io/cs-note
   ignorePatterns:
     - private
     - templates
