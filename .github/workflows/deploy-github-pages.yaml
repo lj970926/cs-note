@@ -1,4 +1,4 @@
-name: Deploy Quartz site to GitHub Pages
+name: Deploy Quartz site
  
 on:
   push:
@@ -11,11 +11,12 @@ permissions:
   id-token: write
  
 concurrency:
-  group: "pages"
+  group: "quartz-deploy"
   cancel-in-progress: false
  
 jobs:
-  build:
+  build-pages:
+    name: Build GitHub Pages site
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -42,15 +43,16 @@ jobs:
         run: npm ci
       - name: Install Quartz plugins
         run: npx quartz plugin install
-      - name: Build Quartz
-        run: npx quartz build
+      - name: Build Quartz for GitHub Pages
+        run: npx quartz build -o public-github-pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: public-github-pages
  
-  deploy:
-    needs: build
+  deploy-pages:
+    name: Deploy to GitHub Pages
+    needs: build-pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -59,3 +61,77 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-cloud:
+    name: Deploy to cloud host
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Fetch all history for git info
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Cache Quartz plugins
+        uses: actions/cache@v5
+        with:
+          path: .quartz/plugins
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-plugins-
+      - name: Install Dependencies
+        run: npm ci
+      - name: Install Quartz plugins
+        run: npx quartz plugin install
+      - name: Set cloud base URL
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs"
+          import YAML from "yaml"
+
+          const configPath = "quartz.config.yaml"
+          const config = YAML.parse(fs.readFileSync(configPath, "utf8"))
+          config.configuration.baseUrl = "blog.lj970926.top"
+          fs.writeFileSync(configPath, YAML.stringify(config))
+          NODE
+      - name: Build Quartz for cloud host
+        run: npx quartz build -o public-cloud
+      - name: Validate cloud build base URL
+        run: |
+          test "$(cat public-cloud/CNAME)" = "blog.lj970926.top"
+          grep -q "https://blog.lj970926.top" public-cloud/index.html
+      - name: Configure SSH
+        env:
+          CLOUD_SSH_PRIVATE_KEY: ${{ secrets.CLOUD_SSH_PRIVATE_KEY }}
+          CLOUD_KNOWN_HOSTS: ${{ secrets.CLOUD_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$CLOUD_SSH_PRIVATE_KEY" ]; then
+            echo "::error::CLOUD_SSH_PRIVATE_KEY secret is not configured"
+            exit 1
+          fi
+          if [ -z "$CLOUD_KNOWN_HOSTS" ]; then
+            echo "::error::CLOUD_KNOWN_HOSTS secret is not configured"
+            exit 1
+          fi
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$CLOUD_SSH_PRIVATE_KEY" > ~/.ssh/cloud_deploy_key
+          chmod 600 ~/.ssh/cloud_deploy_key
+          printf '%s\n' "$CLOUD_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+      - name: Deploy to cloud host
+        run: |
+          ssh -i ~/.ssh/cloud_deploy_key -o StrictHostKeyChecking=yes \
+            root@8.159.128.71 \
+            "mkdir -p /var/www/quartz-digital-garden"
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/cloud_deploy_key -o StrictHostKeyChecking=yes" \
+            public-cloud/ \
+            root@8.159.128.71:/var/www/quartz-digital-garden/
