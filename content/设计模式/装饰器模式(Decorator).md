@@ -1,3 +1,11 @@
+---
+title: 装饰器模式
+tags:
+  - design-pattern
+  - cpp
+  - structural
+---
+
 >[!note] category：单一职责模式
 # Motivation
 在某些情况下可能过度使用继承拓展类的功能，从而导致子类数量的急剧膨胀，比如下面这个`Stream`的例子，FileStream、NetworkStream、MemoryStream分别继承Stream的抽象，并提供内存流、网络流、文件流的实现。
@@ -85,3 +93,7 @@ Stream* stream = new CryptoStream(base_stream);
 # Key point
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250104005558.png)
 * Decorator模式的一个突出的特征是Decorator既继承自接口又通过组合的方式使用另一个接口的实现类。
+
+## Related
+- [[设计原则]]
+- [[桥模式 (Bridge)]]

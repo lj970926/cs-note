@@ -1,3 +1,11 @@
+---
+title: Integer Quantization for Deep Learning Inference
+tags:
+  - paper
+  - quantization
+  - mlsys
+---
+
 > https://arxiv.org/pdf/2004.09602
 
 # Overview
@@ -67,3 +75,7 @@ NV的一篇关于整形量化的文章，主要是对业界主流整形量化方
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407194502.png)
 关于activation为什么用per-tensor文章里似乎没有提
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250407194547.png)
+
+## Related
+- [[Model Quantization]]
+- [[A White Paper on Neural Network Quantization]]

@@ -1,3 +1,11 @@
+---
+title: 原型模式
+tags:
+  - design-pattern
+  - cpp
+  - creational
+---
+
 >[!note] category：对象创建模式
 
 # Motivation
@@ -45,3 +53,8 @@ private:
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250105000226.png)
 # Summary
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250105000559.png)
+
+## Related
+- [[设计原则]]
+- [[工厂模式 (Factory)]]
+- [[构建器 (Builder)]]

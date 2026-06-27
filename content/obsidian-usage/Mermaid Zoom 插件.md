@@ -1,3 +1,10 @@
+---
+title: "Mermaid Zoom 插件"
+tags:
+  - obsidian
+  - tool
+---
+
 # Mermaid Zoom 插件
 
 Obsidian 社区插件，为 Mermaid 图表添加缩放和平移功能。

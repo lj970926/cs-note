@@ -1,3 +1,10 @@
+---
+title: "git 常用命令"
+tags:
+  - tool
+  - git
+---
+
 * 强行将某个分支set到另一个分支
 ```bash
 git reset --hard origin/master
@@ -37,3 +44,6 @@ git revert <commit-hash>
 git reflog
 ```
 reflog 记录了 HEAD 的所有移动，几乎所有"误删"的 commit 都能在这里找到 hash 然后 `git reset` 回去。
+
+## Related
+- [[pre-commit]]

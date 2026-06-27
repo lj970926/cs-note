@@ -94,6 +94,10 @@ mod parent {
 }
 ```
 
+## Related
+- [[The Rust Programming Language]]
+- [[use-and-mod]]
+
 ## 参考
 
 - [[Pattern Matching]]

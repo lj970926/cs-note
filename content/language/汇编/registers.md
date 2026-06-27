@@ -1,3 +1,10 @@
+---
+title: "registers"
+tags:
+  - assembly
+  - cpp
+---
+
 ## 1. 通用寄存器 GPR
 
 x86-64 有 **16 个 64 位通用寄存器**：

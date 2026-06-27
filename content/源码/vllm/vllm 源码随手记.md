@@ -1,3 +1,12 @@
+---
+title: vllm 源码随手记
+tags:
+  - source-reading
+  - mlsys
+  - serving
+  - inference
+---
+
 # KV Cache相关
 ## 整体架构
 ```mermaid
@@ -634,4 +643,9 @@ def use_all2all_kernels(self):
         return self.dp_size > 1 and self.use_ep
 ```
 * use_all2all_kernels：只有 dp_size > 1 且开启 EP，才需要 all_to_all
-* 
+*
+
+## Related
+- [[vLLM 监控：使用 Binary 部署 Prometheus + Grafana]]
+- [[SGLang Efficient Execution of Structured Language Model Programs]]
+- [[top_k_top_p sampling]]

@@ -1,3 +1,11 @@
+---
+title: bthread
+tags:
+  - source-reading
+  - cpp
+  - concurrency
+---
+
 本文基于 `src/bthread` 目录梳理 bthread 的核心实现。bthread 是 brpc 中的 M:N 用户态线程库：大量 bthread 运行在较少的 pthread worker 上，通过用户态栈切换、work stealing 和 futex-like 同步原语实现高并发调度。
 
 ## 1. 总体结构
@@ -400,4 +408,9 @@ bthread 支持 tag 维度的 worker 分组：
 - butex 同时支持 bthread 和 pthread 等待，因此同步原语可在混合线程模型下使用。
 - `bthread_stop()` 是协作式停止，只设置 stop flag 并 interrupt，不负责终止用户函数。
 - `TaskMeta::version_butex` 同时解决 join 和 ABA 问题：旧 tid 的 version 不匹配时视为不存在。
+
+## Related
+- [[intrusive_ptr]]
+- [[uThreads Class Diagram]]
+- [[memory order]]
 

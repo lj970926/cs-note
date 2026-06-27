@@ -1,3 +1,11 @@
+---
+title: "pre-commit"
+tags:
+  - tool
+  - git
+  - cpp
+---
+
 # 新建空白配置
 ```bash
 pre-commit sample-config &> .pre-commit-config.yaml
@@ -12,3 +20,6 @@ pre-commit sample-config &> .pre-commit-config.yaml
       types_or: [c++, cuda]
       args: [--style=file, --verbose]
 ```
+
+## Related
+- [[git 常用命令]]

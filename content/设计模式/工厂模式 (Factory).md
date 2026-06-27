@@ -1,3 +1,11 @@
+---
+title: 工厂模式
+tags:
+  - design-pattern
+  - cpp
+  - creational
+---
+
 >[!note] category: 对象创建模式
 
 # 简单工厂模式
@@ -86,3 +94,8 @@ public class ConcreteFactory1 extends AbstractFactory {
 * 开闭原则：工厂方法模式新类型的支持可以通过拓展实现，无需像简单工厂一样修改if-else
 * 依赖倒置：用户代码依赖抽象的Factory接口，而不是具体的类
 * 封装变化点
+
+## Related
+- [[设计原则]]
+- [[原型模式 (Prototype)]]
+- [[构建器 (Builder)]]

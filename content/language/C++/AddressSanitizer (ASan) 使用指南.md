@@ -138,4 +138,7 @@ ASAN_OPTIONS=detect_leaks=1:halt_on_error=0:verbosity=1 ./foo
 > 5. 需要查 use-after-return:`ASAN_OPTIONS=detect_stack_use_after_return=1`
 > 6. 怀疑是数据竞争而非内存越界 → 改用 TSan
 
+## Related
+- [[GCC Warning Options]]
+
 ---

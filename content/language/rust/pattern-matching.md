@@ -183,6 +183,10 @@ let point = (3, 5);
 print_point(&point);
 ```
 
+## Related
+- [[The Rust Programming Language]]
+- [[enum]]
+
 ## 参考
 
 - [[Rust 程序设计语言]]

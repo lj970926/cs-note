@@ -1,3 +1,11 @@
+---
+title: 代理模式
+tags:
+  - design-pattern
+  - cpp
+  - structural
+---
+
 >[!note] category: 接口隔离模式
 
 
@@ -47,3 +55,8 @@ int main() {
 # Key point
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250118125826.png)
 * Proxy的一个鲜明特征是Proxy对象和Real subject使用的接口是一致的，从而对Client屏蔽二者的差异
+
+## Related
+- [[设计原则]]
+- [[适配器 (Adaptor)]]
+- [[门面模式 (Facade)]]

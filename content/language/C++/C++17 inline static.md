@@ -1,3 +1,9 @@
+---
+title: C++17 inline static
+tags:
+  - cpp
+---
+
 ```cpp
 // IOHandler.h
 class IOHandler {

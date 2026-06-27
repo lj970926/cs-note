@@ -1,3 +1,9 @@
+---
+title: Cursor Agent Best Practice
+tags:
+  - ai-agent
+  - tool
+---
 
 > [!note] 原文
 > https://cursor.com/cn/blog/agent-best-practices
@@ -44,7 +50,7 @@
 非常典型的AI开发流程，通过编写测试明确 AI 的目标。测试可以让智能体在不断修改的同时评估结果，并逐步改进直到全部通过。
 ```mermaid
 graph TD
-    A[编写测试（明确说明TDD] --> B[Agent 确认测试失败]
+    A[编写测试（明确说明TDD）] --> B[Agent 确认测试失败]
     B --> C[满意后提交测试]
     C --> D[编写实现]
     D --> E{测试是否全部通过}

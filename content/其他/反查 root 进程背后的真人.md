@@ -1,15 +1,13 @@
 ---
-
 title: 反查 root 进程背后的真人
 aliases:
-
-- 谁在用 root 跑程序
-- root 进程溯源 tags:
-- linux
-- troubleshooting
-- ops
-- process created: 2026-06-02
-
+  - 谁在用 root 跑程序
+  - root 进程溯源
+tags:
+  - tool
+  - shell
+  - debugging
+created: 2026-06-02
 ---
 
 # 反查 root 进程背后的真人

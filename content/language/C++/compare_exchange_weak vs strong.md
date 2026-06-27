@@ -1,3 +1,11 @@
+---
+title: compare_exchange_weak vs strong
+tags:
+  - cpp
+  - concurrency
+  - lock-free
+---
+
 `compare_exchange_weak` 和 `compare_exchange_strong` 都是 C++ 原子 CAS 操作：
 
 ```
@@ -242,3 +250,7 @@ CAS loop     -> compare_exchange_weaksingle shot  -> compare_exchange_strongtry_
 ```
 
 不过在 x86 上，两者通常生成一样或非常接近的代码；在可移植 C++ 里，上面这个选择习惯更合理。
+
+## Related
+- [[memory order]]
+- [[ABA问题]]

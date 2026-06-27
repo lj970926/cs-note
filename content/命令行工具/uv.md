@@ -1,3 +1,10 @@
+---
+title: "uv"
+tags:
+  - tool
+  - python
+---
+
 uv 是 astral 用 Rust 写的 Python 包/项目管理工具，定位是 `pip` + `venv` + `pipx` + `pyenv` + `poetry` 的合集，速度比 pip 快一个数量级。官方文档：https://docs.astral.sh/uv/
 
 # 安装

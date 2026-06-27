@@ -1,3 +1,11 @@
+---
+title: memory order
+tags:
+  - cpp
+  - concurrency
+  - memory-model
+---
+
 <iframe src="https://www.ramtintjb.com/blog/memory-ordering" allow="fullscreen" allowfullscreen="" style="height:100%;width:100%; aspect-ratio: 16 / 9; "></iframe>
 
 https://www.ramtintjb.com/blog/memory-ordering
@@ -179,3 +187,9 @@ assert(data == 42);   // 这能保证吗？
 ## 一句话总结
 
 release sequence 解决的是「release 写之后被一连串 RMW 接力修改，acquire 读到的是接力后的值」时，同步关系会不会断的问题。规则是：RMW 操作能延续这条链（同步关系保留），而其他线程的普通 store 会切断它。它的典型价值体现在引用计数这类「多个线程接力修改同一个原子量、最后一个负责收尾」的模式里。
+
+## Related
+- [[ABA问题]]
+- [[compare_exchange_weak vs strong]]
+- [[std-promise 和 std-future]]
+- [[Coroutine]]

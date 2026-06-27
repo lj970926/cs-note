@@ -1,3 +1,11 @@
+---
+title: A White Paper on Neural Network Quantization
+tags:
+  - paper
+  - quantization
+  - mlsys
+---
+
 > https://arxiv.org/abs/2106.08295
 
 # Overview
@@ -171,3 +179,7 @@ QAT 中如何处理 BN 是个细节问题：
 * QAT 处理 4-bit activation 这种激进场景，accuracy 更好但需要训练成本和标注数据
 * depth-wise separable 是量化的主要难点：BN folding 后 channel 间 range 极不均，需要 CLE / per-channel / bias correction 等技巧组合
 * 关键 trick 总结：CLE（balance ranges）、Bias Correction（修正期望偏移）、AdaRound（最优 rounding）、STE（让 quantize 可微）、static BN folding
+
+## Related
+- [[Model Quantization]]
+- [[Integer Quantization for Deep Learning Inference]]

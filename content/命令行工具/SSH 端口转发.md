@@ -1,3 +1,11 @@
+---
+title: "SSH 端口转发"
+tags:
+  - tool
+  - shell
+  - networking
+---
+
 # 本地端口转发
 使用`ssh -L` 命令
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241210160424.png)
@@ -32,3 +40,6 @@ ssh -D localhost:8080 harttle@example.com
 
 # 后台运行
 可以通过 `-fN` 使得端口转发的ssh任务在后台运行，不占用terminal资源。
+
+## Related
+- [[grep]]

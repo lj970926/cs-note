@@ -1,3 +1,10 @@
+---
+title: "Makefile"
+tags:
+  - makefile
+  - tool
+---
+
 # 特殊变量
 ```make
 hey: one two 
@@ -14,6 +21,10 @@ one:
 	touch one 
 two: 
 	touch two 
-clean: 
+clean:
 	rm -f hey one two
 ```
+
+## Related
+- [[Makefile tutorial]]
+- [[General Rules for Using Depencies]]

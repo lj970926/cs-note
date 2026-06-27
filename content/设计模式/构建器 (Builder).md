@@ -1,3 +1,11 @@
+---
+title: 构建器
+tags:
+  - design-pattern
+  - cpp
+  - creational
+---
+
 >[!note] category: 对象创建模式
 
 
@@ -82,3 +90,8 @@ int main() {
 # 总结
 * Builder模式在设计思想上与Template Method非常接近，将对象创建的通用模版抽象到Director中。不同的是Director时通过组合Builder而不是让子类继承并实现虚方法来提供构建对象所需的各个子步骤的实现
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250112114620.png)
+
+## Related
+- [[设计原则]]
+- [[工厂模式 (Factory)]]
+- [[原型模式 (Prototype)]]
