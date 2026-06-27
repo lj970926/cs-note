@@ -1,3 +1,11 @@
+---
+title: 观察者模式
+tags:
+  - design-pattern
+  - cpp
+  - behavioral
+---
+
 >[!note] category：组件协作模式
 # Motivation
 主要用于构建对象间的通知依赖关系，即一个对象的状态发生改变，将会通知所有依赖它的对象。这里的对象依赖关系无法提前获得，而且个数也不确定，可能在运行过程中改变。
@@ -50,3 +58,8 @@ private:
 * 依赖导致：Subject不依赖具体的ConcreteObserver类，而是依赖其相对稳定的接口
 * 分离变化点：Observer和Subject分别独立演进，只需要保持接口不变即可。
 * 针对接口编程：Subject使用Observer接口
+
+## Related
+- [[设计原则]]
+- [[模版方法 (Template Method)]]
+- [[策略模式 (Strategy)]]

@@ -1,3 +1,10 @@
+---
+title: SCOPE_EXIT
+tags:
+  - source-reading
+  - cpp
+  - raii
+---
 
 > [!NOTE] Path
 > folly/ScopeGuard.h
@@ -47,3 +54,6 @@ ScopeGuardImpl<std::decay_t<FunctionType>, true> operator+(
 }
 ```
 可以看到，这里的关键是创建了一个ScopeGuardImpl对象负责在析构时调用用户传入的代码。
+
+## Related
+- [[enable_shared_from_this]]

@@ -1,3 +1,11 @@
+---
+title: std-promise 和 std-future
+tags:
+  - cpp
+  - async
+  - concurrency
+---
+
 `std::promise` 和 `std::future` 是 C++11 提供的一对“一次性”异步结果传递机制：**生产者通过 `promise` 写入结果，消费者通过 `future` 读取结果**。它们共享同一块状态（shared state），完成一次跨线程的“值/异常 + 同步”传递。
 
 ```

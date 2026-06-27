@@ -1,3 +1,11 @@
+---
+title: 享元模式
+tags:
+  - design-pattern
+  - cpp
+  - structural
+---
+
 >[!note]  category: 对象性能模式
 
 # Motivation
@@ -35,3 +43,6 @@ private:
 * Flyweight的设计思想实质上就是值各种池，用于实现对象共享，减少创建的对象的数量，提升性能
 # Keypoint
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250112125246.png)
+
+## Related
+- [[设计原则]]

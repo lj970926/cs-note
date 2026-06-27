@@ -1,3 +1,11 @@
+---
+title: uThreads Class Diagram
+tags:
+  - source-reading
+  - cpp
+  - concurrency
+---
+
 This diagram focuses on the core runtime, synchronization, scheduler, and
 network I/O classes. The active `Scheduler` class is selected at compile time by
 `SCHEDULERNO`; when it is not defined, `Scheduler_02.h` is used.
@@ -312,3 +320,7 @@ classDiagram
 - `Link<T>` must be the first base/member layout element for intrusive
   containers to reinterpret objects safely, as noted in
   `IntrusiveContainers.h`.
+
+## Related
+- [[intrusive_ptr]]
+- [[bthread]]

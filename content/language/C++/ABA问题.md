@@ -1,3 +1,11 @@
+---
+title: ABA问题
+tags:
+  - cpp
+  - concurrency
+  - lock-free
+---
+
 # ABA 问题
 
 ## 什么是 ABA 问题？
@@ -465,6 +473,10 @@ public class LockFreeStack<T> {
 | Hazard Pointer | 完全解决，性能好 | 实现复杂，需要全局协调 | C++ |
 | Epoch-based Reclamation | 高效，适合读多写少 | 实现复杂 | C++ |
 | 检测节点是否被回收 | 特定场景有效 | 适用范围有限 | C++/Java |
+
+## Related
+- [[memory order]]
+- [[compare_exchange_weak vs strong]]
 
 ## 参考
 

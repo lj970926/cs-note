@@ -1,3 +1,10 @@
+---
+title: "Mermaid 使用指南"
+tags:
+  - tool
+  - markdown
+---
+
 # Mermaid 使用指南
 
 Mermaid 是一种基于文本的图表绘制工具，用简单的 Markdown 语法生成各种图表。Obsidian 原生支持 Mermaid，使用 `mermaid` 代码块即可。
@@ -427,3 +434,6 @@ Mermaid 图表可以通过截图或 Obsidian 插件导出为 SVG/PNG。
 
 ### Q: 想用更复杂的图表？
 考虑使用 [Excalidraw](Excalidraw/) 手绘风格图表，或导出 Mermaid 代码到 [Mermaid Live Editor](https://mermaid.live) 编辑。
+
+## Related
+- [[Mermaid Zoom 插件]]

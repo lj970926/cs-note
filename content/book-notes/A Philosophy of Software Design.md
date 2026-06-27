@@ -1,3 +1,10 @@
+---
+title: "A Philosophy of Software Design"
+tags:
+  - book-notes
+  - software-design
+---
+
 # 2.1 Complexity Defined
 * ### 软件复杂度公式
 	$C = \sum_{p}{c_{p}t_{p}}$

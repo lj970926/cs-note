@@ -127,6 +127,9 @@ match msg {
 }
 ```
 
+## Related
+- [[The Rust Programming Language]]
+
 ## 参考
 
 - [[Pattern Matching]]

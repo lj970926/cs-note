@@ -1,3 +1,11 @@
+---
+title: 桥模式
+tags:
+  - design-pattern
+  - cpp
+  - structural
+---
+
 >[!note] category单一职责模式
 
 # Motivation
@@ -118,3 +126,7 @@ public:
 * 优先使用组合而不是继承
 * 分离变化点
 * 单一职责
+
+## Related
+- [[设计原则]]
+- [[装饰器模式(Decorator)]]

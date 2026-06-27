@@ -1,3 +1,11 @@
+---
+title: "Linux 多线程服务端编程"
+tags:
+  - book-notes
+  - cpp
+  - concurrency
+---
+
 # 第 1 章 线程安全的对象生命期管理
 ## 1.1 当析构函数遇到多线程
 ### 1.1 线程安全的定义
@@ -17,3 +25,7 @@
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250215230607.png)
 ## 3.2 单线程服务器的常⽤编程模型
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250215231217.png)
+
+## Related
+- [[memory order]]
+- [[bthread]]

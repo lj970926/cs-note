@@ -244,4 +244,7 @@ let label = String::from("called");
 
 ## 10. 一句话总结
 
-Rust 闭包的核心是“捕获环境 + trait 约束”。语法只是入口，真正决定闭包能被哪些 API 接受的是它如何借用、修改或移动捕获到的值。
+Rust 闭包的核心是”捕获环境 + trait 约束”。语法只是入口，真正决定闭包能被哪些 API 接受的是它如何借用、修改或移动捕获到的值。
+
+## Related
+- [[The Rust Programming Language]]

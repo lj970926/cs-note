@@ -31,6 +31,8 @@ Use the npm scripts from `package.json`:
 
 ```bash
 npm run docs
+npm run content:prepare-notes
+npm run content:check-notes
 npm run check
 npm run format
 npm test
@@ -42,6 +44,9 @@ Notes:
 - Use Node.js 22 or newer locally. The GitHub Pages workflow currently builds
   with Node.js 24.
 - `npm run docs` runs a local Quartz build server against `docs`.
+- `npm run content:prepare-notes` fixes frontmatter for newly created
+  `content/**/*.md` notes and checks their wikilinks.
+- `npm run content:check-notes` checks the same notes without writing files.
 - `npm run check` runs TypeScript checking and Prettier verification.
 - `npm test` runs the TypeScript test suite through `tsx --test`.
 - `npx quartz build` writes the built site to `public/`.
@@ -61,6 +66,15 @@ Notes:
   unless the task explicitly calls for cleanup.
 - If changing shared Quartz code under `quartz/`, add or update focused tests
   where behavior can regress.
+
+## New Content Notes
+
+- Before committing newly created Markdown notes under `content/`, run
+  `npm run content:prepare-notes`.
+- Prefer adding at least one meaningful body `[[wikilink]]` from each new note
+  to an existing related note. If no natural relationship exists yet, leave it
+  unlinked rather than adding a weak link.
+- Treat broken wikilinks reported by `npm run content:check-notes` as blockers.
 
 ## Publishing Notes
 
@@ -89,6 +103,11 @@ For content-only edits, a local build is usually enough:
 ```bash
 npx quartz build
 ```
+
+For AI-assisted commits and PRs, do not run `npm run check`, `npm test`, or
+`npx quartz build` by default before committing. Run validation only when the
+user explicitly asks for it, or ask first if a specific change makes validation
+important.
 
 ## Git Hygiene
 

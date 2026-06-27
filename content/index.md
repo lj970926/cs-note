@@ -14,16 +14,25 @@ My current focus is **Machine Learning Systems**, especially LLM training, infer
 
 This garden is mostly about the systems side of software and machine learning:
 
-- **Machine learning systems**: notes on LLM training, inference, and serving.
-- **Source-code reading**: implementation notes from projects such as vLLM, brpc, folly, PaddlePaddle, and Linux 0.11.
-- **C++ and systems programming**: notes on concurrency, memory models, coroutines, network programming, runtime behavior, and books.
-- **Engineering tools and workflow**: practical references for Vim, tmux, git, shell, CMake, Obsidian, and debugging habits.
+- **Machine learning systems**: notes on LLM training, inference, and serving. Key notes: [[Model Quantization]], [[CUDA Graph]], [[DeepSeek R1]], [[MoE matmul 计算量与 EP 收益]].
+- **Source-code reading**: implementation notes from projects such as [[vllm 源码随手记|vLLM]], [[bthread|brpc]], [[SCOPE_EXIT|folly]], [[Paddle 分布式初始化|PaddlePaddle]], and [[Linux 0.11 系统启动|Linux 0.11]].
+- **C++ and systems programming**: notes on [[memory order|concurrency]], [[Coroutine|coroutines]], [[std-promise 和 std-future|async patterns]], [[bthread|network programming]], and more.
+- **Engineering tools and workflow**: practical references for [[Practical VIM|Vim]], [[tmux 快捷键|tmux]], [[git 常用命令|git]], [[shell 快捷键|shell]], [[General Rules for Using Depencies|CMake]], and [[Debug 时如何不被思维定势影响|debugging habits]].
 
 ## How I Write
 
 Not every note here is a polished tutorial. Some are markers left behind during source-code reading, some are clues from debugging sessions, and some are attempts to move an idea from “I think I get it” to “I can explain, reproduce, and modify it.” I prefer starting from concrete problems: read the code, run experiments, look at the metrics, and then rebuild the abstraction from the ground up.
 
 If these notes help you avoid a small detour, or make one more layer of a complex system visible, then they have already done something useful.
+
+## Browse by Topic
+
+- [[设计原则|Design Patterns]] — creational, structural, and behavioral patterns in C++
+- [[The Rust Programming Language|Rust]] — ownership, closures, enums, pattern matching, and modules
+- [[A White Paper on Neural Network Quantization|Quantization]] — model quantization techniques and papers
+- [[vllm 源码随手记|LLM Serving]] — vLLM, SGLang, and inference optimization
+- [[bthread|Concurrency]] — C++ memory models, lock-free programming, and async patterns
+- [[Practical VIM|Tools & Workflow]] — Vim, tmux, git, shell, and developer productivity
 
 ## Elsewhere
 

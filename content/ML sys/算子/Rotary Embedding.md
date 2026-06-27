@@ -1,3 +1,11 @@
+---
+title: Rotary Embedding
+tags:
+  - mlsys
+  - attention
+  - operator
+---
+
 * https://arxiv.org/pdf/2104.09864
 公式很复杂，反映到代码上基本就是下面这个样子：
 ```python
@@ -61,3 +69,8 @@ query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, s
 1. 计算sin/cos cache，这里的$\theta$ 编码了position信息（上面代码里的t）
 2. 对q和k做rotary(rotary_half)，得到q_rot与k_rope
 3. q = q * cos_cache + q_half * sin_cache，k同理
+
+## Related
+- [[DeepSeek R1]]
+- [[DeepSeek-V3 Technical Report]]
+- [[Model Quantization]]

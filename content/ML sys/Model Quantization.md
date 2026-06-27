@@ -1,3 +1,11 @@
+---
+title: Model Quantization
+tags:
+  - mlsys
+  - quantization
+  - inference
+---
+
 # Concept
 在大模型里，我们关心的是把 FP16/BF16 的权重 / 激活 / KV cache 映射到更低位宽（INT8, INT4, FP8, NF4 …）的整数或低精度浮点上，以此降低显存占用、提升带宽利用率，并在支持低精度算力的硬件上加速 GEMM。
 
@@ -100,3 +108,8 @@
 - A Survey of Quantization Methods for Efficient Neural Network Inference (https://arxiv.org/abs/2103.13630)
 - A Survey on Model Compression for Large Language Models (https://arxiv.org/abs/2308.07633)
 - 相关算子见 [[Rotary Embedding]]
+
+## Related
+- [[A White Paper on Neural Network Quantization]]
+- [[Integer Quantization for Deep Learning Inference]]
+- [[Rotary Embedding]]

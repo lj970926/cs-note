@@ -1,2 +1,6 @@
-1. 子类对象转基类对象
-2. 
+---
+title: "C++ static_cast"
+tags:
+  - cpp
+  - wip
+---

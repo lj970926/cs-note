@@ -1,3 +1,11 @@
+---
+title: 适配器
+tags:
+  - design-pattern
+  - cpp
+  - structural
+---
+
 >[!note] catetory: 接口隔离模式
 # Motivation
 * 老接口放到新的使用环境中使用
@@ -39,3 +47,8 @@ int main() {
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250118130809.png)
 # 类图
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20250118130857.png)
+
+## Related
+- [[设计原则]]
+- [[门面模式 (Facade)]]
+- [[代理模式 (Proxy)]]

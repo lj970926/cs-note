@@ -1,14 +1,17 @@
 ---
-
+title: RMS Norm
 aliases:
-
-- RMS Norm
-- RMSNorm
-- Root Mean Square Normalization tags:
-- deep-learning
-- normalization
-- transformer created: 2026-05-30
-
+  - RMS Norm
+  - RMSNorm
+  - Root Mean Square Normalization
+tags:
+  - mlsys
+  - attention
+  - operator
+  - deep-learning
+  - normalization
+  - transformer
+created: 2026-05-30
 ---
 
 # RMSNorm（Root Mean Square Normalization）
@@ -148,6 +151,10 @@ x = x + FFN(RMSNorm(x))
 - [[BatchNorm]] — 另一类归一化思路（沿 batch 维）
 - [[Pre-Norm vs Post-Norm]]
 - [[Transformer 架构]]
+
+## Related
+- [[Rotary Embedding]]
+- [[DeepSeek R1]]
 
 ## 8. 参考文献
 

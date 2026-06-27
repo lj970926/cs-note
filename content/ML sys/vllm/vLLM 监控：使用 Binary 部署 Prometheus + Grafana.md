@@ -258,3 +258,7 @@ curl -s http://localhost:3000/api/search?query=vLLM -u admin:admin
 - [Prometheus 官方文档](https://prometheus.io/docs/introduction/overview/)
 - [Grafana 官方文档](https://grafana.com/docs/grafana/latest/)
 - [本文参考的官方示例](https://docs.vllm.ai/en/v0.7.2/getting_started/examples/prometheus_grafana.html)
+
+## Related
+- [[vllm 源码随手记]]
+- [[SGLang Efficient Execution of Structured Language Model Programs]]

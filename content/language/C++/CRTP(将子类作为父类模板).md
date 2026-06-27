@@ -1,3 +1,11 @@
+---
+title: CRTP
+tags:
+  - cpp
+  - template-metaprogramming
+  - design-pattern
+---
+
 **CRTP（Curiously Recurring Template Pattern）**，奇异递归模板模式。
 
 ```cpp
@@ -14,3 +22,6 @@ class MyClass : public Base<MyClass> {
 ```
 
 常见用途：静态多态（避免虚函数开销）、mixin、计数器等。
+
+## Related
+- [[integral_constant]]

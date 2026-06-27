@@ -1,3 +1,10 @@
+---
+title: enable_shared_from_this
+tags:
+  - cpp
+  - smart-pointer
+---
+
 # Intro
 C++中，一个经常遇到的场景是某个类的对象由智能指针管理，而该指针又存在许多问题，现在需要在类的内部获取一个指向该对象的智能指针：
 ```c++
@@ -24,6 +31,10 @@ class MyObject: public std::enable_shared_from_this<MyObject> {
 
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20251001234231.png)
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20251001234340.png)
+## Related
+- [[intrusive_ptr]]
+- [[SCOPE_EXIT]]
+
 # Ref
 1. https://zhuanlan.zhihu.com/p/393571228
 2. https://en.cppreference.com/w/cpp/memory/enable_shared_from_this.html

@@ -1,3 +1,11 @@
+---
+title: 模版方法
+tags:
+  - design-pattern
+  - cpp
+  - behavioral
+---
+
 > [!note]+ category: 组件协作模式
 # Motivation
 * 稳定的整体操作结构，但各个子步骤有许多改变的需求
@@ -59,3 +67,8 @@ int main() {
 
 # Structure
 ![image.png](https://raw.githubusercontent.com/lj970926/image-hosting/master/images/20241230180654.png)
+
+## Related
+- [[设计原则]]
+- [[策略模式 (Strategy)]]
+- [[观察者模式 (Observer or Event)]]

@@ -13,6 +13,8 @@
   },
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
+    "content:prepare-notes": "node scripts/prepare-new-content-notes.mjs --fix",
+    "content:check-notes": "node scripts/prepare-new-content-notes.mjs --check",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
