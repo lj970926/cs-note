@@ -1,19 +1,19 @@
 name: Deploy Quartz site
- 
+
 on:
   push:
     branches:
       - quartz
- 
+
 permissions:
   contents: read
   pages: write
   id-token: write
- 
+
 concurrency:
   group: "quartz-deploy"
   cancel-in-progress: false
- 
+
 jobs:
   build-pages:
     name: Build GitHub Pages site
@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: public-github-pages
- 
+
   deploy-pages:
     name: Deploy to GitHub Pages
     needs: build-pages
