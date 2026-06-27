@@ -115,6 +115,9 @@ important.
 - Do not revert or overwrite unrelated user changes.
 - Keep commit messages concise and conventional when possible, for example:
   `chore: update quartz config` or `docs: add note about tmux`.
+- After successfully creating a PR from a feature branch, switch the local
+  checkout back to the `quartz` branch unless the user asks to stay on the PR
+  branch.
 - When an AI assistant creates or materially edits a commit, include an
   appropriate co-author trailer in the commit message. Use the agent's
   configured or official Git identity when available, and do not invent human
