@@ -14,10 +14,11 @@ My current focus is **Machine Learning Systems**, especially LLM training, infer
 
 This garden is mostly about the systems side of software and machine learning:
 
-- **Machine learning systems**: notes on LLM training, inference, and serving. Key notes: [[Model Quantization]], [[CUDA Graph]], [[DeepSeek R1]], [[MoE matmul 计算量与 EP 收益]].
-- **Source-code reading**: implementation notes from projects such as [[vllm 源码随手记|vLLM]], [[bthread|brpc]], [[SCOPE_EXIT|folly]], [[Paddle 分布式初始化|PaddlePaddle]], and [[Linux 0.11 系统启动|Linux 0.11]].
-- **C++ and systems programming**: notes on [[memory order|concurrency]], [[Coroutine|coroutines]], [[std-promise 和 std-future|async patterns]], [[bthread|network programming]], and more.
-- **Engineering tools and workflow**: practical references for [[Practical VIM|Vim]], [[tmux 快捷键|tmux]], [[git 常用命令|git]], [[shell 快捷键|shell]], [[General Rules for Using Depencies|CMake]], and [[Debug 时如何不被思维定势影响|debugging habits]].
+- **[[ML sys/|Machine learning systems]]**: notes on LLM training, inference, and serving.
+- **[[源码/|Source-code reading]]**: implementation notes from projects like vLLM, brpc, folly, PaddlePaddle, and Linux 0.11.
+- **[[language/|Programming languages]]**: notes on C++, Python, Rust, and more.
+- **Systems programming**: notes on concurrency, coroutines, async patterns, network programming, and more.
+- **[[命令行工具/|Engineering tools and workflow]]**: practical references for Vim, tmux, git, shell, CMake, and debugging habits.
 
 ## How I Write
 
