@@ -201,6 +201,12 @@ plugins:
       position: left
       priority: 30
       group: toolbar
+  - source: ./quartz/plugins/local/github-link
+    enabled: true
+    layout:
+      position: left
+      priority: 40
+      group: toolbar
   - source: github:quartz-community/reader-mode
     enabled: true
     layout:
@@ -225,7 +231,7 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
+        GitHub: https://github.com/lj970926/cs-note
         Discord Community: https://discord.gg/cRFFHYye7t
   - source: github:quartz-community/recent-notes
     enabled: false
