@@ -234,7 +234,10 @@ plugins:
         GitHub: https://github.com/lj970926/cs-note
         Discord Community: https://discord.gg/cRFFHYye7t
   - source: github:quartz-community/recent-notes
-    enabled: false
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 50
   - source: github:quartz-community/spacer
     enabled: true
     options: {}
