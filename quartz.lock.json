@@ -145,6 +145,12 @@
       "commit": "3eabbaa252ce175665ab3f62e1af25948a83e8b6",
       "installedAt": "2026-06-03T13:16:36.665Z"
     },
+    "github-link": {
+      "source": "./quartz/plugins/local/github-link",
+      "resolved": "/Users/lijin23/code/quartz/quartz/plugins/local/github-link",
+      "commit": "local",
+      "installedAt": "2026-06-28T12:31:40.839Z"
+    },
     "graph": {
       "source": "github:quartz-community/graph",
       "resolved": "https://github.com/quartz-community/graph.git",
