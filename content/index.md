@@ -14,10 +14,10 @@ My current focus is **Machine Learning Systems**, especially LLM training, infer
 
 This garden is mostly about the systems side of software and machine learning:
 
-- **[[ML sys/|Machine learning systems]]**: notes on LLM training, inference, and serving.
+- **[[MLSys/|Machine learning systems]]**: notes on LLM training, inference, and serving.
 - **[[源码/|Source-code reading]]**: implementation notes from projects like vLLM, brpc, folly, PaddlePaddle, and Linux 0.11.
 - **[[language/|Programming languages]]**: notes on C++, Python, Rust, and more.
-- **Systems programming**: notes on concurrency, coroutines, async patterns, network programming, and more.
+- **[[system-programming/|System programming]]**: notes on concurrency, coroutines, async patterns, network programming, and more.
 - **[[命令行工具/|Engineering tools and workflow]]**: practical references for Vim, tmux, git, shell, CMake, and debugging habits.
 
 ## How I Write
@@ -25,15 +25,6 @@ This garden is mostly about the systems side of software and machine learning:
 Not every note here is a polished tutorial. Some are markers left behind during source-code reading, some are clues from debugging sessions, and some are attempts to move an idea from “I think I get it” to “I can explain, reproduce, and modify it.” I prefer starting from concrete problems: read the code, run experiments, look at the metrics, and then rebuild the abstraction from the ground up.
 
 If these notes help you avoid a small detour, or make one more layer of a complex system visible, then they have already done something useful.
-
-## Browse by Topic
-
-- [[设计原则|Design Patterns]] — creational, structural, and behavioral patterns in C++
-- [[The Rust Programming Language|Rust]] — ownership, closures, enums, pattern matching, and modules
-- [[A White Paper on Neural Network Quantization|Quantization]] — model quantization techniques and papers
-- [[vllm 源码随手记|LLM Serving]] — vLLM, SGLang, and inference optimization
-- [[bthread|Concurrency]] — C++ memory models, lock-free programming, and async patterns
-- [[Practical VIM|Tools & Workflow]] — Vim, tmux, git, shell, and developer productivity
 
 ## Elsewhere
 
