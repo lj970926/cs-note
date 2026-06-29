@@ -10,16 +10,6 @@ I mainly work with **C++** and **Python**. C++ keeps me close to performance, me
 
 My current focus is **Machine Learning Systems**, especially LLM training, inference, and serving. I care about how systems make large models faster, more efficient, and more reliable in practice. I read projects such as **vLLM**, **SGLang**, **PaddlePaddle**, and **PyTorch**, and I try to connect papers, implementation details, and experiments into one working mental model.
 
-## What You'll Find Here
-
-This garden is mostly about the systems side of software and machine learning:
-
-- **[[MLSys/|Machine learning systems]]**: notes on LLM training, inference, and serving.
-- **[[源码/|Source-code reading]]**: implementation notes from projects like vLLM, brpc, folly, PaddlePaddle, and Linux 0.11.
-- **[[language/|Programming languages]]**: notes on C++, Python, Rust, and more.
-- **[[system-programming/|System programming]]**: notes on concurrency, coroutines, async patterns, network programming, and more.
-- **[[命令行工具/|Engineering tools and workflow]]**: practical references for Vim, tmux, git, shell, CMake, and debugging habits.
-
 ## How I Write
 
 Not every note here is a polished tutorial. Some are markers left behind during source-code reading, some are clues from debugging sessions, and some are attempts to move an idea from “I think I get it” to “I can explain, reproduce, and modify it.” I prefer starting from concrete problems: read the code, run experiments, look at the metrics, and then rebuild the abstraction from the ground up.
@@ -28,4 +18,4 @@ If these notes help you avoid a small detour, or make one more layer of a comple
 
 ## Elsewhere
 
-You can also find my projects and experiments on [GitHub](https://github.com/lj970926). My public repositories include this note site, along with code related to C++ concurrency, Rust, interpreters, HTTP servers, deep learning, and algorithm practice.
+You can also find my projects and experiments on [GitHub](https://github.com/lj970926). 
