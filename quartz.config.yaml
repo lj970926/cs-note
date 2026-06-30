@@ -212,8 +212,8 @@ plugins:
   - source: ./quartz/plugins/local/particle-background
     enabled: true
     options:
-      particleCount: 56
-      maxMobileParticles: 28
+      particleCount: 70
+      maxMobileParticles: 35
       maxLinkDistance: 140
       speed: 0.22
       opacity: 0.55

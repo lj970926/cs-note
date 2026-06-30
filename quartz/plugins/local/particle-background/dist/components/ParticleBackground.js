@@ -1,7 +1,7 @@
 import { jsx } from "preact/jsx-runtime"
 
 const style =
-  ".particle-background{position:fixed;inset:0;z-index:-1;display:block;width:100vw;height:100vh;opacity:0;pointer-events:none}.particle-background.is-ready{opacity:1}.page:has(.particle-background){isolation:isolate}.page:has(.particle-background) .center{position:relative;z-index:0}.page:has(.particle-background) .left.sidebar,.page:has(.particle-background) .right.sidebar,.page:has(.particle-background) footer{position:relative;z-index:1}@media (prefers-reduced-motion: reduce){.particle-background{display:none}}"
+  ".particle-background{position:fixed;inset:0;z-index:0;display:block;width:100vw;height:100vh;opacity:0;pointer-events:none}.particle-background.is-ready{opacity:1}.page:has(.particle-background){isolation:isolate}.page:has(.particle-background) .center,.page:has(.particle-background) .left.sidebar,.page:has(.particle-background) .right.sidebar,.page:has(.particle-background) footer{position:relative;z-index:1}.page:has(.particle-background) .page-header,.page:has(.particle-background) header,.page:has(.particle-background) article,.page:has(.particle-background) .page-footer{position:relative;z-index:1}@media (prefers-reduced-motion: reduce){.particle-background{display:none}}"
 
 const defaultOptions = {
   particleCount: 56,
@@ -37,14 +37,24 @@ const canvas = document.getElementById("particle-background");
 if (!(canvas instanceof HTMLCanvasElement)) return;
 
 const existing = window.__quartzParticleBackground;
-if (existing?.canvas === canvas) return;
+if (
+  existing?.canvas === canvas &&
+  canvas.classList.contains("is-ready") &&
+  canvas.width > 0 &&
+  canvas.height > 0
+) {
+  existing.resize?.();
+  existing.start?.();
+  return;
+}
 if (existing?.destroy) existing.destroy();
+canvas.hidden = false;
 canvas.classList.remove("is-ready");
 
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 if (reduceMotionQuery.matches) {
   canvas.hidden = true;
-  window.__quartzParticleBackground = { canvas, destroy: () => {} };
+  window.__quartzParticleBackground = { canvas, destroy: () => {}, start: () => {}, resize: () => {} };
   return;
 }
 
@@ -210,8 +220,8 @@ const draw = () => {
 };
 
 const start = () => {
-  if (state.running) return;
   state.running = true;
+  window.cancelAnimationFrame(state.frame);
   state.frame = window.requestAnimationFrame(draw);
 };
 
@@ -244,7 +254,7 @@ const destroy = () => {
   document.removeEventListener("visibilitychange", onVisibilityChange);
 };
 
-window.__quartzParticleBackground = { canvas, destroy };
+window.__quartzParticleBackground = { canvas, destroy, start, resize };
 window.addEventListener("resize", resize, { passive: true });
 window.addEventListener("pointermove", onPointerMove, { passive: true });
 window.addEventListener("pointerleave", onPointerLeave);
@@ -256,6 +266,10 @@ if (state.running) state.frame = window.requestAnimationFrame(draw);
 
 initParticleBackground();
 document.addEventListener("nav", initParticleBackground);
+document.addEventListener("render", initParticleBackground);
+window.addEventListener("pageshow", initParticleBackground);
+window.addEventListener("load", initParticleBackground);
+window.requestAnimationFrame(initParticleBackground);
 `
 
   return Component

@@ -52,14 +52,24 @@ const canvas = document.getElementById("particle-background");
 if (!(canvas instanceof HTMLCanvasElement)) return;
 
 const existing = window.__quartzParticleBackground;
-if (existing?.canvas === canvas) return;
+if (
+  existing?.canvas === canvas &&
+  canvas.classList.contains("is-ready") &&
+  canvas.width > 0 &&
+  canvas.height > 0
+) {
+  existing.resize?.();
+  existing.start?.();
+  return;
+}
 if (existing?.destroy) existing.destroy();
+canvas.hidden = false;
 canvas.classList.remove("is-ready");
 
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 if (reduceMotionQuery.matches) {
   canvas.hidden = true;
-  window.__quartzParticleBackground = { canvas, destroy: () => {} };
+  window.__quartzParticleBackground = { canvas, destroy: () => {}, start: () => {}, resize: () => {} };
   return;
 }
 
@@ -225,8 +235,8 @@ const draw = () => {
 };
 
 const start = () => {
-  if (state.running) return;
   state.running = true;
+  window.cancelAnimationFrame(state.frame);
   state.frame = window.requestAnimationFrame(draw);
 };
 
@@ -259,7 +269,7 @@ const destroy = () => {
   document.removeEventListener("visibilitychange", onVisibilityChange);
 };
 
-window.__quartzParticleBackground = { canvas, destroy };
+window.__quartzParticleBackground = { canvas, destroy, start, resize };
 window.addEventListener("resize", resize, { passive: true });
 window.addEventListener("pointermove", onPointerMove, { passive: true });
 window.addEventListener("pointerleave", onPointerLeave);
@@ -271,6 +281,10 @@ if (state.running) state.frame = window.requestAnimationFrame(draw);
 
 initParticleBackground();
 document.addEventListener("nav", initParticleBackground);
+document.addEventListener("render", initParticleBackground);
+window.addEventListener("pageshow", initParticleBackground);
+window.addEventListener("load", initParticleBackground);
+window.requestAnimationFrame(initParticleBackground);
 `
 
   return Component
