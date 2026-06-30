@@ -207,6 +207,19 @@ plugins:
       position: left
       priority: 40
       group: toolbar
+  - source: ./quartz/plugins/local/particle-background
+    enabled: true
+    options:
+      particleCount: 56
+      maxMobileParticles: 28
+      maxLinkDistance: 140
+      speed: 0.22
+      opacity: 0.55
+      mouseRadius: 190
+      mouseStrength: 0.01
+    layout:
+      position: beforeBody
+      priority: 0
   - source: github:quartz-community/reader-mode
     enabled: true
     layout:
