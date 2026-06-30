@@ -1,7 +1,7 @@
 .particle-background {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   display: block;
   width: 100vw;
   height: 100vh;
@@ -17,14 +17,18 @@
   isolation: isolate;
 }
 
-.page:has(.particle-background) .center {
-  position: relative;
-  z-index: 0;
-}
-
+.page:has(.particle-background) .center,
 .page:has(.particle-background) .left.sidebar,
 .page:has(.particle-background) .right.sidebar,
 .page:has(.particle-background) footer {
+  position: relative;
+  z-index: 1;
+}
+
+.page:has(.particle-background) .page-header,
+.page:has(.particle-background) header,
+.page:has(.particle-background) article,
+.page:has(.particle-background) .page-footer {
   position: relative;
   z-index: 1;
 }
