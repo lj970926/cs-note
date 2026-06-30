@@ -12,6 +12,8 @@ configuration:
     - private
     - templates
     - .obsidian
+    - assets
+    - Excalidraw
   theme:
     fontOrigin: googleFonts
     cdnCaching: true
