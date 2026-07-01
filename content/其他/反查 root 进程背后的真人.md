@@ -101,6 +101,4 @@ cat /proc/<PID>/cgroup          # 看是不是某个容器 / 用户 slice
 |service 来源|`systemctl status <PID>`|
 
 ## 相关
-
-- [[Linux 进程管理]]
-- [[共享服务器使用规范]]
+[[反查 root 进程背后的真人]]
