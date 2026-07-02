@@ -645,7 +645,7 @@ def use_all2all_kernels(self):
 * use_all2all_kernels：只有 dp_size > 1 且开启 EP，才需要 all_to_all
 # 一些triton算子
 ## eagle_prepare_next_token_padded_kernel
-* Spec Decode 前处理算子
+* Spec Decode 前处理算子，在`prepare_next_token_ids_padded` 里
 * 一句话总结：从每个请求里把 bonus token 给拿出来
 ```python
 def eagle_prepare_next_token_padded_kernel(
