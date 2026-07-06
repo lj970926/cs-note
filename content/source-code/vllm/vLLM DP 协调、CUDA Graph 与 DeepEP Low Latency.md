@@ -8,20 +8,6 @@ tags:
   - deepep
   - source-reading
 ---
-
----
-title: vLLM DP 协调、CUDA Graph 与 DeepEP Low Latency
-date: 2026-07-06
-tags:
-  - vllm
-  - cuda-graph
-  - data-parallel
-  - deepep
-  - source-reading
----
-
-# vLLM DP 协调、CUDA Graph 与 DeepEP Low Latency
-
 ## 问题
 
 `vllm/v1/worker/dp_utils.py` 里的 `coordinate_batch_across_dp()` 为什么必要？
