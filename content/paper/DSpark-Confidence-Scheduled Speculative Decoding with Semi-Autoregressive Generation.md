@@ -81,3 +81,35 @@ $$
 DSpark 这里没有真的求解这个目标函数。这里主要是由于对于任意一个请求 r，每个位置的接受概率是单调非增的（$c_{r, k} \le 1$）。这样，就可以采用贪心的策略，每次选择$a_{i, j}$ 最大的 token，代入上面$\Theta$ 的计算公式，直至找到最大的$\Theta$ 。实际上，这里的处理要更加简单，只要发现$\Theta$ 开始下降，就立即终止搜索。（non-anticipating property）
 完整算法如下：
 ![[IMG-20260702112748225.png]]
+# Evaluation
+## Offline Evaluation
+### Sequential Head
+![[IMG-20260702141000614.png]]
+* 从 accept length 上看 DSpark 比 Eagle3 好大约 30%，比 DFlash 好大约 18%
+* 不同场景的 accept length 差别很大（Math > Code > Chat）
+### 一个反常的点
+上面实验结果有一个比较反常的地方，即DFlash 在各个场景下的 accept length 都超过了基于 autogressive model 的 Eagle3。一般意义上会认为autogressive drafter 能更好的捕获 inter-token dependency，因此有更好的 accept length。为此，本问统计了不同 drafter 在上述实验中的 per position accept rate.
+![[IMG-20260706143939232.png]]
+这里 accept rate 的统计方式是只对每个 position k，只统计前 k-1 个 token 都 accept的 sample，即所谓的 conditional accept rate.实验结果显示：
+* Parallel Drafter(DFlash)，由于模型深度较深，因此在第1 个 position 上表现显著由于 Eagle3，而 position 1对于序列的整体 accept length 有更大的 contribution（reject position 会 reject 后续所有 token），因此成为 parallel drafter 优势的主要来源
+* 随着drafter position的增长，autogressive model 由于能够更好的捕获token间的依赖关系，因而accept rate 反而呈上升趋势，但 DFlash 缺快速衰减
+* DSpark 通过混合 parallel 与 autogressive 方法，实现优势互补，取得了最优的效果。
+### Ablation Study
+主要是和 DFlash 的对比，论证 sequential head 的有效性.主要是对不同 draft model layer 数量和 draft length 的实验，结果肯定都非常好（不好也不会放出来）
+![[IMG-20260706145416257.png]]
+![[IMG-20260706145527915.png]]
+关于 Markov Head 和 RNN Head 的选择，这里也提了 RNN Head对于 accept length 的提升没那么大并且会带来一些额外的开销，所以目前还是默认 Markov Head（可能实际部署当中也确实是 Markov Head 效果好）。
+### Confidence Head
+Offline Evaluation 这里最后对 confidence head 做了一些简单的评估。由于没有涉及实际部署中的负载，所以这里主要是评估 Confidence Head 的准确率
+![[IMG-20260706153724476.png]]
+Figure 5 是 Confidence Head 及其 threahold 对最终target model 的 accept rate 的影响。这里的 bar代表了整体上通过 confidence head 阈值 filter 的总样本数，绿色和灰色是在 target model 中 accept 和 reject 的 token。结果上看增大 threshold 确实可以增加阈值。但这里其实没有具体看一下False Positive 的情况，即是被 reject 的 token 中事实上有多少是能被 target model accept的。
+
+Figure 6 是针对前面提到的那个 over confidence 的问题，评估校准策略的效果：
+![[IMG-20260706154240615.png]]
+校准后的结果明显与实际情况更接近。
+## Online Evaluation
+主要是 DSpark 在实际 Deepseek V4 部署中的表现。
+### Configuration
+* Parallel Drafter: 3 MOE Layers，SWA (128 window size)
+* draft_length = 5
+* Markov Head

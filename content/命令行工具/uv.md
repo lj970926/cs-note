@@ -24,8 +24,12 @@ source .venv/bin/activate #激活环境，只有这一步之后才能正常使�
 ```
 * 也可以指定 Python 版本创建：
 ```bash
-uv venv --python 3.11   # 没装的话 uv 会自动下载该版本
+uv venv --python 3.12   # 没装的话 uv 会自动下载该版本
+uv venv --python 3.12 --managed-python  # 显式声明由 uv 管理 Python 版本
 ```
+> `--managed-python`：允许 uv 自动下载并管理指定版本的 Python，无需用户预先安装。当 `--python` 指定的版本未安装时，uv 会直接下载。
+
+> `--seed`：在虚拟环境中额外安装 pip 和 setuptools。默认 `uv venv` 创建的虚拟环境不包含 pip（改用 `uv pip` 命令操作），加上此 flag 后可以在 venv 中直接使用 `pip`。
 
 # 包管理（兼容 pip）
 `uv pip` 是 pip 的 drop-in 替换，命令几乎一致，但快很多。它操作的是当前激活的 venv。
