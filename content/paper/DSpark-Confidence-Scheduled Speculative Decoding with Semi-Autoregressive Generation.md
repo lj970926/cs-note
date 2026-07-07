@@ -78,7 +78,7 @@ $$
 $$
 
 上面这个式子本质上是一个关于$l_{1} ,... l_{R}$   的函数，因此现在 Hardware-aware Scheduler 的任务就变成了一个R 个变量的最优化问题。
-DSpark 这里没有真的求解这个目标函数。这里主要是由于对于任意一个请求 r，每个位置的接受概率是单调非增的（$c_{r, k} \le 1$）。这样，就可以采用贪心的策略，每次选择$a_{i, j}$ 最大的 token，代入上面$\Theta$ 的计算公式，直至找到最大的$\Theta$ 。实际上，这里的处理要更加简单，只要发现$\Theta$ 开始下降，就立即终止搜索。（non-anticipating property）
+DSpark 这里没有真的求解这个目标函数。这里主要是由于对于任意一个请求 r，每个位置的接受概率是单调非增的（$c_{r, k} \le 1$）。这样，就可以采用贪心的策略，每次选择$a_{i, j}$ 最大的 token，代入上面$\Theta$ 的计算公式，直至找到最大的$\Theta$ 。实际上，这里的处理要更加简单，只要发现$\Theta$ 开始下降，就立即 early stop终止搜索。（non-anticipating property）
 完整算法如下：
 ![[IMG-20260702112748225.png]]
 # Evaluation
@@ -113,3 +113,35 @@ Figure 6 是针对前面提到的那个 over confidence 的问题，评估校准
 * Parallel Drafter: 3 MOE Layers，SWA (128 window size)
 * draft_length = 5
 * Markov Head
+### Deployment Tradeoff
+
+>[!note]
+>很有道理的一句话：Because speculative decoding inevitably incurs wasted verification compute, it inherently navigates this trade-off, trading extra system compute for faster per-request generation.
+
+DSpark 的实际部署中，对前文的策略做了一些修改。
+1. **Zero-Overhead Scheduling（ZOS）**
+Zero overhead Scheduling(类似 vllm async scheduling)，即将当前step 的 model forward，前一个 step 的后处理，以及下一个 step 的前处理 overlap 起来，互相掩盖开销。这样，对于当前正在前处理的 step，它无法获得前一个 step 的 drafter 输出的 draft token以及对应的 confidence score 等信息。而当前 step 又需要confidence score 结合系统负载情况选择verify 阶段的 batch size。因此，上文所述的算法与 ZOS存在不兼容的问题。
+论文中的处理方式是借助 step - 2的 confidence score，并结合当前 step 的负载来决定当前 step 的 verify capacity $K$ 。然后，在选择进入 verify 阶段的具体 token 时，仍然使用当前 step 的 confidence score（本质上是一个topk操作）。
+此外，由于使用 step - 2 token 计算batch size 的方式能够天然的保证non-anticipating property，实际部署的过程中移除了上面Algorithm 1 中的 early stop策略。
+2. **Variable-length Queries** 
+目前主流的开源推理框架，如 vllm、sglang等，在 Decode阶段对于当前 batch 中的所有请求，都使用相同的 verify length。然而，如上文所述，DSpark选择 verfify token 时，主要的依据是 confidence score，因此会出现不同的请求有不同的 query length。这给当前推理框架的适配带来了比较大的挑战。文章里特别提到的是 Decode 阶段的 attn kernel 在这种情况下出现了比较大的性能劣化，因此做了一些性能优化（不过没太具体展开讲）。
+### Result
+这里主要的对比对象是 DeepSeek 自己之前部署的那套 MTP-1 的方案，所以自然提升巨大。
+![[IMG-20260707175518698.png]]
+Figure 7 是实际部署中采集到的 TPS 和吞吐的scatter plot 以及拟合的曲线。这里对 Flash，主要对比的是 80 TPS (12.5ms TPOT)和120TPS (8.33ms TPOT)两个 SLA 档位；对 Pro 模型，主要对比的是35TPS(28.6ms TPOT) 以及50TPS(20ms TPOT)。可以看到，**DSpark 在一些 TPOT 要求较低的场合具有更大的性能收益**。具体数据如图。这主要来自 DSpark更大的 draft len.
+>[!note]
+>高负载下，由于Hardware-Aware Scheduler 选择的verify capacity 也不断降低，所以这时候 draft len 更长的收益也会减小。极端情况下，甚至不开 MTP 才有最优的性能。这时候DSpark 的优势就不太好发挥了
+
+
+
+
+
+
+![[IMG-20260707180350902.png]]
+Figure 8是固定 max concurrency requests 的数据，这里主要是两点：
+* 各个并发下,DSpark 相较 MTP1 有显著的性能提升
+*  随着并发的增长，Hardware-Aware Scheduler 不断降低 verify capacity
+# Limitations
+文章里提到的主要就是任何情况下，Parallel Drafter 都要生成$\gamma$ 个 draft token，对于像聊天这种接受率天然就比较低的场景，可能有算力的浪费。文章提出后续可以设计一种 difficulty-aware 的 early stop 的机制，根据不同的请求类型选择不同的 draft len。 
+
+
