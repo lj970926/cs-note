@@ -27,6 +27,54 @@ function hashContent(content: string | Buffer): string {
   return createHash("sha256").update(content).digest("hex").slice(0, 8)
 }
 
+function patchMermaidInlineScript(script: string): string {
+  if (
+    !script.includes("code.mermaid") ||
+    !script.includes("mermaid.esm.min.mjs") ||
+    !script.includes("data-processed")
+  ) {
+    return script
+  }
+
+  let patched = script
+
+  patched = patched.replace(
+    "let mermaidImport = undefined;\nasync function renderMermaidDiagrams() {",
+    "let mermaidImport = undefined;\nconst mermaidSource = new WeakMap<HTMLElement, string>();\nasync function renderMermaidDiagrams() {",
+  )
+  patched = patched.replace(
+    `  const textMapping: WeakMap<HTMLElement, string> = new WeakMap();
+  for (const node of nodes) {
+    textMapping.set(node, node.innerText);
+  }`,
+    `  for (const node of nodes) {
+    if (!mermaidSource.has(node) && node.getAttribute("data-processed") !== "true") {
+      mermaidSource.set(node, node.innerText);
+    }
+  }`,
+  )
+  patched = patched.replace(
+    "const oldText = textMapping.get(node);",
+    "const oldText = mermaidSource.get(node);",
+  )
+  patched = patched.replace(`document.addEventListener("render", renderMermaidDiagrams);\n`, "")
+
+  patched = patched.replace(
+    'H=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],L;async function M()',
+    'H=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],L,S=new WeakMap;async function M()',
+  )
+  patched = patched.replace(
+    'let t=L.default,n=new WeakMap;for(let r of e)n.set(r,r.innerText);async function o(){for(let i of e){i.removeAttribute("data-processed");let d=n.get(i);',
+    'let t=L.default;for(let r of e)!S.has(r)&&r.getAttribute("data-processed")!=="true"&&S.set(r,r.innerText);async function o(){for(let i of e){i.removeAttribute("data-processed");let d=S.get(i);',
+  )
+  patched = patched.replace(',document.addEventListener("render",M)', "")
+  patched = patched.replace(',document.addEventListener("render",v)', "")
+  patched = patched.replace('document.addEventListener("render",M);', "")
+  patched = patched.replace('document.addEventListener("render",v);', "")
+
+  return patched
+}
+
 type ComponentResources = {
   css: string[]
   beforeDOMLoaded: string[]
@@ -468,7 +516,8 @@ export const ComponentResources: QuartzEmitterPlugin = () => {
       for (const jsResource of resources.js) {
         if (jsResource.contentType !== "inline") continue
 
-        const minified = await joinScripts([jsResource.script])
+        const script = patchMermaidInlineScript(jsResource.script)
+        const minified = await joinScripts([script])
         const hash = hashContent(minified)
         const loadTimePrefix = jsResource.loadTime === "beforeDOMReady" ? "before" : "after"
         const slug = `static/resource-${loadTimePrefix}-${hash}`

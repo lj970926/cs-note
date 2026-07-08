@@ -369,12 +369,12 @@ mindmap
 ```mermaid
 quadrantChart
     title 技术选型评估
-    x-axis 学习成本低 --> 学习成本高
-    y-axis 功能少 --> 功能多
-    quadrant-1 理想选择
-    quadrant-2 需要投入
-    quadrant-3 不推荐
-    quadrant-4 轻量替代
+    x-axis "学习成本低" --> "学习成本高"
+    y-axis "功能少" --> "功能多"
+    quadrant-1 "理想选择"
+    quadrant-2 "需要投入"
+    quadrant-3 "不推荐"
+    quadrant-4 "轻量替代"
     React: [0.7, 0.8]
     Vue: [0.4, 0.6]
     Svelte: [0.3, 0.5]

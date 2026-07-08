@@ -51,7 +51,6 @@ classDiagram
   %% =========================
 
   class KVCacheCoordinator {
-    <<abstract>>
     +KVCacheConfig kv_cache_config
     +BlockPool block_pool
     +single_type_managers
@@ -59,7 +58,7 @@ classDiagram
     +cache_blocks()
     +free()
     +remove_skipped_blocks()
-    +find_longest_cache_hit()*
+    +find_longest_cache_hit()
   }
 
   class KVCacheCoordinatorNoPrefixCache {
@@ -93,7 +92,6 @@ classDiagram
   %% =========================
 
   class SingleTypeKVCacheManager {
-    <<abstract>>
     +KVCacheSpec kv_cache_spec
     +BlockPool block_pool
     +req_to_blocks
@@ -104,7 +102,7 @@ classDiagram
     +cache_blocks()
     +free()
     +remove_skipped_blocks()
-    +find_longest_cache_hit()*
+    +find_longest_cache_hit()
   }
 
   class FullAttentionManager {
@@ -218,7 +216,6 @@ classDiagram
   }
 
   class KVCacheSpec {
-    <<abstract>>
     +block_size
     +page_size_bytes
     +max_memory_usage_bytes()
@@ -252,8 +249,7 @@ classDiagram
     +state_size
   }
 
-  class CrossAttentionSpec {
-  }
+  class CrossAttentionSpec
 
   class UniformTypeKVCacheSpecs {
     +kv_cache_specs
@@ -288,22 +284,18 @@ classDiagram
     +create_connector()
   }
 
-  class KVConnectorBase_V1 {
-    <<abstract>>
-  }
+  class KVConnectorBase_V1
 
   class SupportsHMA {
-    <<interface>>
     +request_finished_all_groups(request, block_ids)
   }
 
   class HMACapableConnector {
-    <<example>>
-    DecodeBenchConnector
-    MultiConnector
-    OffloadingConnector
-    NixlConnector
-    MooncakeConnector
+    +DecodeBenchConnector
+    +MultiConnector
+    +OffloadingConnector
+    +NixlConnector
+    +MooncakeConnector
   }
 
   VllmConfig --> SchedulerConfig : sets HMA policy
@@ -311,7 +303,7 @@ classDiagram
   KVConnectorFactory ..> SchedulerConfig : checks HMA enabled
   KVConnectorFactory ..> SupportsHMA : requires when HMA enabled
   KVConnectorBase_V1 <|-- HMACapableConnector
-  SupportsHMA <|.. HMACapableConnector
+  HMACapableConnector --> SupportsHMA : implements
 
 ```
 ## KVCacheSpec
@@ -409,73 +401,67 @@ classDiagram
     
     %% 基类和接口
     class PluggableLayer {
-        <<abstract>>
         +register(name) decorator
         +register_oot() decorator
     }
     
     class CustomOp {
-        <<abstract>>
-        +name: str
-        +forward(*args, **kwargs)
-        +forward_native(*args, **kwargs)
-        +forward_cuda(*args, **kwargs)
-        +forward_xpu(*args, **kwargs)
+        +name
+        +forward(args, kwargs)
+        +forward_native(args, kwargs)
+        +forward_cuda(args, kwargs)
+        +forward_xpu(args, kwargs)
         +enabled() bool
         +register(name) decorator
         +register_oot() decorator
     }
     
-    class QuantizeMethodBase {
-        <<abstract>>
-    }
+    class QuantizeMethodBase
     
     %% FusedMoEMethodBase 层次
     class FusedMoEMethodBase {
-        <<abstract>>
-        +moe: FusedMoEConfig
-        +moe_quant_config: FusedMoEQuantConfig | None
-        +moe_kernel: FusedMoEKernel | None
-        +supports_eplb: bool
-        +method_name: str
-        +is_monolithic: bool
-        +create_weights(layer, num_experts, ...)
+        +moe
+        +moe_quant_config
+        +moe_kernel
+        +supports_eplb
+        +method_name
+        +is_monolithic
+        +create_weights(layer, num_experts, rest)
         +get_fused_moe_quant_config(layer)
         +apply(layer, x, topk_weights, topk_ids, shared_experts_input)
-        +apply_monolithic(layer, x, router_logits, ...)
+        +apply_monolithic(layer, x, router_logits, rest)
         +select_gemm_impl(prepare_finalize, layer)
     }
     
     class FusedMoEModularMethod {
         +moe_quant_config
-        +moe_kernel: FusedMoEKernel
-        +disable_expert_map: bool
-        +old_quant_method: FusedMoEMethodBase
+        +moe_kernel
+        +disable_expert_map
+        +old_quant_method
         +make(moe_layer, old_quant_method, prepare_finalize, shared_experts)
         +apply(layer, x, topk_weights, topk_ids, shared_experts_input)
     }
     
     %% MoERunner 层次
     class MoERunnerInterface {
-        <<abstract>>
-        +forward(hidden_states, router_logits, input_ids) torch.Tensor
+        +forward(hidden_states, router_logits, input_ids)
         +is_internal_router() bool
-        +shared_experts: SharedExperts | None
+        +shared_experts
         +_replace_quant_method(quant_method)
     }
     
     class MoERunner {
-        +moe_config: FusedMoEConfig
-        +router: FusedMoERouter
-        +gate: torch.nn.Module | None
-        +routed_input_transform: torch.nn.Module | None
-        +routed_output_transform: torch.nn.Module | None
-        +routed_scaling_factor: float
-        +layer_name: str
-        +enable_dbo: bool
+        +moe_config
+        +router
+        +gate
+        +routed_input_transform
+        +routed_output_transform
+        +routed_scaling_factor
+        +layer_name
+        +enable_dbo
         +forward(hidden_states, router_logits, input_ids)
-        +_forward_impl(layer, hidden_states, router_logits, ...)
-        +_apply_quant_method(layer, hidden_states, router_logits, ...)
+        +_forward_impl(layer, hidden_states, router_logits, rest)
+        +_apply_quant_method(layer, hidden_states, router_logits, rest)
         +apply_routed_input_transform(hidden_states)
         +apply_routed_output_transform(fused_output)
         +_maybe_dispatch(layer, hidden_states, router_logits)
@@ -484,15 +470,13 @@ classDiagram
     
     %% Router
     class FusedMoERouter {
-        <<abstract>>
-        +routing_method_type: RoutingMethodType
-        +select_experts(hidden_states, router_logits, input_ids) tuple[topk_weights, topk_ids]
+        +routing_method_type
+        +select_experts(hidden_states, router_logits, input_ids)
         +set_capture_fn(capture_fn)
     }
     
     %% Modular Kernel 相关类
     class FusedMoEPrepareAndFinalize {
-        <<abstract>>
         +activation_format
         +topk_indices_dtype()
         +max_num_tokens_per_rank()
@@ -503,79 +487,71 @@ classDiagram
     }
     
     class FusedMoEPrepareAndFinalizeModular {
-        <<abstract>>
-        +prepare(a1, topk_weights, topk_ids, ...) PrepareResultType
-        +prepare_async(...)
-        +finalize(output, fused_expert_output, ...)
+        +prepare(a1, topk_weights, topk_ids, rest)
+        +prepare_async(rest)
+        +finalize(output, fused_expert_output, rest)
     }
     
     class FusedMoEPrepareAndFinalizeMonolithic {
-        <<abstract>>
-        +prepare(a1, router_logits, ...) PrepareMonolithicResultType
+        +prepare(a1, router_logits, rest)
         +finalize(fused_expert_output)
     }
     
     class FusedMoEExperts {
-        <<abstract>>
-        +moe_config: FusedMoEConfig
-        +quant_config: FusedMoEQuantConfig
-        +max_num_tokens: int | None
-        +num_dispatchers: int | None
+        +moe_config
+        +quant_config
+        +max_num_tokens
+        +num_dispatchers
         +activation_format() FusedMoEActivationFormat
         +is_monolithic() bool
         +supports_expert_map() bool
-        +is_supported_config(cls, moe_config, ...) bool
+        +is_supported_config(cls, moe_config, rest) bool
     }
     
     class FusedMoEExpertsModular {
-        <<abstract>>
-        +apply(output, hidden_states, w1, w2, ...)
-        +workspace_shapes(M, N, K, topk, ...)
+        +apply(output, hidden_states, w1, w2, rest)
+        +workspace_shapes(M, N, K, topk, rest)
         +finalize_weight_and_reduce_impl() TopKWeightAndReduce
         +moe_problem_size(a1, w1, w2, topk_ids)
     }
     
     class FusedMoEExpertsMonolithic {
-        <<abstract>>
-        +apply(hidden_states, w1, w2, router_logits, ...)
+        +apply(hidden_states, w1, w2, router_logits, rest)
     }
     
     class FusedMoEKernel {
-        +prepare_finalize: FusedMoEPrepareAndFinalizeModular
-        +fused_experts: FusedMoEExpertsModular
-        +shared_experts: SharedExperts | None
-        +inplace: bool
-        +owns_shared_experts: bool
-        +is_monolithic: bool
+        +prepare_finalize
+        +fused_experts
+        +shared_experts
+        +inplace
+        +owns_shared_experts
+        +is_monolithic
         +output_is_reduced() bool
-        +apply(hidden_states, w1, w2, topk_weights, topk_ids, ...)
+        +apply(hidden_states, w1, w2, topk_weights, topk_ids, rest)
     }
     
     class SharedExperts {
-        +_layer: torch.nn.Module
-        +_moe_config: FusedMoEConfig
-        +_quant_method: FusedMoEMethodBase
+        +_layer
+        +_moe_config
+        +_quant_method
         +_stream
-        +enable_dbo: bool
-        +output: torch.Tensor | None
+        +enable_dbo
+        +output
         +run(hidden_states)
         +apply(hidden_states, order)
         +maybe_sync_shared_experts_stream(hidden_states)
     }
     
     class TopKWeightAndReduce {
-        <<abstract>>
-        +apply(output, fused_expert_output, topk_weights, topk_ids, ...)
+        +apply(output, fused_expert_output, topk_weights, topk_ids, rest)
     }
     
     class FusedMoEActivationFormat {
-        <<enumeration>>
         Standard
         BatchedExperts
     }
     
     class SharedExpertsOrder {
-        <<enumeration>>
         NONE
         NO_OVERLAP
         MK_INTERNAL_OVERLAPPED
@@ -584,18 +560,21 @@ classDiagram
     
     %% FusedMoE Layer
     class FusedMoE {
-        <<PluggableLayer>>
         +w13_weight
         +w2_weight
-        +activation: MoEActivation
-        +global_num_experts: int
+        +activation
+        +global_num_experts
         +expert_map
-        +apply_router_weight_on_input: bool
-        +runner: MoERunner
-        +quant_method: FusedMoEMethodBase
-        +shared_experts: SharedExperts | None
+        +apply_router_weight_on_input
+        +runner
+        +quant_method
+        +shared_experts
         +forward(hidden_states)
         +ensure_moe_quant_config_init()
+    }
+
+    class TorchNNModule {
+        +module
     }
     
     %% 继承关系
@@ -620,7 +599,7 @@ classDiagram
     MoERunner *-- FusedMoERouter : router
     MoERunner o-- SharedExperts : _shared_experts
     MoERunner --> FusedMoEMethodBase : _quant_method
-    MoERunner o-- torch.nn.Module : gate, routed_input_transform, routed_output_transform
+    MoERunner o-- TorchNNModule : gate, routed_input_transform, routed_output_transform
     
     FusedMoEModularMethod *-- FusedMoEKernel : moe_kernel
     FusedMoEModularMethod o-- FusedMoEMethodBase : old_quant_method
@@ -643,6 +622,8 @@ def use_all2all_kernels(self):
         return self.dp_size > 1 and self.use_ep
 ```
 * use_all2all_kernels：只有 dp_size > 1 且开启 EP，才需要 all_to_all
+# Spec Decode流程
+
 # 一些triton算子
 ## eagle_prepare_next_token_padded_kernel
 * Spec Decode 前处理算子，在`prepare_next_token_ids_padded` 里
