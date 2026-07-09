@@ -691,6 +691,10 @@ def eagle_prepare_next_token_padded_kernel(
         tl.store(valid_sampled_tokens_count_ptr + req_idx, valid_count)
 ```
 
+# Speculative Decode 流程
+![[Drawing 2026-07-02 16.07.58.excalidraw]]
+
+
 ## Related
 - [[vLLM 监控：使用 Binary 部署 Prometheus + Grafana]]
 - [[SGLang Efficient Execution of Structured Language Model Programs]]
