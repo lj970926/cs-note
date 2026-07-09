@@ -29,7 +29,7 @@ DSpark 采用了一些手段来解决上述问题
 # Architecture
 ![[IMG-20260630145118180.png]]
  核心 Contribution 主要是两大块：
- * Semi-Autoregressive Generation：对 DFlash 等完全 parallel 的 drafter 的改进，在原有parallel block 的基础上添加了一个轻量的 sequential head 以捕获 inter-token dependency。目的是希望融合两种 drafter 的优势，在保持$T_{draft}$ 近似 draft_len 无法的情况下提升模型能力。
+ * Semi-Autoregressive Generation：对 DFlash 等完全 parallel 的 drafter 的改进，在原有parallel block 的基础上添加了一个轻量的 sequential head 以捕获 inter-token dependency。目的是希望融合两种 drafter 的优势，在保持$T_{draft}$ 近似 draft_len 无关的情况下提升模型能力。
  * Confidence-Scheduled Verification：本质是一个 Early Rejection 的机制。添加了一个 Hardware-Aware Prefix Scheduler 来预估不同 token 被接受的概率，并根据实际的硬件负载情况决定哪些token 要参与 draft。目的是缓解高负载下由于 reject token 带来的性能损失
 ## Semi-Autoregressive Generation
  Figure 1 里的结构 2，Parallel Block 部分直接用了 DFlash 的实现，唯一的区别是原版 DFlash 的 anchor token 不参与 draft logits的生成，但是 DSpark的 anchor token 也负责一个 draft logits 的生成，这样，DSpark 一共只需要$\gamma - 1$ 个mask token 输入。
