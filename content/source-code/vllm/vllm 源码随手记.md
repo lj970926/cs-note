@@ -694,6 +694,82 @@ def eagle_prepare_next_token_padded_kernel(
 # Speculative Decode 流程
 ![[Drawing 2026-07-02 16.07.58.excalidraw]]
 
+# Kernel block size
+* Kernel 使用的 Block size。
+* 选择逻辑由两部分控制：KVCacheSpec 里的 Block size，以及 Attn Backend 的 supported block size。
+* 具体逻辑：对于 KVCacheSpec 里的 block size，如果所有 Attn Backend 均支持，那就用这个（case 1）；否则，从 Attn Backend 中选择一个所有 Backend 均支持，且 `block_size % supported_block_size == 0` 的，作为 kernel block size。
+```python
+def select_common_block_size(
+    kv_manager_block_size: int,
+    backends: list[type[AttentionBackend]],
+) -> int:
+    """
+    Select a block size that is supported by all backends and is a factor of
+    kv_manager_block_size.
+
+    If kv_manager_block_size is supported by all backends, return it directly.
+    Otherwise, return the max supported size.
+
+    Args:
+        kv_manager_block_size: Block size of KV cache.
+        backends: List of attention backend classes.
+
+    Returns:
+        The selected block size.
+
+    Raises:
+        ValueError: If no valid block size found.
+    """
+
+    def block_size_is_supported(
+        backends: list[type[AttentionBackend]], block_size: int
+    ) -> bool:
+        """Check if the block size is supported by all backends."""
+        for backend in backends:
+            is_supported = False
+            for supported_size in backend.get_supported_kernel_block_sizes():
+                if isinstance(supported_size, int):
+	                # int size的逻辑是精确匹配
+                    if block_size == supported_size:
+                        is_supported = True
+                elif isinstance(supported_size, MultipleOf):
+	                # MulltipleOf 的逻辑是mod == 0
+                    if block_size % supported_size.base == 0:
+                        is_supported = True
+                else:
+                    raise ValueError(f"Unknown supported size: {supported_size}")
+            if not is_supported:
+                return False
+        return True
+
+    # Case 1: if the block_size of kv cache manager is supported by all backends,
+    # return it directly.
+    if block_size_is_supported(backends, kv_manager_block_size):
+        return kv_manager_block_size
+
+    # Case 2: otherwise, the block_size must be an `int`-format supported size of
+    # at least one backend. Iterate over all `int`-format supported sizes in
+    # descending order and return the first one that is supported by all backends.
+    # Simple proof:
+    # If the supported size b is in MultipleOf(x_i) format for all attention
+    # backends i, and b a factor of kv_manager_block_size, then
+    # kv_manager_block_size also satisfies MultipleOf(x_i) for all i. We will
+    # return kv_manager_block_size in case 1.
+    # 这里只检查 int 是因为如果 kv_mananger_block_size %MultipleOf == 0，那么 case1 就应该命中了。
+    all_int_supported_sizes = set(
+        supported_size
+        for backend in backends
+        for supported_size in backend.get_supported_kernel_block_sizes()
+        if isinstance(supported_size, int)
+    )
+
+    for supported_size in sorted(all_int_supported_sizes, reverse=True):
+        if kv_manager_block_size % supported_size != 0:
+            continue
+        if block_size_is_supported(backends, supported_size):
+            return supported_size
+    raise ValueError(f"No common block size for {kv_manager_block_size}. ")
+```
 
 ## Related
 - [[vLLM 监控：使用 Binary 部署 Prometheus + Grafana]]
