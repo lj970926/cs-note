@@ -771,6 +771,46 @@ def select_common_block_size(
     raise ValueError(f"No common block size for {kv_manager_block_size}. ")
 ```
 
+这里得到的 kernel_block_size 后面会被 MetaDataBuilder 使用：
+```python
+@dataclass
+class AttentionGroup:
+    backend: type[AttentionBackend]
+    layer_names: list[str]
+    kv_cache_spec: KVCacheSpec
+    kv_cache_group_id: int
+    # When ubatching is enabled we will have a metadata builder for each ubatch
+    # so that if they use internal persistent buffers for cudagraphs, and they
+    # won't have to worry about conflicting with the other ubatches.
+    metadata_builders: list[AttentionMetadataBuilder] = field(
+        default_factory=lambda: []
+    )
+
+    def create_metadata_builders(
+        self,
+        vllm_config,
+        device,
+        kernel_block_size: int | None = None,
+        num_metadata_builders: int = 1,
+    ):
+        kv_cache_spec_builder = (
+            self.kv_cache_spec.copy_with_new_block_size(kernel_block_size)
+            if kernel_block_size is not None
+            else self.kv_cache_spec
+        )
+        self.metadata_builders = [
+            self.backend.get_builder_cls()(
+                kv_cache_spec_builder,
+                self.layer_names,
+                vllm_config,
+                device,
+            )
+            for _ in range(num_metadata_builders)
+        ]
+```
+
+MetaDataBuilder 负责后续构建 AttnMeta 的工作，也就决定了后续 attn kernel 使用的 block_size
+
 ## Related
 - [[vLLM 监控：使用 Binary 部署 Prometheus + Grafana]]
 - [[SGLang Efficient Execution of Structured Language Model Programs]]
