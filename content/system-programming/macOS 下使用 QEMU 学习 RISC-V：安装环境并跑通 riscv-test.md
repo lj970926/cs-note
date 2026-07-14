@@ -1,6 +1,6 @@
 ---
-title: "macOS 下使用 QEMU 学习 RISC-V：安装环境并跑通 riscv-test"
-description: "在 macOS 上搭建 RISC-V 学习环境的完整教程，包括安装 QEMU、RISC-V 工具链，编写裸机程序，并使用 QEMU 运行和调试"
+title: macOS 下使用 QEMU 学习 RISC-V：安装环境并跑通 riscv-test
+description: 在 macOS 上搭建 RISC-V 学习环境的完整教程，包括安装 QEMU、RISC-V 工具链，编写裸机程序，并使用 QEMU 运行和调试
 date: 2026-07-14
 tags:
   - RISC-V
@@ -12,10 +12,9 @@ tags:
   - 裸机编程
   - 工具链
 aliases:
-  - "RISC-V 环境搭建"
-  - "QEMU RISC-V 教程"
-  - "RISC-V 裸机程序"
-status: in-progress
+  - RISC-V 环境搭建
+  - QEMU RISC-V 教程
+  - RISC-V 裸机程序
 ---
 
 ## 目标
