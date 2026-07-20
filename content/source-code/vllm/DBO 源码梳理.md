@@ -42,11 +42,11 @@ vllm serve deepseek-ai/DeepSeek-V2-Lite \
 
 ### 配置来源
 
-- `[parallel.py:208-222](vllm/config/parallel.py#L208-L222)`：`enable_dbo`、`dbo_decode_token_threshold`、`dbo_prefill_token_threshold`、`ubatch_size`
-- `[parallel.py:522-528](vllm/config/parallel.py#L522-L528)`：`use_ubatching` / `num_ubatches` 属性，`enable_dbo` 时固定为 2
-- `[arg_utils.py:492-495, 1097-1111, 2067-2070](vllm/engine/arg_utils.py#L492-L495)`：CLI 到 `ParallelConfig` 的映射
-- `[envs.py:246, 1760-1771](vllm/envs.py#L246)`：`VLLM_DBO_COMM_SMS`（默认 20 SM 给通信，其余给计算）
-- `[platforms/cpu.py:155-158](vllm/platforms/cpu.py#L155-L158)`：CPU 平台强制关闭 DBO
+- [parallel.py:208-222](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/config/parallel.py#L208-L222)：`enable_dbo`、`dbo_decode_token_threshold`、`dbo_prefill_token_threshold`、`ubatch_size`
+- [parallel.py:522-528](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/config/parallel.py#L522-L528)：`use_ubatching` / `num_ubatches` 属性，`enable_dbo` 时固定为 2
+- [arg_utils.py:492-495, 1097-1111, 2067-2070](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/engine/arg_utils.py#L492-L495)：CLI 到 `ParallelConfig` 的映射
+- [envs.py:246, 1760-1771](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/envs.py#L246)：`VLLM_DBO_COMM_SMS`（默认 20 SM 给通信，其余给计算）
+- [platforms/cpu.py:155-158](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/platforms/cpu.py#L155-L158)：CPU 平台强制关闭 DBO
 
 ## 2. 架构总览
 
@@ -67,34 +67,34 @@ graph TD
 
 1. **配置阶段**
    - CLI 参数进入 `ParallelConfig`，`use_ubatching` 为真、`num_ubatches = 2`。
-   - `[gpu_worker.py:351-352](vllm/v1/worker/gpu_worker.py#L351-L352)` 初始化 2 个 ubatch 的 workspace slot。
+   - [gpu_worker.py:351-352](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_worker.py#L351-L352) 初始化 2 个 ubatch 的 workspace slot。
 
 2. **每 step 决策**
-   - `[gpu_model_runner.py:3896](vllm/v1/worker/gpu_model_runner.py#L3896)` 调用 `[coordinate_batch_across_dp()](vllm/v1/worker/dp_utils.py#L164-L225)`。
+   - [gpu_model_runner.py:3896](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py#L3896) 调用 [coordinate_batch_across_dp()](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/dp_utils.py#L164-L225)。
    - `coordinate_batch_across_dp` 检查阈值，并通过 `dist.all_reduce` 让所有 DP rank 就 "是否 microbatch" 达成一致。
    - 如果启用 microbatch，会把各 rank 的 token 数 padding 到全局最大值；若某个 rank 的第二个 ubatch 为空，则整体放弃 microbatch。
 
 3. **构造 ubatch_slices**
-   - `[gpu_model_runner.py:2501](vllm/v1/worker/gpu_model_runner.py#L2501)` 调用 `[maybe_create_ubatch_slices()](vllm/v1/worker/ubatch_utils.py#L63-L114)` 得到 `UBatchSlice` 列表。
-   - 调用 `[split_attn_metadata()](vllm/v1/worker/ubatch_utils.py#L251-L265)` 把 `CommonAttentionMetadata` 按 request/token 边界切成两份。
+   - [gpu_model_runner.py:2501](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py#L2501) 调用 [maybe_create_ubatch_slices()](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatch_utils.py#L63-L114) 得到 `UBatchSlice` 列表。
+   - 调用 [split_attn_metadata()](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatch_utils.py#L251-L265) 把 `CommonAttentionMetadata` 按 request/token 边界切成两份。
    - 注意：若请求跨 ubatch 边界，需要调整 `query_start_loc`、`seq_lens` 等字段。
 
 4. **进入 UBatchWrapper**
-   - `ForwardContext.ubatch_slices` 被传入，模型在 `[UBatchWrapper.__call__](vllm/v1/worker/gpu_ubatch_wrapper.py#L431-L527)` 中判断启用 DBO。
+   - `ForwardContext.ubatch_slices` 被传入，模型在 [UBatchWrapper.__call__](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_ubatch_wrapper.py#L431-L527) 中判断启用 DBO。
    - 首次遇到该 `num_tokens` 且 `CUDAGraphMode.FULL` 时走 `_capture_ubatches()`；否则若已有 graph 则直接 `replay()`；否则走 eager `_run_ubatches()`。
 
 5. **线程同步**
-   - `[make_ubatch_contexts()](vllm/v1/worker/ubatching.py#L202-L241)` 创建 2 个 `UBatchContext`。
+   - [make_ubatch_contexts()](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatching.py#L202-L241) 创建 2 个 `UBatchContext`。
    - 每个 ubatch 线程在 `__enter__` 中等待 `ready_barrier`，然后进入 `cpu_wait_event` 睡眠；主线程唤醒 ubatch0 后开始执行。
    - `dbo_yield()` 让当前线程把 CPU 执行权交给另一个线程，并保证任何时候只有一个线程在 CPU 上推进。
 
 6. **MoE 层重叠**
-   - `[FusedMoEModularKernel.forward](vllm/model_executor/layers/fused_moe/modular_kernel.py#L1134-L1203)` 在 `prepare_async` 前后调用 `dbo_maybe_run_recv_hook()` / `dbo_register_recv_hook(hook)` / `dbo_yield()`。
-   - `[FusedMoEModularKernel._finalize](vllm/model_executor/layers/fused_moe/modular_kernel.py#L1320-L1352)` 在 `finalize_async` 前后做同样的事。
-   - DeepEP HT 后端在 `[deepep_ht.py](vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py)` 里通过 `dbo_switch_to_compute_sync()`、`dbo_switch_to_compute()`、`dbo_switch_to_comm()` 显式切换 stream。
+   - [FusedMoEModularKernel.forward](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/modular_kernel.py#L1134-L1203) 在 `prepare_async` 前后调用 `dbo_maybe_run_recv_hook()` / `dbo_register_recv_hook(hook)` / `dbo_yield()`。
+   - [FusedMoEModularKernel._finalize](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/modular_kernel.py#L1320-L1352) 在 `finalize_async` 前后做同样的事。
+   - DeepEP HT 后端在 [deepep_ht.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py) 里通过 `dbo_switch_to_compute_sync()`、`dbo_switch_to_compute()`、`dbo_switch_to_comm()` 显式切换 stream。
 
 7. **输出拼接**
-   - `[UBatchWrapper._run_ubatches()](vllm/v1/worker/gpu_ubatch_wrapper.py#L295-L331)` 把两个 ubatch 的输出按 batch 维度 `[torch.cat](vllm/v1/worker/gpu_ubatch_wrapper.py#L46-L48)` 起来。
+   - [UBatchWrapper._run_ubatches()](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_ubatch_wrapper.py#L295-L331) 把两个 ubatch 的输出按 batch 维度 [torch.cat](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_ubatch_wrapper.py#L46-L48) 起来。
 
 ### 3.1 每 step 决策流程
 
@@ -117,12 +117,12 @@ graph TD
 
 ### 4.1 GPUModelRunner — 决策与切分
 
-- `[gpu_model_runner.py:4146-4148](vllm/v1/worker/gpu_model_runner.py#L4146-L4148)`：启用 microbatch 时关闭 cascade attention。
-- `[gpu_model_runner.py:487-488](vllm/v1/worker/gpu_model_runner.py#L487-L488)`、`[2501](vllm/v1/worker/gpu_model_runner.py#L2501)`：调用 `maybe_create_ubatch_slices` / `split_attn_metadata`。
+- [gpu_model_runner.py:4146-4148](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py#L4146-L4148)：启用 microbatch 时关闭 cascade attention。
+- [gpu_model_runner.py:487-488](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py#L487-L488)、[2501](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py#L2501)：调用 `maybe_create_ubatch_slices` / `split_attn_metadata`。
 
 ### 4.2 UBatchWrapper — 线程 + CUDA Graph 管理
 
-文件：`[vllm/v1/worker/gpu_ubatch_wrapper.py](vllm/v1/worker/gpu_ubatch_wrapper.py)`
+文件：[vllm/v1/worker/gpu_ubatch_wrapper.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_ubatch_wrapper.py)
 
 - `SMControlContextManager`：通过 `VLLM_DBO_COMM_SMS` 限制通信 kernel 占用的 SM 数，把剩余 SM 给 DeepGEMM 等计算 kernel。
 - `_capture_ubatches()`：在 graph capture 期间启动两个线程跑完模型，主线程捕获一个完整 CUDA graph；replay 时无需多线程/CPU 同步。
@@ -141,7 +141,7 @@ graph TD
 
 ### 4.3 UBatchContext — 线程同步原语
 
-文件：`[vllm/v1/worker/ubatching.py](vllm/v1/worker/ubatching.py)`
+文件：[vllm/v1/worker/ubatching.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatching.py)
 
 | 接口 | 作用 |
 |------|------|
@@ -171,7 +171,7 @@ graph LR
 
 ### 4.4 ubatch_utils — 切片工具
 
-文件：`[vllm/v1/worker/ubatch_utils.py](vllm/v1/worker/ubatch_utils.py)`
+文件：[vllm/v1/worker/ubatch_utils.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatch_utils.py)
 
 - `UBatchSlice`：一个 request slice + 一个 token slice。
 - `check_ubatch_thresholds()`：按 decode/prefill 判断 token 数是否超过阈值。
@@ -180,7 +180,7 @@ graph LR
 
 ### 4.5 dp_utils — 跨 DP rank 协商
 
-文件：`[vllm/v1/worker/dp_utils.py](vllm/v1/worker/dp_utils.py)`
+文件：[vllm/v1/worker/dp_utils.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/dp_utils.py)
 
 - `_run_ar()`：用 `dist.all_reduce` 同步 4 维信息：`orig_num_tokens`、`padded_num_tokens`、`should_ubatch`、`cudagraph_mode`。
 - `_post_process_ubatch()`：所有 rank 都同意才启用 microbatch，并检查第二个 ubatch 是否为空。
@@ -189,7 +189,7 @@ graph LR
 
 ### 4.6 MoE 层 yield 点
 
-文件：`[vllm/model_executor/layers/fused_moe/modular_kernel.py](vllm/model_executor/layers/fused_moe/modular_kernel.py)`
+文件：[vllm/model_executor/layers/fused_moe/modular_kernel.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/modular_kernel.py)
 
 ```text
 prepare_async 前:  dbo_maybe_run_recv_hook()      # 处理上一个 ubatch 的 combine recv
@@ -232,7 +232,7 @@ sequenceDiagram
 
 ### 4.7 DeepEP HT 调度实现
 
-文件：`[vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py](vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py)`
+文件：[vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py)
 
 - dispatch 后调用 `dbo_switch_to_compute_sync()`，让当前 ubatch 回到计算 stream 等 dispatch 完成，同时把 CPU 让给另一个 ubatch。
 - combine 前调用 `dbo_yield_and_switch_from_compute_to_comm()`，从计算切换到通信 stream。
@@ -240,7 +240,7 @@ sequenceDiagram
 
 ## 5. 当前重叠调度示例
 
-来自 `[docs/design/dbo.md](docs/design/dbo.md)`：
+来自 [docs/design/dbo.md](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/docs/design/dbo.md)：
 
 ```python
 # Schedule notation legend:
@@ -284,37 +284,37 @@ gantt
 
 ## 6. 不支持的场景
 
-- `[platforms/cpu.py:155-158](vllm/platforms/cpu.py#L155-L158)`：CPU 后端强制关闭 DBO。
-- `[elastic_execute.py:340](vllm/distributed/elastic_ep/elastic_execute.py#L340)`：Elastic EP 暂不支持 DBO。
-- `[extract_hidden_states.py:200-213](vllm/v1/spec_decode/extract_hidden_states.py#L200-L213)`：EAGLE/spec-decode 的 hidden state 提取未实现 DBO。
-- `[llm_base_proposer.py:1673-1685](vllm/v1/spec_decode/llm_base_proposer.py#L1673-L1685)`：EAGLE 不支持 ubatching。
-- `[config/vllm.py:1444, 2051](vllm/config/vllm.py#L1444)`：async scheduling / spec-decode 等特性组合不支持。
-- `[gpu_model_runner.py:4146-4148](vllm/v1/worker/gpu_model_runner.py#L4146-L4148)`：启用 DBO 时关闭 cascade attention。
+- [platforms/cpu.py:155-158](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/platforms/cpu.py#L155-L158)：CPU 后端强制关闭 DBO。
+- [elastic_execute.py:340](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/distributed/elastic_ep/elastic_execute.py#L340)：Elastic EP 暂不支持 DBO。
+- [extract_hidden_states.py:200-213](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/spec_decode/extract_hidden_states.py#L200-L213)：EAGLE/spec-decode 的 hidden state 提取未实现 DBO。
+- [llm_base_proposer.py:1673-1685](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/spec_decode/llm_base_proposer.py#L1673-L1685)：EAGLE 不支持 ubatching。
+- [config/vllm.py:1444, 2051](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/config/vllm.py#L1444)：async scheduling / spec-decode 等特性组合不支持。
+- [gpu_model_runner.py:4146-4148](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py#L4146-L4148)：启用 DBO 时关闭 cascade attention。
 
 ## 7. 测试
 
-- `[tests/v1/distributed/test_dbo.py](tests/v1/distributed/test_dbo.py)`：DP=2 + EP，用 DeepSeek-V2-Lite 在 GSM8K 上做端到端正确性测试。
+- [tests/v1/distributed/test_dbo.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/tests/v1/distributed/test_dbo.py)：DP=2 + EP，用 DeepSeek-V2-Lite 在 GSM8K 上做端到端正确性测试。
 - 只在安装了 DeepEP 时运行，`Blackwell` 平台当前 xfail（精度不稳定）。
 
 ## 8. 参考文件索引
 
 | 文件 | 说明 |
 |------|------|
-| `[docs/design/dbo.md](docs/design/dbo.md)` | 官方设计文档 |
-| `[vllm/config/parallel.py](vllm/config/parallel.py)` | `enable_dbo`、thresholds、`num_ubatches` |
-| `[vllm/engine/arg_utils.py](vllm/engine/arg_utils.py)` | CLI 参数 |
-| `[vllm/forward_context.py](vllm/forward_context.py)` | `ForwardContext.ubatch_slices`、`set_forward_context` |
-| `[vllm/envs.py](vllm/envs.py)` | `VLLM_DBO_COMM_SMS` |
-| `[vllm/v1/worker/gpu_worker.py](vllm/v1/worker/gpu_worker.py)` | workspace 按 `num_ubatches` 初始化 |
-| `[vllm/v1/worker/workspace.py](vllm/v1/worker/workspace.py)` | per-ubatch workspace indexing |
-| `[vllm/v1/worker/gpu_model_runner.py](vllm/v1/worker/gpu_model_runner.py)` | DBO 主调度器 |
-| `[vllm/v1/worker/gpu_ubatch_wrapper.py](vllm/v1/worker/gpu_ubatch_wrapper.py)` | `UBatchWrapper`、线程、CUDA Graph |
-| `[vllm/v1/worker/ubatching.py](vllm/v1/worker/ubatching.py)` | `UBatchContext`、同步原语 |
-| `[vllm/v1/worker/ubatch_utils.py](vllm/v1/worker/ubatch_utils.py)` | `UBatchSlice`、metadata 切分 |
-| `[vllm/v1/worker/dp_utils.py](vllm/v1/worker/dp_utils.py)` | 跨 DP rank 协商 |
-| `[vllm/model_executor/layers/fused_moe/modular_kernel.py](vllm/model_executor/layers/fused_moe/modular_kernel.py)` | MoE yield 点 |
-| `[vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py](vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py)` | DeepEP HT 调度 |
-| `[tests/v1/distributed/test_dbo.py](tests/v1/distributed/test_dbo.py)` | 端到端测试 |
+| [docs/design/dbo.md](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/docs/design/dbo.md) | 官方设计文档 |
+| [vllm/config/parallel.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/config/parallel.py) | `enable_dbo`、thresholds、`num_ubatches` |
+| [vllm/engine/arg_utils.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/engine/arg_utils.py) | CLI 参数 |
+| [vllm/forward_context.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/forward_context.py) | `ForwardContext.ubatch_slices`、`set_forward_context` |
+| [vllm/envs.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/envs.py) | `VLLM_DBO_COMM_SMS` |
+| [vllm/v1/worker/gpu_worker.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_worker.py) | workspace 按 `num_ubatches` 初始化 |
+| [vllm/v1/worker/workspace.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/workspace.py) | per-ubatch workspace indexing |
+| [vllm/v1/worker/gpu_model_runner.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_model_runner.py) | DBO 主调度器 |
+| [vllm/v1/worker/gpu_ubatch_wrapper.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/gpu_ubatch_wrapper.py) | `UBatchWrapper`、线程、CUDA Graph |
+| [vllm/v1/worker/ubatching.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatching.py) | `UBatchContext`、同步原语 |
+| [vllm/v1/worker/ubatch_utils.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/ubatch_utils.py) | `UBatchSlice`、metadata 切分 |
+| [vllm/v1/worker/dp_utils.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/v1/worker/dp_utils.py) | 跨 DP rank 协商 |
+| [vllm/model_executor/layers/fused_moe/modular_kernel.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/modular_kernel.py) | MoE yield 点 |
+| [vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/vllm/model_executor/layers/fused_moe/prepare_finalize/deepep_ht.py) | DeepEP HT 调度 |
+| [tests/v1/distributed/test_dbo.py](https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/tests/v1/distributed/test_dbo.py) | 端到端测试 |
 
 # 官方文档
 https://github.com/vllm-project/vllm/blob/97995f6376fd3dae7a67624055ddf038233e181e/docs/design/dbo.md
