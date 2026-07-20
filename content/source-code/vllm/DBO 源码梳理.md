@@ -4,6 +4,7 @@ description: Dual Batch Overlap（双微批重叠）机制源码结构、数据�
 tags: [vllm, dbo, distributed, moe, dp-ep]
 date: 2026-07-20
 ---
+![[Drawing 2026-07-20 17.27.50.excalidraw]]
 
 # vLLM DBO 源码梳理
 
