@@ -52,10 +52,10 @@ vllm serve deepseek-ai/DeepSeek-V2-Lite \
 
 ```mermaid
 graph TD
-    A[GPUModelRunner] -->|1. 阈值判断 + DP 协商| F[dp_utils]
-    A -->|2. 切分 attention metadata| G[ubatch_utils]
-    A -->|3. 构造 ForwardContext.ubatch_slices| H[ForwardContext]
-    A -->|4. 包装模型| B[UBatchWrapper]
+    A[GPUModelRunner] -->|阈值判断 + DP 协商| F[dp_utils]
+    A -->|切分 attention metadata| G[ubatch_utils]
+    A -->|构造 ForwardContext.ubatch_slices| H[ForwardContext]
+    A -->|包装模型| B[UBatchWrapper]
     B -->|创建 2 个 ubatch 线程| C[UBatchContext]
     C -->|cpu_yield / switch stream| D[FusedMoEModularKernel]
     D -->|prepare_async / finalize_async| E[DeepEP all2all]
