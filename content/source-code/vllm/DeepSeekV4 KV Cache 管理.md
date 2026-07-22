@@ -75,6 +75,48 @@ def get_kv_cache_spec(self, vllm_config: VllmConfig) -> KVCacheSpec:
 	)
 ```
 Compressor 压缩 KV Cache时使用的 Score，有滑窗
+# group_and_unify_kv_cache_specs
+get_kv_cache_configs 中用来将上面这些 `KVCacheSpec` 分组并合并为同一的`UniformTypeKVCacheSpecs` 的函数
+```python
+def group_and_unify_kv_cache_specs(
+    kv_cache_spec: dict[str, KVCacheSpec],
+) -> list[UniformTypeKVCacheSpecs] | None:
+    """
+    Group the KV cache specs and unify each group into one UniformTypeKVCacheSpecs.
+    Currently, this is only used for DeepseekV4.
+    """
+    if not any(
+        isinstance(spec, SlidingWindowMLASpec) for spec in kv_cache_spec.values()
+    ):
+        return None
+
+    mla_specs: dict[str, KVCacheSpec] = {}
+    grouped_swa_mla_specs: dict[tuple[int, int], dict[str, KVCacheSpec]] = defaultdict(
+        dict
+    )
+    # NOTE: Here we group SWA layers by (block_size, sliding_window), which separates
+    # SWA layers, C4I+C4A layers, and C128A layers into three different groups. It can
+    # be fragile with only block_size and sliding_window as keys, but fine for now.
+    for name, spec in kv_cache_spec.items():
+        if isinstance(spec, SlidingWindowMLASpec):
+            grouped_swa_mla_specs[(spec.block_size, spec.sliding_window)][name] = spec
+        elif isinstance(spec, MLAAttentionSpec):
+            mla_specs[name] = spec
+
+    assert len(mla_specs) > 0
+    mla_uniform_spec = UniformTypeKVCacheSpecs.from_specs(mla_specs)
+    assert mla_uniform_spec is not None
+
+    swa_uniform_specs: list[UniformTypeKVCacheSpecs] = []
+    for spec_dict in grouped_swa_mla_specs.values():
+        uniform_spec = UniformTypeKVCacheSpecs.from_specs(spec_dict)
+        assert uniform_spec is not None
+        swa_uniform_specs.append(uniform_spec)
+
+    return [mla_uniform_spec, *swa_uniform_specs]
+```
+
+整体逻辑比较简单，所有 `MLAAttentionSpec`  分成一组（block_size 相同），所有带滑窗的 Spec（`SlidingWindowMLASpec`)，按照(block_size, window_size)分组。这样其实整个模型会有 4 个 KVCache Group，MLA + C4A + C128A + SWA。
 
 ## 相关笔记
 
