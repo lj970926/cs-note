@@ -1,5 +1,17 @@
+---
+title: DeepSeekV4 KV Cache 管理
+date: 2026-07-22
+tags:
+  - vllm
+  - deepseek-v4
+  - kv-cache
+  - mla
+  - source-reading
+---
+
 # KVCacheSpec
-在 DeepSeek V4 中，存在以下几种 KVCacheSpec：
+
+在 [[MLSys/Models/Deepseek V4|DeepSeek V4]] 中，存在以下几种 KVCacheSpec：
 1. `DeepseekV4MLAAttention`
 ```python
 def get_kv_cache_spec(self, vllm_config: VllmConfig) -> KVCacheSpec | None:
@@ -63,3 +75,8 @@ def get_kv_cache_spec(self, vllm_config: VllmConfig) -> KVCacheSpec:
 	)
 ```
 Compressor 压缩 KV Cache时使用的 Score，有滑窗
+
+## 相关笔记
+
+- [[source-code/vllm/vllm 源码随手记]]：vLLM KV Cache 整体架构与 Block 管理
+- [[source-code/vllm/vLLM DP 协调、CUDA Graph 与 DeepEP Low Latency]]：vLLM 中 DeepSeek V4 相关的 DP/CUDA Graph 协同
