@@ -9,7 +9,55 @@ tags:
   - source-reading
 ---
 
-# KVCacheSpec
+# 初始化
+整个初始化的一些关键流程可以汇总成下面这张大图：
+```mermaid
+sequenceDiagram
+    autonumber
+    participant EC as EngineCore
+    participant KVU as kv_cache_utils.py<br/>(module)
+    participant EXE as Executor /<br/>WorkerWrapperBase
+    participant W as Worker<br/>(gpu_worker)
+    participant MR as GPUModelRunner
+
+    Note over EC: __init__()
+    EC->>EC: _initialize_kv_caches(vllm_config)
+    activate EC
+
+    EC->>KVU: get_kv_cache_configs(vllm_config, specs, mem)
+    activate KVU
+    KVU->>KVU: get_kv_cache_groups(vllm_config, merged_specs)
+    activate KVU
+    KVU->>KVU: group_and_unify_kv_cache_specs(spec)
+    Note right of KVU: DeepseekV4 分支
+    deactivate KVU
+    KVU->>KVU: get_kv_cache_config_from_groups(...)
+    activate KVU
+    KVU->>KVU: _get_kv_cache_config_deepseek_v4(...)
+    deactivate KVU
+    KVU-->>EC: list[KVCacheConfig]
+    deactivate KVU
+
+    EC->>EXE: model_executor.initialize_from_config(kv_cache_configs)
+    activate EXE
+    Note right of EXE: WorkerWrapperBase 取本 rank 的 config
+    EXE->>W: worker.initialize_from_config(kv_cache_config)
+    activate W
+    W->>MR: model_runner.initialize_kv_cache(kv_cache_config)
+    activate MR
+    MR->>MR: initialize_kv_cache_tensors(kv_cache_config)
+    MR-->>W: 
+    deactivate MR
+    W-->>EXE: 
+    deactivate W
+    EXE-->>EC: 
+    deactivate EXE
+
+    EC-->>EC: return scheduler_kv_cache_config
+    deactivate EC
+```
+
+## KVCacheSpec
 
 在 [[MLSys/Models/Deepseek V4|DeepSeek V4]] 中，存在以下几种 KVCacheSpec：
 1. `DeepseekV4MLAAttention`
@@ -75,7 +123,7 @@ def get_kv_cache_spec(self, vllm_config: VllmConfig) -> KVCacheSpec:
 	)
 ```
 Compressor 压缩 KV Cache时使用的 Score，有滑窗
-# group_and_unify_kv_cache_specs
+## group_and_unify_kv_cache_specs
 get_kv_cache_configs 中用来将上面这些 `KVCacheSpec` 分组并合并为同一的`UniformTypeKVCacheSpecs` 的函数
 ```python
 def group_and_unify_kv_cache_specs(
@@ -116,8 +164,68 @@ def group_and_unify_kv_cache_specs(
     return [mla_uniform_spec, *swa_uniform_specs]
 ```
 
-整体逻辑比较简单，所有 `MLAAttentionSpec`  分成一组（block_size 相同），所有带滑窗的 Spec（`SlidingWindowMLASpec`)，按照(block_size, window_size)分组。这样其实整个模型会有 4 个 KVCache Group，MLA + C4A + C128A + SWA。
+整体逻辑比较简单，所有 `MLAAttentionSpec`  分成一组（block_size 相同），所有带滑窗的 Spec（`SlidingWindowMLASpec`)，按照(block_size, window_size)分组。这样其实整个模型会有 4 个 KVCache Group，MLA + C4A Compressor + C128A Compressor + SWA。
+## \_get\_kv\_cache\_config\_deepseek\_v4
+创建KVCacheGroupSpec 后，通过这个函数获取每个 group 对应的 KVCacheConfig，以及分配对应的 KVCacheTensor。
+```python
+def _get_kv_cache_config_deepseek_v4(
+    vllm_config: VllmConfig,
+    kv_cache_groups: list[KVCacheGroupSpec],
+    available_memory: int,
+) -> tuple[int, list[KVCacheTensor]]:
+    """DeepseekV4 KV cache tensor layout planning.
 
+    Precondition: kv_cache_groups[0] is the full-MLA group; its page sizes
+    define the canonical bucket set. Non-full-MLA groups must have been
+    page_size-padded upstream (see _get_kv_cache_groups_uniform_groups) so
+    every layer's page_size matches one of the full-MLA bucket sizes.
+
+    For each group, bucket its layers by page_size_bytes and place each
+    layer at tuple_idx = position-within-bucket. Emit one KVCacheTensor
+    per (tuple_idx, bucket) whose shared_by is the union of per-group
+    layers at that slot.
+    """
+    full_mla_spec = kv_cache_groups[0].kv_cache_spec
+    assert isinstance(full_mla_spec, UniformTypeKVCacheSpecs)
+    page_sizes = sorted(full_mla_spec.get_page_sizes())
+    layer_tuple_page_bytes = sum(page_sizes)
+
+    # Pre-bucket each group's layers by page_size (registration order within
+    # bucket). bucketed[g_idx][page_size] = [layer_name, ...].
+    bucketed: list[dict[int, list[str]]] = []
+    for group in kv_cache_groups:
+        assert isinstance(group.kv_cache_spec, UniformTypeKVCacheSpecs)
+        specs = group.kv_cache_spec.kv_cache_specs
+        b: dict[int, list[str]] = defaultdict(list)
+        for name in group.layer_names:
+            b[specs[name].page_size_bytes].append(name)
+        bucketed.append(b)
+
+    # num_layer_tuples = longest bucket list across all groups. For the
+    # full-MLA group this equals the count of layers in the largest
+    # per-page-size bucket (= get_num_layer_tuples()); for SWA sub-groups
+    # this equals the sub-group size (each has a single page_size).
+    num_layer_tuples = max(len(layers) for b in bucketed for layers in b.values())
+
+    num_blocks = available_memory // (layer_tuple_page_bytes * num_layer_tuples)
+    num_blocks = may_override_num_blocks(vllm_config, num_blocks)
+
+    kv_cache_tensors: list[KVCacheTensor] = []
+    for tuple_idx in range(num_layer_tuples):
+        for ps in page_sizes:
+            shared_by: list[str] = []
+            for b in bucketed:
+                bucket = b.get(ps)
+                if bucket is not None and tuple_idx < len(bucket):
+                    shared_by.append(bucket[tuple_idx])
+            kv_cache_tensors.append(
+                KVCacheTensor(size=ps * num_blocks, shared_by=shared_by)
+            )
+
+    return num_blocks, kv_cache_tensors
+```
+这里的关键是根据page_size 和 layer_idx（代码里叫 tuple_idx），将拥有相同 page_size 和相同 layer_id 的 tensor 放到一个KVCacheTensor 中。
+## 
 ## 相关笔记
 
 - [[source-code/vllm/vllm 源码随手记]]：vLLM KV Cache 整体架构与 Block 管理
