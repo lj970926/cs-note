@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1180" width="100%" style="max-width: 900px; font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#bbb" />
+    </marker>
+    <marker id="arrowhead-dim" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#bbb" opacity="0.5" />
+    </marker>
+  </defs>
+
+  <style>
+    .node-rect { rx: 8; ry: 8; }
+    .node-text { font-size: 13px; font-weight: 400; fill: #111; }
+    .node-text-secondary { font-size: 11px; fill: #888; }
+    .code-text { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; fill: #555; }
+    .arrow { stroke: #bbb; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .title-text { font-size: 15px; font-weight: 500; fill: #111; }
+    .subtitle-text { font-size: 12px; fill: #888; }
+    .group-bg { fill: #f5f5f5; rx: 10; ry: 10; }
+    .group-title { font-size: 12px; font-weight: 500; fill: #666; }
+    @media (prefers-color-scheme: dark) {
+      .node-text { fill: #eee; }
+      .node-text-secondary { fill: #999; }
+      .code-text { fill: #aaa; }
+      .title-text { fill: #eee; }
+      .subtitle-text { fill: #999; }
+      .group-title { fill: #aaa; }
+      .group-bg { fill: #2a2a2a; }
+      .arrow { stroke: #666; }
+    }
+  </style>
+
+  <text x="450" y="28" text-anchor="middle" class="title-text">_reshape_kv_cache_tensors</text>
+  <text x="450" y="48" text-anchor="middle" class="subtitle-text">vLLM V1 GPUModelRunner — 将原始字节缓冲区 reshape 为模型可用的 KV Cache</text>
+
+  <rect x="20" y="65" width="860" height="70" class="group-bg" />
+  <text x="40" y="85" class="group-title">输入参数</text>
+
+  <rect x="40" y="95" width="400" height="30" class="node-rect" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2" />
+  <text x="50" y="108" class="node-text">kv_cache_raw_tensors</text>
+  <text x="50" y="120" class="code-text">Dict[str, Tensor] — dtype=torch.int8, 仅保证总大小正确</text>
+
+  <rect x="460" y="95" width="400" height="30" class="node-rect" fill="#fef2f2" stroke="#ef4444" stroke-width="1.2" />
+  <text x="470" y="108" class="node-text">kernel_block_sizes</text>
+  <text x="470" y="120" class="code-text">List[int] — 各 KV Cache Group 对应的 Kernel 块大小</text>
+
+  <path d="M450,135 L450,155" class="arrow" />
+
+  <rect x="20" y="160" width="860" height="50" class="group-bg" />
+  <text x="40" y="180" class="group-title">初始化</text>
+
+  <rect x="300" y="188" width="300" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="450" y="198" text-anchor="middle" class="code-text">kv_caches = {}  ·  has_attn = False  ·  has_mamba = False</text>
+
+  <path d="M450,210 L450,230" class="arrow" />
+
+  <rect x="20" y="235" width="860" height="90" class="group-bg" />
+  <text x="40" y="255" class="group-title">遍历 Attention Groups</text>
+
+  <rect x="40" y="265" width="380" height="22" class="node-rect" fill="transparent" stroke="#333" stroke-width="1.2" />
+  <text x="50" y="280" class="code-text">for group in _kv_cache_spec_attn_group_iterator()</text>
+
+  <polygon points="450,300 520,275 590,300 520,325" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.2" />
+  <text x="520" y="296" text-anchor="middle" class="node-text" font-size="11">group_id ==</text>
+  <text x="520" y="309" text-anchor="middle" class="node-text" font-size="11">len(kernel_block_sizes)?</text>
+
+  <path d="M590,300 L650,300 L650,280 L600,280" class="arrow" marker-end="url(#arrowhead-dim)" stroke-dasharray="3,3" opacity="0.5" />
+  <text x="620" y="276" text-anchor="middle" class="node-text-secondary" font-size="10">continue (无 KV Cache)</text>
+
+  <path d="M520,325 L520,345" class="arrow" />
+
+  <rect x="400" y="350" width="240" height="18" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="520" y="362" text-anchor="middle" class="code-text">kernel_block_size = kernel_block_sizes[group_id]</text>
+
+  <path d="M520,368 L520,388" class="arrow" />
+
+  <rect x="20" y="393" width="860" height="130" class="group-bg" />
+  <text x="40" y="413" class="group-title">遍历组内层</text>
+
+  <rect x="40" y="423" width="300" height="18" class="node-rect" fill="transparent" stroke="#333" stroke-width="1.2" />
+  <text x="50" y="436" class="code-text">for layer_name in group.layer_names</text>
+
+  <polygon points="380,455 450,430 520,455 450,480" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.2" />
+  <text x="450" y="452" text-anchor="middle" class="node-text" font-size="11">layer in</text>
+  <text x="450" y="465" text-anchor="middle" class="node-text" font-size="11">runner_only_attn_layers?</text>
+
+  <path d="M520,455 L580,455 L580,435 L530,435" class="arrow" marker-end="url(#arrowhead-dim)" stroke-dasharray="3,3" opacity="0.5" />
+  <text x="555" y="431" text-anchor="middle" class="node-text-secondary" font-size="10">continue</text>
+
+  <path d="M450,480 L450,500" class="arrow" />
+
+  <rect x="280" y="505" width="340" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="450" y="515" text-anchor="middle" class="code-text">assert raw_tensor.numel() % page_size_bytes == 0</text>
+
+  <rect x="300" y="530" width="300" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="450" y="540" text-anchor="middle" class="code-text">num_blocks = raw_tensor.numel() // page_size_bytes</text>
+
+  <path d="M450,544 L450,564" class="arrow" />
+
+  <rect x="20" y="569" width="860" height="60" class="group-bg" />
+  <text x="40" y="589" class="group-title">按缓存类型分支</text>
+
+  <polygon points="450,615 550,590 650,615 550,640" fill="#eef2ff" stroke="#6366f1" stroke-width="1.2" />
+  <text x="550" y="612" text-anchor="middle" class="node-text" font-size="11">kv_cache_spec</text>
+  <text x="550" y="625" text-anchor="middle" class="node-text" font-size="11">类型判断</text>
+
+  <path d="M450,615 L380,615 L380,650" class="arrow" />
+  <text x="410" y="610" text-anchor="middle" class="node-text-secondary" font-size="10">AttentionSpec</text>
+
+  <path d="M650,615 L720,615 L720,650" class="arrow" />
+  <text x="690" y="610" text-anchor="middle" class="node-text-secondary" font-size="10">MambaSpec / Other</text>
+
+  <rect x="20" y="655" width="420" height="340" class="group-bg" />
+  <text x="40" y="675" class="group-title">Attention 处理路径</text>
+
+  <rect x="40" y="685" width="200" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="140" y="695" text-anchor="middle" class="code-text">has_attn = True</text>
+
+  <rect x="40" y="708" width="380" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="230" y="718" text-anchor="middle" class="code-text">num_blocks_per_kv_block = block_size // kernel_block_size</text>
+
+  <rect x="40" y="731" width="380" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="230" y="741" text-anchor="middle" class="code-text">kernel_num_blocks = num_blocks * num_blocks_per_kv_block</text>
+
+  <polygon points="230,775 310,755 390,775 310,795" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.2" />
+  <text x="310" y="772" text-anchor="middle" class="node-text" font-size="11">storage_block_size</text>
+  <text x="310" y="785" text-anchor="middle" class="node-text" font-size="11">!= block_size? (MLA)</text>
+
+  <path d="M230,775 L180,775 L180,810" class="arrow" />
+  <rect x="120" y="815" width="120" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="180" y="825" text-anchor="middle" class="code-text">shape_block_size = storage_block_size</text>
+
+  <path d="M390,775 L440,775 L440,810" class="arrow" />
+  <rect x="380" y="815" width="120" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="440" y="825" text-anchor="middle" class="code-text">shape_block_size = kernel_block_size</text>
+
+  <path d="M180,829 L180,845 L310,845 L440,845 L440,829" class="arrow" marker-end="none" />
+  <path d="M310,845 L310,860" class="arrow" />
+
+  <rect x="40" y="865" width="380" height="28" class="node-rect" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2" />
+  <text x="50" y="878" class="node-text" font-size="12">kv_cache_shape = attn_backend.get_kv_cache_shape(...)</text>
+  <text x="50" y="890" class="code-text">kernel_num_blocks, shape_block_size, num_kv_heads, ...</text>
+
+  <path d="M230,893 L230,910" class="arrow" />
+
+  <rect x="40" y="915" width="380" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="230" y="925" text-anchor="middle" class="code-text">view / reshape raw_tensor → kv_cache_shape</text>
+
+  <rect x="40" y="938" width="380" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="230" y="948" text-anchor="middle" class="code-text">cast to kv_cache_dtype (fp8_e4m3 / bf16 / ...)</text>
+
+  <rect x="40" y="961" width="380" height="14" class="node-rect" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2" />
+  <text x="230" y="971" text-anchor="middle" class="code-text">kv_caches[layer_name] = reshaped_tensor</text>
+
+  <rect x="460" y="655" width="420" height="120" class="group-bg" />
+  <text x="480" y="675" class="group-title">Mamba 处理路径</text>
+
+  <rect x="480" y="685" width="200" height="14" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="580" y="695" text-anchor="middle" class="code-text">has_mamba = True</text>
+
+  <rect x="480" y="710" width="380" height="40" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="490" y="725" class="node-text" font-size="12">按 Mamba 状态维度 reshape</text>
+  <text x="490" y="742" class="code-text">conv_state, ssm_state 等结构化状态张量</text>
+
+  <path d="M670,750 L670,770 L450,770 L450,790" class="arrow" marker-end="url(#arrowhead)" />
+
+  <rect x="20" y="1005" width="860" height="70" class="group-bg" />
+  <text x="40" y="1025" class="group-title">输出</text>
+
+  <rect x="40" y="1035" width="380" height="28" class="node-rect" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2" />
+  <text x="50" y="1048" class="node-text" font-size="12">返回 kv_caches: Dict[str, torch.Tensor]</text>
+  <text x="50" y="1060" class="code-text">各层名 → 已 reshape 为正确 shape/dtype 的 KV Cache 张量</text>
+
+  <rect x="440" y="1035" width="420" height="28" class="node-rect" fill="transparent" stroke="#ccc" stroke-width="1" />
+  <text x="450" y="1048" class="node-text" font-size="12">后续注入模型各层的 kv_cache 参数</text>
+  <text x="450" y="1060" class="code-text">供 forward 阶段 attention / mamba 层直接读取</text>
+
+  <rect x="20" y="1090" width="860" height="60" class="group-bg" />
+  <text x="40" y="1110" class="group-title">关键设计要点</text>
+  <text x="40" y="1128" class="node-text-secondary" font-size="11">• 原始张量统一为 torch.int8 一维缓冲区，仅保证总字节数正确，reshape 后才具备语义 shape</text>
+  <text x="40" y="1142" class="node-text-secondary" font-size="11">• kernel_block_size 通过 group_id 索引，支持不同 Group 使用不同后端粒度（FA3 / FlashInfer / Triton）</text>
+  <text x="40" y="1156" class="node-text-secondary" font-size="11">• MLA 压缩场景下 storage_block_size ≠ block_size，reshape 时使用 storage_block_size 作为实际维度</text>
+</svg>

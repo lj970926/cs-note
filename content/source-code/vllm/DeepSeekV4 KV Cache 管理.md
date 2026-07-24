@@ -224,8 +224,46 @@ def _get_kv_cache_config_deepseek_v4(
 
     return num_blocks, kv_cache_tensors
 ```
-这里的关键是根据page_size 和 layer_idx（代码里叫 tuple_idx），将拥有相同 page_size 和相同 layer_id 的 tensor 放到一个KVCacheTensor 中。
-## 
+这里的关键是根据page_size 和 layer_idx（代码里叫 tuple_idx），将拥有相同 page_size 和相同 layer_id 的 tensor 放到一个KVCacheTensor 中。(通过 shared_by参数)
+## initialize_kv_cache_tensors
+上面得到的 KVCacheTensor 只是一些表示 KVCache size和 dtype 等的 metadata，实际的 KVCache 分配发生在 model_runner 的`initialize_kv_cache_tensors` 方法中。这里分两步走：
+* alloc：`_allocate_kv_cache_tensors` 。根据 KVCacheTensor 中预先计算的大小分配数对应的一维 raw_tensor，比较简单
+```python
+def _allocate_kv_cache_tensors(
+        self, kv_cache_config: KVCacheConfig
+    ) -> dict[str, torch.Tensor]:
+        """
+        Initializes the KV cache buffer with the correct size. The buffer needs
+        to be reshaped to the desired shape before being used by the models.
+
+        Args:
+            kv_cache_config: The KV cache config
+        Returns:
+            dict[str, torch.Tensor]: A map between layer names to their
+            corresponding memory buffer for KV cache.
+        """
+        kv_cache_raw_tensors: dict[str, torch.Tensor] = {}
+        for kv_cache_tensor in kv_cache_config.kv_cache_tensors:
+            tensor = torch.zeros(
+                kv_cache_tensor.size, dtype=torch.int8, device=self.device
+            )
+            for layer_name in kv_cache_tensor.shared_by:
+                kv_cache_raw_tensors[layer_name] = tensor
+
+        layer_names = set()
+        for group in kv_cache_config.kv_cache_groups:
+            for layer_name in group.layer_names:
+                if layer_name in self.runner_only_attn_layers:
+                    continue
+                layer_names.add(layer_name)
+        assert layer_names == set(kv_cache_raw_tensors.keys()), (
+            "Some layers are not correctly initialized"
+        )
+        return kv_cache_raw_tensors
+```
+注意这里根据kv_cache_tensor的 shared_by 属性把上面分好组的 Layer 全部使用相同的底层 tensor。
+* reshape：
+![[IMG-20260724125636975.svg]]
 ## 相关笔记
 
 - [[source-code/vllm/vllm 源码随手记]]：vLLM KV Cache 整体架构与 Block 管理
