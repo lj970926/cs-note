@@ -263,7 +263,7 @@ def _allocate_kv_cache_tensors(
 ```
 注意这里根据kv_cache_tensor的 shared_by 属性把上面分好组的 Layer 全部使用相同的底层 tensor。
 * reshape：
-![[IMG-20260724125636975.svg]]
+![[IMG-20260724125636975.svg|1033]]
 ## 相关笔记
 
 - [[source-code/vllm/vllm 源码随手记]]：vLLM KV Cache 整体架构与 Block 管理
