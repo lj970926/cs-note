@@ -12,6 +12,7 @@ configuration:
     - private
     - templates
     - .obsidian
+    - llm-wiki
   theme:
     fontOrigin: googleFonts
     cdnCaching: true
