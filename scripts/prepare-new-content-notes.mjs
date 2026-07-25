@@ -7,7 +7,7 @@ import { pathToFileURL } from "node:url"
 import YAML from "yaml"
 
 const CONTENT_DIR = "content"
-const IGNORED_CONTENT_PARTS = new Set([".obsidian", "templates", "private"])
+const IGNORED_CONTENT_PARTS = new Set([".obsidian", "templates", "private", "llm-wiki"])
 
 function toPosixPath(filePath) {
   return filePath.split(path.sep).join("/")
@@ -39,7 +39,7 @@ export function isIgnoredContentPath(filePath) {
 
 function runGit(args, cwd) {
   try {
-    return execFileSync("git", args, { cwd, encoding: "utf8" })
+    return execFileSync("git", ["-c", "core.quotepath=false", ...args], { cwd, encoding: "utf8" })
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean)
