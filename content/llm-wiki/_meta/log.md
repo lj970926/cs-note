@@ -12,6 +12,429 @@ aliases: []
 
 ---
 
+## [2026-07-25] ingest | Rust Iterators
+
+**Source type**: note
+**Local ref**: [[language/rust/iterators]]
+**Pages created**:
+- [[sources/src-rust-iterators|src-rust-iterators]]
+- [[concepts/Rust Iterator|Rust Iterator]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Rust 迭代器基于 `Iterator` trait，核心是 `next` 方法。
+- `iter()` / `iter_mut()` / `into_iter()` 分别返回不可变引用、可变引用、所有权。
+- 迭代器是惰性的：`map`/`filter` 等适配器需要 `collect`/`sum`/`for_each` 等消费适配器触发执行。
+- 闭包常与适配器组合构建转换流水线。
+
+---
+
+## [2026-07-25] ingest | Rust Generics
+
+**Source type**: note
+**Local ref**: [[language/rust/generics]]
+**Pages created**:
+- [[sources/src-rust-generics|src-rust-generics]]
+- [[concepts/Rust Generics|Rust Generics]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Rust 泛型把具体类型抽象为类型参数，可用于函数、结构体、枚举、方法。
+- trait bound 约束泛型可进行的操作；长 bound 用 `where` 子句更清晰。
+- 单态化在编译期展开为具体类型代码，零运行时开销，但增加编译时间和二进制体积。
+
+---
+
+## [2026-07-25] ingest | Rust Enum
+
+**Source type**: note
+**Local ref**: [[language/rust/enum]]
+**Pages created**:
+- [[sources/src-rust-enum|src-rust-enum]]
+- [[concepts/Rust Enum|Rust Enum]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Rust enum 是标签联合体，变体可携带不同类型/数量的数据。
+- `Option<T>` 用 `Some(T)`/`None` 表达可空值，是 Rust 类型系统核心。
+- `match` 要求穷尽（exhaustive），保证每个变体都被处理。
+
+---
+
+## [2026-07-25] ingest | Rust Closures
+
+**Source type**: note
+**Local ref**: [[language/rust/closure]]
+**Pages created**:
+- [[sources/src-rust-closures|src-rust-closures]]
+- [[concepts/Rust Closure|Rust Closure]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Rust 闭包可捕获外部环境，捕获方式分不可变借用、可变借用、`move` 获取所有权。
+- 闭包自动实现 `Fn`/`FnMut`/`FnOnce`；所有闭包至少实现 `FnOnce`，关系为 `Fn` ⊂ `FnMut` ⊂ `FnOnce`。
+- API 根据调用次数选择 trait bound：`unwrap_or_else` → `FnOnce`，`sort_by_key` → `FnMut`。
+- `move` 常用于线程等闭包比当前作用域活得更久的场景。
+
+**Follow-ups**:
+- [ ] 下一篇：language/rust/enum.md
+
+---
+
+## [2026-07-25] ingest | Python dict key：__hash__ 与 __eq__
+
+**Source type**: note
+**Local ref**: [[language/Python/Python dict key：__hash__与 __eq__]]
+**Pages created**:
+- [[sources/src-python-dict-key-hash-eq|src-python-dict-key-hash-eq]]
+- [[concepts/Python Dict Key|Python Dict Key]]
+- [[concepts/Python Dataclass|Python Dataclass]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- dict 查找先用 `__hash__` 定位，再用 `__eq__` 确认；hash 相同且相等才认为是同一 key。
+- 普通对象默认按身份比较；自定义值语义需同时实现 `__eq__` 和 `__hash__`。
+- `@dataclass(frozen=True)` 可安全作为 dict key；`unsafe_hash=True` 在可变对象上危险。
+- 作为 key 的对象插入后不能修改参与 hash/eq 的字段。
+
+**Follow-ups**:
+- [ ] 下一篇：language/rust/closure.md
+
+---
+
+## [2026-07-25] ingest | Quartz Mermaid 排错手册
+
+**Source type**: note
+**Local ref**: [[language/mermaid/Quartz Mermaid 排错手册]]
+**Pages created**:
+- [[sources/src-quartz-mermaid-debug|src-quartz-mermaid-debug]]
+
+**Pages updated**:
+- [[concepts/Mermaid|Mermaid]] — 补充 Quartz 集成排查、classDiagram 陷阱、检查清单
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Quartz 中 Mermaid 经 Markdown → HTML code 块 → 浏览器 `mermaid.run()` 三层转换。
+- 排查以浏览器实际渲染为准；`mermaid.parse()` 通过不代表 `mermaid.run()` 成功。
+- classDiagram 常见坑：空 `{}`、自定义 stereotype、反向虚线实现箭头、复杂类型签名。
+- 成功标准：`document.querySelectorAll("svg[aria-roledescription=error]").length === 0`。
+
+**Follow-ups**:
+- [ ] 下一篇：language/Python/Python dict key：__hash__与 __eq__.md
+
+---
+
+## [2026-07-25] ingest | Mermaid 使用指南
+
+**Source type**: note
+**Local ref**: [[language/mermaid/Mermaid 使用指南]]
+**Pages created**:
+- [[sources/src-mermaid-guide|src-mermaid-guide]]
+- [[concepts/Mermaid|Mermaid]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Mermaid 是基于文本的图表工具，支持流程图、时序图、类图、状态图、饼图、甘特图、ER 图、思维导图、象限图、Git 图。
+- 类图中组合/聚合/关联/依赖对应不同的 C++ 实现方式。
+- Obsidian 原生支持，复杂图表可配合 Excalidraw 或 Mermaid Live Editor。
+
+**Follow-ups**:
+- [ ] 下一篇：language/mermaid/Quartz Mermaid 排错手册.md
+
+---
+
+## [2026-07-25] ingest | Makefile
+
+**Source type**: note
+**Local ref**: [[language/Makefile]]
+**Pages created**:
+- [[sources/src-makefile|src-makefile]]
+- [[concepts/Makefile|Makefile]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Makefile 通过 target/prerequisite/recipe 规则描述构建过程。
+- 常用自动变量：`$@` 目标、`$^` 所有依赖、`$<` 第一个依赖、`$?` 新于目标的依赖。
+- `.PHONY` 声明不产生产物的伪目标。
+
+**Follow-ups**:
+- [ ] 下一篇：language/mermaid/Mermaid 使用指南.md
+
+---
+
+## [2026-07-25] ingest | 判断编译器类型
+
+**Source type**: note
+**Local ref**: [[language/CMake/判断编译器类型]]
+**Pages created**:
+- [[sources/src-cmake-compiler-detection|src-cmake-compiler-detection]]
+- [[concepts/CMake Compiler Detection|CMake Compiler Detection]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- `CMAKE_CXX_COMPILER_ID` 在 `project()` 之后可用，常见值：`GNU`、`Clang`、`AppleClang`、`MSVC`。
+- `MATCHES "Clang"` 同时匹配 Clang 与 AppleClang；`STREQUAL` 精确匹配。
+- `CMAKE_CXX_COMPILER_VERSION` 配合 `VERSION_GREATER_EQUAL` 做版本判断。
+
+**Follow-ups**:
+- [ ] 下一篇：language/Makefile.md
+
+---
+
+## [2026-07-25] ingest | include directory
+
+**Source type**: note
+**Local ref**: [[language/CMake/include directory]]
+**Pages created**:
+- [[sources/src-cmake-include-directory|src-cmake-include-directory]]
+
+**Pages updated**:
+- [[concepts/CMake Dependency Management|CMake Dependency Management]] — 补充 include directories 与常用路径变量
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- `target_include_directories` 是现代 CMake 推荐的目标级头文件路径设置方式。
+- 常用变量：`CMAKE_SOURCE_DIR`、`CMAKE_CURRENT_SOURCE_DIR`、`PROJECT_SOURCE_DIR`。
+
+**Follow-ups**:
+- [ ] 下一篇：language/CMake/判断编译器类型.md
+
+---
+
+## [2026-07-25] ingest | Google Test
+
+**Source type**: note
+**Local ref**: [[language/CMake/Google Test]]
+**Pages created**:
+- [[sources/src-cmake-google-test|src-cmake-google-test]]
+- [[concepts/Google Test|Google Test]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- Google Test 是 C++ 主流单元测试框架，gtest 管断言/夹具/参数化，gmock 管 Mock。
+- CMake 中可通过 `find_package(GTest)` 或 `FetchContent` 引入，再用 `enable_testing()` + `add_test()` 注册 CTest。
+- 测试目标应独立，链接 `GTest::gtest_main` 等导入目标。
+
+**Follow-ups**:
+- [ ] 下一篇：language/CMake/include directory.md
+
+---
+
+## [2026-07-25] ingest | General Rules for Using Dependencies
+
+**Source type**: note
+**Local ref**: [[language/CMake/General Rules for Using Depencies]]
+**Pages created**:
+- [[sources/src-cmake-using-dependencies|src-cmake-using-dependencies]]
+- [[concepts/CMake Dependency Management|CMake Dependency Management]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- 现代 CMake 推荐通过导入目标（imported targets）使用依赖，而非手动拼接变量。
+- `find_package` 是定位外部库的主要入口；`FetchContent` / `ExternalProject` 用于构建时获取依赖。
+- `PRIVATE`/`PUBLIC`/`INTERFACE` 精确控制依赖的传递性。
+
+**Follow-ups**:
+- [ ] 下一篇：language/CMake/Google Test.md
+- [ ] 后续读取其他 CMake 笔记时可补充 CMake 概念总页。
+
+---
+
+## [2026-07-25] ingest | std-promise 和 std-future
+
+**Source type**: note
+**Local ref**: [[language/C++/std-promise 和 std-future]]
+**Pages created**:
+- [[sources/src-std-promise-future|src-std-promise-future]]
+- [[concepts/Promise and Future|Promise and Future]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- `std::promise` 是写入端，`std::future` 是读取端，二者共享 shared state。
+- `promise` 不可拷贝，`future::get()` 只能调用一次；多次读取用 `std::shared_future`。
+- 可传递异常；未 set 就析构会触发 `broken_promise`。
+- 选择层级：`std::async` > `std::packaged_task` > `std::promise`。
+
+**Follow-ups**:
+- [ ] 下一篇：language/CMake/General Rules for Using Depencies.md
+- [ ] 后续读到 std::async、packaged_task 相关内容时可进一步补充 Promise and Future 概念页。
+
+---
+
+## [2026-07-25] ingest | Most vexing parse
+
+**Source type**: note
+**Local ref**: [[language/C++/Most vexing parse]]
+**Pages created**:
+- [[sources/src-most-vexing-parse|src-most-vexing-parse]]
+- [[concepts/Most Vexing Parse|Most Vexing Parse]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- `TimeKeeper time_keeper(Timer());` 会被解析为函数声明，而非对象初始化。
+- 原因是 C++ 语法在对象初始化与函数声明冲突时优先按函数声明解析。
+- 解决方案：使用 `{}` 花括号初始化、额外括号或具名变量。
+
+**Follow-ups**:
+- [ ] 下一篇：language/C++/std-promise 和 std-future.md
+
+---
+
+## [2026-07-25] ingest | memory order
+
+**Source type**: note
+**Local ref**: [[language/C++/memory order]]
+**Pages created**:
+- [[sources/src-memory-order|src-memory-order]]
+
+**Pages updated**:
+- [[concepts/Memory Order|Memory Order]] — 补充 seq_cst/relaxed/acquire-release 示例、as-if 规则、release sequence
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- `seq_cst` 提供全局一致顺序但开销最大；`relaxed` 只保证原子性，允许重排。
+- `acquire/release` 成对使用可建立 happens-before，是性能与正确性的常用折中。
+- 单线程内 as-if 规则隐藏重排；多线程下必须通过同步原语建立顺序。
+- Release sequence 让 release 写的同步效力可穿透后续 RMW 接力；C++20 收窄为仅 RMW。
+
+**Follow-ups**:
+- [ ] 下一篇：language/C++/Most vexing parse.md
+- [ ] 后续读取 [[language/C++/compare_exchange_weak vs strong]] 时可与 CAS/memory order 主题整合。
+
+---
+
+## [2026-07-25] ingest | integral_constant
+
+**Source type**: note
+**Local ref**: [[language/C++/integral_constant]]
+**Pages created**:
+- [[sources/src-integral-constant|src-integral-constant]]
+- [[concepts/Integral Constant|Integral Constant]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- `std::integral_constant` 把编译期常量及其类型信息封装成类型，用于模板元编程。
+- `std::true_type` / `std::false_type` 是其最常用的 bool 特化别名。
+- 常与 type traits 结合，把布尔或整数结果编码到类型中参与重载/特化。
+
+**Follow-ups**:
+- [ ] 下一篇：language/C++/memory order.md
+
+---
+
+## [2026-07-25] ingest | enable_shared_from_this
+
+**Source type**: note
+**Local ref**: [[language/C++/enable_shared_from_this]]
+**Pages created**:
+- [[sources/src-enable-shared-from-this|src-enable-shared-from-this]]
+- [[concepts/enable_shared_from_this|enable_shared_from_this]]
+- [[concepts/Smart Pointer|Smart Pointer]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- 在类内部直接 `std::shared_ptr<T>(this)` 会创建独立引用计数，导致与外部管理者冲突。
+- 继承 `std::enable_shared_from_this<Derived>` 后，通过 `shared_from_this()` 可安全获取共享引用计数的 shared_ptr。
+- 实现上基类保存 weak_ptr，shared_ptr 首次接管对象时写入控制块信息。
+
+**Follow-ups**:
+- [ ] 下一篇：language/C++/integral_constant.md
+
+---
+
+## [2026-07-25] ingest | CRTP
+
+**Source type**: note
+**Local ref**: [[language/C++/CRTP(将子类作为父类模板)]]
+**Pages created**:
+- [[sources/src-crtp|src-crtp]]
+- [[concepts/CRTP|CRTP]]
+- [[concepts/Static Polymorphism|Static Polymorphism]]
+- [[concepts/Mixin|Mixin]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- CRTP 让派生类将自身作为模板参数传给基类，实现编译期静态多态。
+- 通过 `static_cast<Derived*>(this)` 调用派生类方法，避免虚函数开销。
+- 常见用途：静态多态、Mixin 组合、对象计数器、访问者模式等。
+
+**Follow-ups**:
+- [ ] 下一篇：language/C++/enable_shared_from_this.md
+- [ ] 队列中仍存在重复条目（如 C++ 转发引用、C++17 inline static、compare_exchange_weak vs strong 已在 Read 中但 Queue 里仍有未勾选项），后续可考虑清理。
+
+---
+
+## [2026-07-25] ingest | Coroutine
+
+**Source type**: note
+**Local ref**: [[language/C++/Coroutine]]
+**Pages created**:
+- [[sources/src-coroutine|src-coroutine]]
+- [[concepts/Coroutine|Coroutine]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[_meta/read-queue|read-queue]]
+
+**Key takeaways**:
+- C++ 协程是一种可在阻塞点挂起、将控制权交还调用方，并在稍后恢复执行的函数抽象。
+- C++20 通过 `co_await`、`co_yield`、`co_return` 在语言层面支持协程。
+- 协程是协作式调度，切换开销通常低于内核线程。
+
+**Follow-ups**:
+- [ ] 下一篇：language/C++/CRTP(将子类作为父类模板).md
+- [ ] 队列中存在重复条目（如 Coroutine、CRTP），后续批量读取时可考虑清理。
+
+---
+
 ## [2026-07-25] setup | Wiki initialization
 
 **Trigger**: 用户决定建立通用 LLM Wiki  

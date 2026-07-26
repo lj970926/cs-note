@@ -14,8 +14,8 @@ aliases: []
 ## Stats
 
 - Total: 119
-- Read: 16
-- Remaining: 103
+- Read: 35
+- Remaining: 84
 - Last updated: 2026-07-25
 
 ## Read
@@ -39,30 +39,30 @@ aliases: []
 
 ## Queue
 
-- [ ] language/C++/Coroutine.md
-- [ ] language/C++/CRTP(将子类作为父类模板).md
+- [x] language/C++/Coroutine.md → [[sources/src-coroutine|src-coroutine]]
+- [x] language/C++/CRTP(将子类作为父类模板).md → [[sources/src-crtp|src-crtp]]
 - [ ] language/C++/C++ 转发引用、引用折叠与 make_pair报错理解.md
 - [ ] language/C++/C++17 inline static.md
 - [ ] language/C++/compare_exchange_weak vs strong.md
-- [ ] language/C++/Coroutine.md
-- [ ] language/C++/CRTP(将子类作为父类模板).md
-- [ ] language/C++/enable_shared_from_this.md
-- [ ] language/C++/integral_constant.md
-- [ ] language/C++/memory order.md
-- [ ] language/C++/Most vexing parse.md
-- [ ] language/C++/std-promise 和 std-future.md
-- [ ] language/CMake/General Rules for Using Depencies.md
-- [ ] language/CMake/Google Test.md
-- [ ] language/CMake/include directory.md
-- [ ] language/CMake/判断编译器类型.md
-- [ ] language/Makefile.md
-- [ ] language/mermaid/Mermaid 使用指南.md
-- [ ] language/mermaid/Quartz Mermaid 排错手册.md
-- [ ] language/Python/Python dict key：__hash__与 __eq__.md
-- [ ] language/rust/closure.md
-- [ ] language/rust/enum.md
-- [ ] language/rust/generics.md
-- [ ] language/rust/iterators.md
+- [x] language/C++/Coroutine.md → [[sources/src-coroutine|src-coroutine]]
+- [x] language/C++/CRTP(将子类作为父类模板).md → [[sources/src-crtp|src-crtp]]
+- [x] language/C++/enable_shared_from_this.md → [[sources/src-enable-shared-from-this|src-enable-shared-from-this]]
+- [x] language/C++/integral_constant.md → [[sources/src-integral-constant|src-integral-constant]]
+- [x] language/C++/memory order.md → [[sources/src-memory-order|src-memory-order]]
+- [x] language/C++/Most vexing parse.md → [[sources/src-most-vexing-parse|src-most-vexing-parse]]
+- [x] language/C++/std-promise 和 std-future.md → [[sources/src-std-promise-future|src-std-promise-future]]
+- [x] language/CMake/General Rules for Using Depencies.md → [[sources/src-cmake-using-dependencies|src-cmake-using-dependencies]]
+- [x] language/CMake/Google Test.md → [[sources/src-cmake-google-test|src-cmake-google-test]]
+- [x] language/CMake/include directory.md → [[sources/src-cmake-include-directory|src-cmake-include-directory]]
+- [x] language/CMake/判断编译器类型.md → [[sources/src-cmake-compiler-detection|src-cmake-compiler-detection]]
+- [x] language/Makefile.md → [[sources/src-makefile|src-makefile]]
+- [x] language/mermaid/Mermaid 使用指南.md → [[sources/src-mermaid-guide|src-mermaid-guide]]
+- [x] language/mermaid/Quartz Mermaid 排错手册.md → [[sources/src-quartz-mermaid-debug|src-quartz-mermaid-debug]]
+- [x] language/Python/Python dict key：__hash__与 __eq__.md → [[sources/src-python-dict-key-hash-eq|src-python-dict-key-hash-eq]]
+- [x] language/rust/closure.md → [[sources/src-rust-closures|src-rust-closures]]
+- [x] language/rust/enum.md → [[sources/src-rust-enum|src-rust-enum]]
+- [x] language/rust/generics.md → [[sources/src-rust-generics|src-rust-generics]]
+- [x] language/rust/iterators.md → [[sources/src-rust-iterators|src-rust-iterators]]
 - [ ] language/rust/more-about-cargo.md
 - [ ] language/rust/pattern-matching.md
 - [ ] language/rust/traits.md

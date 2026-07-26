@@ -12,9 +12,9 @@ aliases: []
 
 ## Stats
 
-- Sources: 12
+- Sources: 31
 - Entities: 10
-- Concepts: 28
+- Concepts: 49
 - Syntheses: 0
 - Questions: 0
 - Last updated: 2026-07-25
@@ -37,14 +37,33 @@ aliases: []
 - [[sources/src-aba-problem|src-aba-problem]] — ABA 问题笔记
 - [[sources/src-addresssanitizer-guide|src-addresssanitizer-guide]] — AddressSanitizer 使用指南
 - [[sources/src-claude-code-loop-engineering|src-claude-code-loop-engineering]] — Claude Code Loop 工程笔记
+- [[sources/src-cmake-using-dependencies|src-cmake-using-dependencies]] — CMake 使用依赖官方指南笔记
+- [[sources/src-cmake-google-test|src-cmake-google-test]] — CMake 集成 Google Test 笔记
+- [[sources/src-cmake-include-directory|src-cmake-include-directory]] — CMake include directory 笔记
+- [[sources/src-cmake-compiler-detection|src-cmake-compiler-detection]] — CMake 判断编译器类型笔记
 - [[sources/src-cpp-forwarding-reference|src-cpp-forwarding-reference]] — C++ 转发引用与引用折叠笔记
 - [[sources/src-cpp17-inline-static|src-cpp17-inline-static]] — C++17 inline static 笔记
 - [[sources/src-compare-exchange-weak-strong|src-compare-exchange-weak-strong]] — compare_exchange_weak vs strong 笔记
+- [[sources/src-coroutine|src-coroutine]] — C++ Coroutine 笔记
+- [[sources/src-crtp|src-crtp]] — C++ CRTP 笔记
 - [[sources/src-cursor-agent-best-practice|src-cursor-agent-best-practice]] — Cursor Agent 最佳实践
+- [[sources/src-enable-shared-from-this|src-enable-shared-from-this]] — C++ enable_shared_from_this 笔记
 - [[sources/src-hermes-gateway|src-hermes-gateway]] — Hermes Gateway 笔记
+- [[sources/src-integral-constant|src-integral-constant]] — C++ integral_constant 笔记
+- [[sources/src-makefile|src-makefile]] — Makefile 特殊变量笔记
+- [[sources/src-memory-order|src-memory-order]] — C++ memory order 笔记
+- [[sources/src-mermaid-guide|src-mermaid-guide]] — Mermaid 使用指南笔记
+- [[sources/src-most-vexing-parse|src-most-vexing-parse]] — C++ Most vexing parse 笔记
+- [[sources/src-python-dict-key-hash-eq|src-python-dict-key-hash-eq]] — Python dict key: __hash__ 与 __eq__ 笔记
+- [[sources/src-quartz-mermaid-debug|src-quartz-mermaid-debug]] — Quartz Mermaid 排错手册笔记
+- [[sources/src-rust-closures|src-rust-closures]] — Rust Closures 笔记
+- [[sources/src-rust-enum|src-rust-enum]] — Rust Enum 笔记
+- [[sources/src-rust-generics|src-rust-generics]] — Rust Generics 笔记
+- [[sources/src-rust-iterators|src-rust-iterators]] — Rust Iterators 笔记
 - [[sources/src-philosophy-of-software-design|src-philosophy-of-software-design]] — 《A Philosophy of Software Design》读书笔记
 - [[sources/src-linux-multithreaded-server-programming|src-linux-multithreaded-server-programming]] — 《Linux 多线程服务端编程》读书笔记
 - [[sources/src-practical-vim|src-practical-vim]] — 《Practical VIM》读书笔记
+- [[sources/src-std-promise-future|src-std-promise-future]] — C++ std-promise 和 std-future 笔记
 - [[sources/src-vim-basic-commands|src-vim-basic-commands]] — VIM 基础命令速查
 
 ## Entities
@@ -66,27 +85,47 @@ aliases: []
 - [[concepts/AI Coding Agent|AI Coding Agent]] — 能自主理解、修改、验证代码的 AI 智能体
 - [[concepts/CAS|CAS]] — 比较并交换，实现无锁算法的核心原子原语
 - [[concepts/Classitis|Classitis]] — 过度拆分小类导致模块变浅、依赖增加的反模式
+- [[concepts/CMake Compiler Detection|CMake Compiler Detection]] — 在 CMake 中识别 C/C++ 编译器类型与版本的方法
+- [[concepts/CMake Dependency Management|CMake Dependency Management]] — 在 CMake 项目中查找、引入和传播外部依赖的方法与最佳实践
+- [[concepts/Coroutine|Coroutine]] — 可在执行过程中挂起并恢复的函数/控制流抽象
+- [[concepts/CRTP|CRTP]] — C++ 中通过模板继承实现静态多态的惯用法
 - [[concepts/Deep Module|Deep Module]] — 接口简单但内部实现功能丰富的模块
+- [[concepts/enable_shared_from_this|enable_shared_from_this]] — 在对象内部安全获取管理自身的 shared_ptr 的 C++ 机制
 - [[concepts/Forwarding Reference|Forwarding Reference]] — C++ 模板中既能接收左值又能接收右值的特殊引用
+- [[concepts/Google Test|Google Test]] — C++ 主流单元测试框架及其在 CMake 中的集成方式
 - [[concepts/Hazard Pointer|Hazard Pointer]] — 无锁数据结构中安全延迟回收内存的机制
 - [[concepts/Information Hiding|Information Hiding]] — 将模块的实现细节封装起来，只暴露必要接口的设计原则
 - [[concepts/Inline Variable|Inline Variable]] — C++17 引入的可在头文件中定义且不会引发重复定义的全局/静态变量
+- [[concepts/Integral Constant|Integral Constant]] — C++ 中把编译期常量及其类型信息封装成类型的模板元编程工具
 - [[concepts/LLM Wiki|LLM Wiki]] — LLM 维护的通用知识库模式
 - [[concepts/Lock-Free Data Structure|Lock-Free Data Structure]] — 不依赖互斥锁，通过原子操作保证线程安全的数据结构
 - [[concepts/Loop Engineering|Loop Engineering]] — 用循环驱动 LLM 持续工作的方法论
 - [[concepts/Memory Order|Memory Order]] — 多线程程序中内存访问操作的可见性和排序规则
 - [[concepts/Memory Safety|Memory Safety]] — 程序访问内存时不会出现越界、use-after-free 等未定义行为的性质
 - [[concepts/Messaging Gateway|Messaging Gateway]] — 连接 AI 系统与外部消息平台的中间服务
+- [[concepts/Mixin|Mixin]] — 通过继承组合可复用功能单元的设计方式
+- [[concepts/Most Vexing Parse|Most Vexing Parse]] — C++ 中对象初始化被误解析为函数声明的语法歧义
+- [[concepts/Mermaid|Mermaid]] — 基于文本语法的图表绘制工具，可从 Markdown 代码块生成多种图表
+- [[concepts/Makefile|Makefile]] — GNU Make 使用的基于规则的构建描述文件
 - [[concepts/Object Lifetime Management|Object Lifetime Management]] — 在多线程环境下安全地创建和销毁对象的问题
 - [[concepts/ODR|ODR]] — C++ 的 One Definition Rule，规定实体在整个程序中只能被定义一次
 - [[concepts/Perfect Forwarding|Perfect Forwarding]] — 在函数模板中保持参数原始左值/右值属性传递给另一个函数
 - [[concepts/Plan Mode|Plan Mode]] — 让 AI 在动手前先产出执行计划的模式
+- [[concepts/Promise and Future|Promise and Future]] — C++ 中用于跨线程一次性传递异步结果与同步状态的标准机制
+- [[concepts/Python Dataclass|Python Dataclass]] — Python 中通过装饰器自动生成数据类常用方法（__init__、__repr__、__eq__ 等）的机制
+- [[concepts/Python Dict Key|Python Dict Key]] — Python 字典中 key 的相等性、哈希约束与可哈希对象的要求
 - [[concepts/RAG|RAG]] — 检索增强生成
 - [[concepts/Reference Collapsing|Reference Collapsing]] — C++ 中多个引用限定符组合时折叠为单一引用类型的规则
 - [[concepts/Rules and Skills|Rules and Skills]] — 给 AI Agent 的持久化约束与领域知识配置
 - [[concepts/Sanitizer|Sanitizer]] — 编译器内置的动态程序正确性检测工具族
 - [[concepts/Software Complexity|Software Complexity]] — 软件系统中让开发者难以理解和修改的累积负担
 - [[concepts/Spin Lock|Spin Lock]] — 通过循环 CAS 操作忙等待获取的锁
+- [[concepts/Static Polymorphism|Static Polymorphism]] — 在编译期而非运行期实现的多态行为
+- [[concepts/Rust Closure|Rust Closure]] — Rust 中携带外部环境、由编译器推断并实现 Fn/FnMut/FnOnce trait 的匿名函数
+- [[concepts/Rust Enum|Rust Enum]] — Rust 中可携带数据的标签联合体枚举类型
+- [[concepts/Rust Generics|Rust Generics]] — Rust 中通过类型参数消除重复、结合 trait bound 约束并在编译期单态化的泛型机制
+- [[concepts/Rust Iterator|Rust Iterator]] — Rust 中基于 Iterator trait 的惰性遍历、消费适配器与迭代器适配器组合机制
+- [[concepts/Smart Pointer|Smart Pointer]] — 封装裸指针、自动管理生命周期的 C++ 指针类型
 - [[concepts/Thread Safety|Thread Safety]] — 多个线程访问共享资源时程序行为正确的性质
 - [[concepts/Value Category|Value Category]] — C++ 中表达式的左值/右值分类
 - [[concepts/Persistent wiki|Persistent wiki]] — 持久化、复利式积累的知识库
