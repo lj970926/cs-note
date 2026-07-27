@@ -12,12 +12,12 @@ aliases: []
 
 ## Stats
 
-- Sources: 31
-- Entities: 10
-- Concepts: 49
+- Sources: 34
+- Entities: 12
+- Concepts: 53
 - Syntheses: 0
-- Questions: 0
-- Last updated: 2026-07-25
+- Questions: 3
+- Last updated: 2026-07-27
 
 ## Meta pages
 
@@ -32,6 +32,9 @@ aliases: []
 
 ### Web
 - [[sources/src-llm-wiki-idea|src-llm-wiki-idea]] — Karpathy 提出的 LLM Wiki 模式
+- [[sources/src-intel-sdm|src-intel-sdm]] — Intel SDM，x86/x86-64 官方开发者手册
+- [[sources/src-felixcloutier-x86|src-felixcloutier-x86]] — Intel SDM Vol.2 指令参考的可搜索网页版
+- [[sources/src-sfinae|src-sfinae]] — cppreference 的 SFINAE 参考页
 
 ### Note
 - [[sources/src-aba-problem|src-aba-problem]] — ABA 问题笔记
@@ -72,7 +75,9 @@ aliases: []
 - [[entities/Claude Code|Claude Code]] — Anthropic 出品的 AI 编程助手/CLI 工具
 - [[entities/Cursor|Cursor]] — 集成 AI Agent 的代码编辑器
 - [[entities/Drew Neil|Drew Neil]] — Vim 专家，《Practical VIM》作者
+- [[entities/Felix Cloutier|Felix Cloutier]] — x86 指令速查站 felixcloutier.com/x86 维护者
 - [[entities/Hermes|Hermes]] — 多平台消息接入的 AI 消息框架
+- [[entities/Intel|Intel]] — x86 架构定义者，Intel SDM 手册发布方
 - [[entities/John Ousterhout|John Ousterhout]] — 斯坦福大学计算机科学教授，《A Philosophy of Software Design》作者
 - [[entities/Karpathy|Karpathy]] — AI 研究员，LLM Wiki 理念的提出者
 - [[entities/Linux 多线程服务端编程|Linux 多线程服务端编程]] — 陈硕关于 C++ 多线程服务端开发的著作
@@ -82,6 +87,7 @@ aliases: []
 ## Concepts
 
 - [[concepts/ABA Problem|ABA Problem]] — CAS 无锁操作中值相同但状态已变的经典问题
+- [[concepts/ASLR|ASLR]] — 地址空间布局随机化，每次启动随机偏移各段基址
 - [[concepts/AI Coding Agent|AI Coding Agent]] — 能自主理解、修改、验证代码的 AI 智能体
 - [[concepts/CAS|CAS]] — 比较并交换，实现无锁算法的核心原子原语
 - [[concepts/Classitis|Classitis]] — 过度拆分小类导致模块变浅、依赖增加的反模式
@@ -105,6 +111,7 @@ aliases: []
 - [[concepts/Messaging Gateway|Messaging Gateway]] — 连接 AI 系统与外部消息平台的中间服务
 - [[concepts/Mixin|Mixin]] — 通过继承组合可复用功能单元的设计方式
 - [[concepts/Most Vexing Parse|Most Vexing Parse]] — C++ 中对象初始化被误解析为函数声明的语法歧义
+- [[concepts/NX Bit|NX Bit]] — 硬件级页不可执行位，实现 W^X 策略
 - [[concepts/Mermaid|Mermaid]] — 基于文本语法的图表绘制工具，可从 Markdown 代码块生成多种图表
 - [[concepts/Makefile|Makefile]] — GNU Make 使用的基于规则的构建描述文件
 - [[concepts/Object Lifetime Management|Object Lifetime Management]] — 在多线程环境下安全地创建和销毁对象的问题
@@ -118,6 +125,7 @@ aliases: []
 - [[concepts/Reference Collapsing|Reference Collapsing]] — C++ 中多个引用限定符组合时折叠为单一引用类型的规则
 - [[concepts/Rules and Skills|Rules and Skills]] — 给 AI Agent 的持久化约束与领域知识配置
 - [[concepts/Sanitizer|Sanitizer]] — 编译器内置的动态程序正确性检测工具族
+- [[concepts/SFINAE|SFINAE]] — C++ 模板规则：替换失败不是错误，失败候选从重载集合中被剔除
 - [[concepts/Software Complexity|Software Complexity]] — 软件系统中让开发者难以理解和修改的累积负担
 - [[concepts/Spin Lock|Spin Lock]] — 通过循环 CAS 操作忙等待获取的锁
 - [[concepts/Static Polymorphism|Static Polymorphism]] — 在编译期而非运行期实现的多态行为
@@ -127,6 +135,7 @@ aliases: []
 - [[concepts/Rust Iterator|Rust Iterator]] — Rust 中基于 Iterator trait 的惰性遍历、消费适配器与迭代器适配器组合机制
 - [[concepts/Smart Pointer|Smart Pointer]] — 封装裸指针、自动管理生命周期的 C++ 指针类型
 - [[concepts/Thread Safety|Thread Safety]] — 多个线程访问共享资源时程序行为正确的性质
+- [[concepts/x86-64|x86-64]] — 由 AMD 定义、Intel 采用的 64 位 x86 指令集架构
 - [[concepts/Value Category|Value Category]] — C++ 中表达式的左值/右值分类
 - [[concepts/Persistent wiki|Persistent wiki]] — 持久化、复利式积累的知识库
 
@@ -136,8 +145,10 @@ _暂无_
 
 ## Questions
 
-_暂无_
+- [[questions/how-to-read-intel-sdm|如何阅读 Intel SDM]] — 面向有体系结构基础者的 SDM 阅读路线
+- [[questions/linux-process-address-space|Linux 进程地址空间布局]] — x86-64 进程虚拟地址空间的典型布局
+- [[questions/stack-based-code-injection|基于栈溢出的代码注入]] — stack smashing 原理、注入位置与防御进化
 
 ## Orphans & gaps
 
-_暂无_
+- `[[concepts/Template Metaprogramming]]` 与 `[[concepts/Type Traits]]` 被 [[concepts/Integral Constant|Integral Constant]]、[[concepts/SFINAE|SFINAE]] 等页引用，但尚未建页。

@@ -12,6 +12,26 @@ aliases: []
 
 ---
 
+## [2026-07-27] ingest | SFINAE
+
+**Source type**: web
+**Source URL**: <https://en.cppreference.com/w/cpp/language/sfinae.html>
+**Context**: 用户阅读 [[concepts/Integral Constant|Integral Constant]] 时询问 SFINAE 的含义与读法
+**Pages created**:
+- [[sources/src-sfinae|src-sfinae]]
+- [[concepts/SFINAE|SFINAE]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- SFINAE：函数模板重载决议中替换失败的候选被静默剔除，只有全部失败才报错。
+- 只保护替换阶段（签名/返回类型等直接上下文）；函数体或深层实例化出错仍是硬错误。
+- `std::enable_if` 是最常见应用；C++20 concepts 是更直观的替代。
+- 读作 "sfin-ay" /ˈsfɪneɪ/。
+
+---
+
 ## [2026-07-25] ingest | Rust Iterators
 
 **Source type**: note
@@ -827,3 +847,164 @@ aliases: []
 **Cancelled cron job**: 772e2702
 **Status**: 已停止，read-queue.md 保留当前进度，后续可随时继续。
 
+
+---
+
+## [2026-07-26] ingest | Intel SDM
+
+**Source type**: web
+**Source URL**: https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html
+**Trigger**: 用户问 "x86 的手册在哪里"，随后要求 ingest
+**Pages created**:
+- [[sources/src-intel-sdm|src-intel-sdm]]
+- [[entities/Intel|Intel]]
+- [[concepts/x86-64|x86-64]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- Intel SDM 分四卷：Vol.1 基础架构、Vol.2 指令参考、Vol.3 系统编程、Vol.4 MSR。
+- 查单条指令可用 felixcloutier.com/x86 网页版，比翻 PDF 快。
+- x86-64 / long mode 为 AMD 原创扩展，查 `syscall` 等可对照 AMD64 手册。
+
+---
+
+## [2026-07-26] query | 如何阅读 Intel SDM
+
+**Trigger**: 用户问：有体系结构基础但不熟 x86，怎么读 SDM
+**Pages created**:
+- [[questions/how-to-read-intel-sdm|如何阅读 Intel SDM]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- SDM 是参考手册不是教科书，不要线性读；Vol.1 第 3 章是唯一需要通读的部分。
+- 两条 track：读编译器输出（felixcloutier + Optimization Manual）、OS 开发（Vol.3 分页/中断/内存序）。
+- 微架构细节在 Optimization Reference Manual，不在 SDM。
+
+---
+
+## [2026-07-26] ingest | felixcloutier.com/x86
+
+**Source type**: web
+**Source URL**: https://www.felixcloutier.com/x86/
+**Trigger**: 用户表示这个网站不错，要求正式收录
+**Pages created**:
+- [[sources/src-felixcloutier-x86|src-felixcloutier-x86]]
+- [[entities/Felix Cloutier|Felix Cloutier]]
+
+**Pages updated**:
+- [[sources/src-intel-sdm|src-intel-sdm]] — 关联资源改为双链
+- [[concepts/x86-64|x86-64]] — 查表与 Sources 增加新来源
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- felixcloutier.com/x86 是 Intel SDM Vol.2 的可搜索网页镜像，查单条指令的主力工具。
+- 二手镜像来源，权威语义仍以 SDM 原文为准。
+
+---
+
+## [2026-07-26] query | Linux 进程地址空间布局
+
+**Trigger**: 用户提问 "linux的进程地址空间长啥样？"
+**Source**: 无外部来源，基于通用系统知识回答
+**Pages created**:
+- [[questions/linux-process-address-space|Linux 进程地址空间布局]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- x86-64 48 位 VA：低地址 text/data/bss，中间 heap 向上、mmap 区向下，顶部用户栈；上半部为内核空间。
+- VMA 是管理单位，page fault 惰性分配物理页；ASLR 随机化各段基址。
+- Follow-up：VMA/demand paging 可建独立 concept 页。
+
+---
+
+## [2026-07-26] query | 栈段的权限
+
+**Trigger**: 用户追问 "stack 这个 segment 的权限是啥？"
+**Source**: 无外部来源，基于通用系统知识回答
+**Pages updated**:
+- [[questions/linux-process-address-space|Linux 进程地址空间布局]] — 新增"栈的权限"小节
+
+**Key takeaways**:
+- 用户栈为 `rw-`（NX），权限由 ELF `PT_GNU_STACK` 决定，`-z execstack` 可改可执行栈。
+- grow-down（`VM_GROWSDOWN`）是隐藏属性；线程栈在 mmap 区且带 `PROT_NONE` guard page。
+
+---
+
+## [2026-07-26] query | 查看栈权限的命令
+
+**Trigger**: 用户追问 "有什么命令可以看吗？readelf 可以吗？或者 objdump"
+**Source**: 无外部来源，基于通用系统知识回答
+**Pages updated**:
+- [[questions/linux-process-address-space|Linux 进程地址空间布局]] — 新增"查看权限的命令"小节
+
+**Key takeaways**:
+- 静态：`readelf -lW | grep GNU_STACK`（标准）；`objdump -p` 也可，但 `-S`/`-h` 看 section 看不到。
+- 动态：`/proc/<pid>/maps`、`pmap -X`。
+
+---
+
+## [2026-07-26] query | GDB 查看地址空间/栈
+
+**Trigger**: 用户追问 "gdb有啥东西可以看吗？"
+**Source**: 无外部来源，基于通用系统知识回答
+**Pages updated**:
+- [[questions/linux-process-address-space|Linux 进程地址空间布局]] — "查看权限的命令"新增 GDB 小节
+
+**Key takeaways**:
+- `info proc mappings` 是调试器内嵌版 /proc/pid/maps，直接显示各段 Perms。
+- 配合 `info frame`、`x/32gx $rsp` 做栈分析；GDB 默认禁用 ASLR 便于调试复现。
+
+---
+
+## [2026-07-26] query | 基于栈溢出的代码注入
+
+**Trigger**: 用户提问 "基于 stack overflow 的 code injection 一般是怎么做的？代码注入到哪里呀？"
+**Source**: 无外部来源，基于通用系统安全知识回答
+**Pages created**:
+- [[questions/stack-based-code-injection|基于栈溢出的代码注入]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+- [[questions/linux-process-address-space|Linux 进程地址空间布局]] — Follow-ups 增加互链
+
+**Key takeaways**:
+- 注入位置 = 溢出的缓冲区本身（通常栈上），覆盖 return address 引入执行流，NOP sled 解决地址不确定性。
+- 防御进化链：NX → ret2libc；ASLR → 信息泄露 + ROP；canary；PIE。
+
+---
+
+## [2026-07-26] query | 拿 shell 有什么用
+
+**Trigger**: 用户追问 "拿shell有啥用呢？"
+**Source**: 无外部来源，基于通用系统安全知识回答
+**Pages updated**:
+- [[questions/stack-based-code-injection|基于栈溢出的代码注入]] — 新增"为什么经典 payload 是拿 shell"小节
+
+**Key takeaways**:
+- shell = 目标进程权限的交互式操作权；setuid root 目标给出 root shell。
+- shell 是 foothold 里程碑，之后是提权、持久化、横向移动；payload 也可以是 bind/reverse shell 或 dropper。
+
+---
+
+## [2026-07-26] query | NX bit 与 ASLR 是什么
+
+**Trigger**: 用户追问 "NX bit和ASLR都是啥？"
+**Source**: 无外部来源，基于通用系统安全知识回答
+**Pages created**:
+- [[concepts/NX Bit|NX Bit]]
+- [[concepts/ASLR|ASLR]]
+
+**Pages updated**:
+- [[_meta/map|map]] — Concepts 50→52
+- [[questions/stack-based-code-injection|基于栈溢出的代码注入]] — Sources 链接新概念页
+
+**Key takeaways**:
+- NX = PTE 硬件不可执行位，实现 W^X，堵死数据区代码注入，催生 ret2libc/ROP。
+- ASLR = 各段基址随机化（PIE 才可随机化代码段），局限：只动基址、熵有限、信息泄露可破。
+- 两者互补：NX 消灭注入，ASLR 消灭复用所需的地址知识。
