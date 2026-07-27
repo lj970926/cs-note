@@ -12,11 +12,11 @@ aliases: []
 
 ## Stats
 
-- Sources: 34
-- Entities: 12
-- Concepts: 53
+- Sources: 37
+- Entities: 14
+- Concepts: 58
 - Syntheses: 0
-- Questions: 3
+- Questions: 4
 - Last updated: 2026-07-27
 
 ## Meta pages
@@ -45,6 +45,8 @@ aliases: []
 - [[sources/src-cmake-include-directory|src-cmake-include-directory]] — CMake include directory 笔记
 - [[sources/src-cmake-compiler-detection|src-cmake-compiler-detection]] — CMake 判断编译器类型笔记
 - [[sources/src-cpp-forwarding-reference|src-cpp-forwarding-reference]] — C++ 转发引用与引用折叠笔记
+- [[sources/src-dflash|src-dflash]] — DFlash（Diffusion 投机解码）论文与 vLLM 实现笔记
+- [[sources/src-gtd|src-gtd]] — GTD 任务管理方法论指南笔记
 - [[sources/src-cpp17-inline-static|src-cpp17-inline-static]] — C++17 inline static 笔记
 - [[sources/src-compare-exchange-weak-strong|src-compare-exchange-weak-strong]] — compare_exchange_weak vs strong 笔记
 - [[sources/src-coroutine|src-coroutine]] — C++ Coroutine 笔记
@@ -66,6 +68,7 @@ aliases: []
 - [[sources/src-philosophy-of-software-design|src-philosophy-of-software-design]] — 《A Philosophy of Software Design》读书笔记
 - [[sources/src-linux-multithreaded-server-programming|src-linux-multithreaded-server-programming]] — 《Linux 多线程服务端编程》读书笔记
 - [[sources/src-practical-vim|src-practical-vim]] — 《Practical VIM》读书笔记
+- [[sources/src-procrastination-handbook|src-procrastination-handbook]] — 拖延症应对手册笔记
 - [[sources/src-std-promise-future|src-std-promise-future]] — C++ std-promise 和 std-future 笔记
 - [[sources/src-vim-basic-commands|src-vim-basic-commands]] — VIM 基础命令速查
 
@@ -74,6 +77,7 @@ aliases: []
 - [[entities/AddressSanitizer|AddressSanitizer]] — Clang/GCC 内置的内存错误检测工具（ASan）
 - [[entities/Claude Code|Claude Code]] — Anthropic 出品的 AI 编程助手/CLI 工具
 - [[entities/Cursor|Cursor]] — 集成 AI Agent 的代码编辑器
+- [[entities/David Allen|David Allen]] — 生产力顾问，GTD 方法论提出者
 - [[entities/Drew Neil|Drew Neil]] — Vim 专家，《Practical VIM》作者
 - [[entities/Felix Cloutier|Felix Cloutier]] — x86 指令速查站 felixcloutier.com/x86 维护者
 - [[entities/Hermes|Hermes]] — 多平台消息接入的 AI 消息框架
@@ -82,11 +86,13 @@ aliases: []
 - [[entities/Karpathy|Karpathy]] — AI 研究员，LLM Wiki 理念的提出者
 - [[entities/Linux 多线程服务端编程|Linux 多线程服务端编程]] — 陈硕关于 C++ 多线程服务端开发的著作
 - [[entities/Vim|Vim]] — 高度可扩展的模态文本编辑器
+- [[entities/vLLM|vLLM]] — 高吞吐 LLM 推理引擎，实现了 DFlash 等投机解码
 - [[entities/陈硕|陈硕]] — C++ 程序员，《Linux 多线程服务端编程》作者
 
 ## Concepts
 
 - [[concepts/ABA Problem|ABA Problem]] — CAS 无锁操作中值相同但状态已变的经典问题
+- [[concepts/All-Gather|All-Gather]] — 把各 rank 分片聚合到所有 rank 的集合通信原语，含 algbw/busbw 口径
 - [[concepts/ASLR|ASLR]] — 地址空间布局随机化，每次启动随机偏移各段基址
 - [[concepts/AI Coding Agent|AI Coding Agent]] — 能自主理解、修改、验证代码的 AI 智能体
 - [[concepts/CAS|CAS]] — 比较并交换，实现无锁算法的核心原子原语
@@ -96,9 +102,11 @@ aliases: []
 - [[concepts/Coroutine|Coroutine]] — 可在执行过程中挂起并恢复的函数/控制流抽象
 - [[concepts/CRTP|CRTP]] — C++ 中通过模板继承实现静态多态的惯用法
 - [[concepts/Deep Module|Deep Module]] — 接口简单但内部实现功能丰富的模块
+- [[concepts/DFlash|DFlash]] — 用 Diffusion LLM 做 drafter、把 target hidden state 注入 draft KV Cache 的投机解码方法
 - [[concepts/enable_shared_from_this|enable_shared_from_this]] — 在对象内部安全获取管理自身的 shared_ptr 的 C++ 机制
 - [[concepts/Forwarding Reference|Forwarding Reference]] — C++ 模板中既能接收左值又能接收右值的特殊引用
 - [[concepts/Google Test|Google Test]] — C++ 主流单元测试框架及其在 CMake 中的集成方式
+- [[concepts/GTD|GTD]] — David Allen 的任务管理方法论：外化一切悬而未决，五步流程闭环
 - [[concepts/Hazard Pointer|Hazard Pointer]] — 无锁数据结构中安全延迟回收内存的机制
 - [[concepts/Information Hiding|Information Hiding]] — 将模块的实现细节封装起来，只暴露必要接口的设计原则
 - [[concepts/Inline Variable|Inline Variable]] — C++17 引入的可在头文件中定义且不会引发重复定义的全局/静态变量
@@ -127,6 +135,7 @@ aliases: []
 - [[concepts/Sanitizer|Sanitizer]] — 编译器内置的动态程序正确性检测工具族
 - [[concepts/SFINAE|SFINAE]] — C++ 模板规则：替换失败不是错误，失败候选从重载集合中被剔除
 - [[concepts/Software Complexity|Software Complexity]] — 软件系统中让开发者难以理解和修改的累积负担
+- [[concepts/Speculative Decoding|Speculative Decoding]] — drafter 提议 + target 并行验证的无损解码加速范式
 - [[concepts/Spin Lock|Spin Lock]] — 通过循环 CAS 操作忙等待获取的锁
 - [[concepts/Static Polymorphism|Static Polymorphism]] — 在编译期而非运行期实现的多态行为
 - [[concepts/Rust Closure|Rust Closure]] — Rust 中携带外部环境、由编译器推断并实现 Fn/FnMut/FnOnce trait 的匿名函数
@@ -138,6 +147,7 @@ aliases: []
 - [[concepts/x86-64|x86-64]] — 由 AMD 定义、Intel 采用的 64 位 x86 指令集架构
 - [[concepts/Value Category|Value Category]] — C++ 中表达式的左值/右值分类
 - [[concepts/Persistent wiki|Persistent wiki]] — 持久化、复利式积累的知识库
+- [[concepts/Procrastination|Procrastination]] — 拖延是情绪管理问题，按三型诊断、五层应对
 
 ## Syntheses
 
@@ -145,6 +155,7 @@ _暂无_
 
 ## Questions
 
+- [[questions/allgather-bandwidth|All-Gather 的算法带宽与总线带宽]] — algbw = S/t，busbw = algbw × (n-1)/n 的推导
 - [[questions/how-to-read-intel-sdm|如何阅读 Intel SDM]] — 面向有体系结构基础者的 SDM 阅读路线
 - [[questions/linux-process-address-space|Linux 进程地址空间布局]] — x86-64 进程虚拟地址空间的典型布局
 - [[questions/stack-based-code-injection|基于栈溢出的代码注入]] — stack smashing 原理、注入位置与防御进化
@@ -152,3 +163,7 @@ _暂无_
 ## Orphans & gaps
 
 - `[[concepts/Template Metaprogramming]]` 与 `[[concepts/Type Traits]]` 被 [[concepts/Integral Constant|Integral Constant]]、[[concepts/SFINAE|SFINAE]] 等页引用，但尚未建页。
+- `[[深度工作]]`、`[[原子习惯]]` 被 [[concepts/Procrastination|Procrastination]] 引用（源笔记中标记为"待建"），尚无对应来源与页面；`[[GTD]]` 已于 2026-07-27 建页。
+- `[[番茄工作法]]`、`[[Eisenhower 矩阵]]` 被 [[concepts/GTD|GTD]] 引用，但尚未建页。
+- `[[EAGLE]]`、`[[Diffusion LLM]]` 被 [[concepts/DFlash|DFlash]]、[[concepts/Speculative Decoding|Speculative Decoding]] 引用，但尚未建页。
+- `[[NCCL]]`、`[[Ring All-Reduce]]` 被 [[concepts/All-Gather|All-Gather]] 引用，但尚未建页。

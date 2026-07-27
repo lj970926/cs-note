@@ -12,6 +12,80 @@ aliases: []
 
 ---
 
+## [2026-07-27] ingest | GTD - Getting Things Done
+
+**Source type**: note
+**Local ref**: [[其他/GTD - Getting Things Done]]
+**Trigger**: 用户要求 ingest 该笔记；GTD 此前作为 gap 被 [[concepts/Procrastination|Procrastination]] 引用
+**Pages created**:
+- [[sources/src-gtd|src-gtd]]
+- [[concepts/GTD|GTD]]
+- [[entities/David Allen|David Allen]]
+
+**Pages updated**:
+- [[_meta/map|map]] — gaps 中移除 `[[GTD]]`（已建页），新增 `[[番茄工作法]]`、`[[Eisenhower 矩阵]]`
+
+**Key takeaways**:
+- GTD 核心：大脑是用来思考的不是用来记忆的；Open Loop 外化到可信赖系统以消除焦虑。
+- 五步流程 Capture→Clarify→Organize→Reflect→Engage；Weekly Review 是发动机，本质是重建对系统的信任。
+- 与 Procrastination 概念页形成互链：GTD 对应"混沌型"拖延的解法。
+- 新增实体页 David Allen（GTD 提出者）。
+
+**Follow-ups**:
+- [ ] `[[深度工作]]`、`[[原子习惯]]`、`[[番茄工作法]]`、`[[Eisenhower 矩阵]]` 仍为 gap；vault 中若出现对应笔记可建页。
+- [ ] 拖延手册书单中的《微习惯》《自控力》若后续有读书笔记，可补充 Procrastination 页。
+
+---
+
+## [2026-07-27] ingest | DFlash: Block Diffusion for Flash Speculative Decoding
+
+**Source type**: note
+**Local ref**: [[paper/DFlash Block Diffusion for Flash Speculative Decoding]]
+**Trigger**: 用户要求 ingest 该论文笔记
+**Pages created**:
+- [[sources/src-dflash|src-dflash]]
+- [[concepts/DFlash|DFlash]]
+- [[concepts/Speculative Decoding|Speculative Decoding]]
+- [[entities/vLLM|vLLM]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- DFlash 用 Diffusion LLM 做 drafter、AR LLM 做 target，实现精度无损加速；核心是把 target hidden state 直接注入 draft 的 KV Cache，accept length 明显优于 EAGLE-3。
+- vLLM 实现：`precompute_and_store_context_kv` 将所有层 KV projection 权重拼成一次大 GEMM，配合融合 RMSNorm/RoPE 与逐层 `do_kv_cache_update`。
+- 输入准备由 Triton kernel 融合：positions/slot_mapping/input_ids（bonus + mask token）/采样索引一次完成。
+- 这是 Wiki 首个 LLM 推理方向来源，新建了 Speculative Decoding 概念页与 vLLM 实体页作为该领域的挂点。
+
+**Follow-ups**:
+- [ ] `[[EAGLE]]`、`[[Diffusion LLM]]` 已登记为 gap，后续读到相关来源可建页。
+- [ ] 若 ingest 更多 vLLM 源码笔记（如 [[vllm 源码随手记]]），可充实 vLLM 实体页与 spec decode 框架细节。
+
+---
+
+## [2026-07-27] ingest | 拖延症应对手册
+
+**Source type**: note
+**Local ref**: [[其他/拖延症应对手册]]
+**Trigger**: 用户要求 ingest 该笔记
+**Pages created**:
+- [[sources/src-procrastination-handbook|src-procrastination-handbook]]
+- [[concepts/Procrastination|Procrastination]]
+
+**Pages updated**:
+- [[_meta/map|map]]
+
+**Key takeaways**:
+- 拖延是情绪管理问题而非时间管理问题；先诊断类型（完美主义/瘫痪/混沌）再对症用药。
+- 阻力 90% 集中在启动：两分钟规则、缩小到不可能失败、五秒启动法。
+- 环境设计替代意志力；拖延后不自责（自责制造下一次拖延）。
+- 该笔记创建于 2026-07-27，不在 read-queue 快照内，队列无需更新。
+
+**Follow-ups**:
+- [ ] 源笔记中 [[GTD]]、[[深度工作]]、[[原子习惯]] 标记为"待建"，若 vault 后续出现对应笔记可建 concept 页并回填链接。
+
+---
+
 ## [2026-07-27] ingest | SFINAE
 
 **Source type**: web
@@ -1008,3 +1082,20 @@ aliases: []
 - NX = PTE 硬件不可执行位，实现 W^X，堵死数据区代码注入，催生 ret2libc/ROP。
 - ASLR = 各段基址随机化（PIE 才可随机化代码段），局限：只动基址、熵有限、信息泄露可破。
 - 两者互补：NX 消灭注入，ASLR 消灭复用所需的地址知识。
+
+---
+
+## [2026-07-27] query | all-gather 的 algbw 和 busbw 怎么算
+
+**Trigger**: 用户提问 "all-gather算法的算法带宽和总线带宽分别怎么算？"
+**Source**: 无外部来源，基于 NCCL-tests 通行口径整理
+**Pages created**:
+- [[concepts/All-Gather|All-Gather]]
+- [[questions/allgather-bandwidth|All-Gather 的算法带宽与总线带宽]]
+
+**Pages updated**:
+- [[_meta/map|map]] — Concepts 57→58，Questions 3→4；新增 NCCL / Ring All-Reduce 待建 gap
+
+**Key takeaways**:
+- algbw = S/t；busbw = algbw × (n-1)/n，来自 ring 上每 rank 实际传输 (n-1)·S/n 字节。
+- 修正因子对照：All-Reduce 2(n-1)/n，Reduce-Scatter 同 All-Gather，Broadcast/Reduce 为 1。
