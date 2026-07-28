@@ -12,6 +12,84 @@ aliases: []
 
 ---
 
+## [2026-07-28] ingest | Chat: DP 状态设计与转移方程技巧
+
+**Source type**: chat
+**Local raw**: [[llm-wiki/raw/chats/2026-07-28-dp-state-design-tips]]
+**Trigger**: 用户要求 ingest 会话中"DP 子问题与状态转移方程构建技巧"一轮问答
+**Pages created**:
+- [[llm-wiki/raw/chats/2026-07-28-dp-state-design-tips|raw 聊天存档]]
+- [[sources/src-dp-state-design-chat|src-dp-state-design-chat]]
+- [[questions/dp-state-design-tips|DP 状态设计与转移方程技巧]]
+
+**Pages updated**:
+- [[concepts/Dynamic Programming|Dynamic Programming]] — "状态设计是难点"处链接新问答页，Sources 补充
+- [[_meta/map|map]] — Stats（Sources 39→40、Questions 6→7）
+
+**Key takeaways**:
+- 状态设计核心检验：无后效性；三套路 = 前缀结构、只存影响未来的信息、状态值即优化目标。
+- 转移方程通用框架：枚举到达当前状态的"最后一步决策"，比从前向后推更不易漏。
+- 模式选型信号：两串对比→双序列、区间分割→区间 DP、n≤20→状压；实战路径 = 暴力递归→记忆化→填表。
+- 自查四条：无后效性、完备性、顺序、边界。
+
+**Follow-ups**:
+- [ ] 各模式代表题精讲（区间 DP 分割点枚举、状压位运算、换根 DP 二次扫描、LIS 两种状态定义）。
+
+---
+
+## [2026-07-28] ingest | Chat: 0-1 背包贪心反例与动态规划
+
+**Source type**: chat
+**Local raw**: [[llm-wiki/raw/chats/2026-07-28-knapsack-counterexample-and-dp]]
+**Trigger**: 用户要求 ingest 会话中"0-1 背包贪心反例"和"动态规划讲解 + 与贪心对比"两轮问答（[[sources/src-greedy-naming-chat|贪心命名会话]]的延续）
+**Pages created**:
+- [[llm-wiki/raw/chats/2026-07-28-knapsack-counterexample-and-dp|raw 聊天存档]]
+- [[sources/src-knapsack-dp-chat|src-knapsack-dp-chat]]
+- [[concepts/Dynamic Programming|Dynamic Programming]] — 填掉 map 中 DP 的 gap
+- [[concepts/0-1 Knapsack|0-1 Knapsack]]
+- [[questions/greedy-vs-dp|贪心 vs 动态规划]]
+
+**Pages updated**:
+- [[concepts/Greedy Algorithm|Greedy Algorithm]] — DP/0-1 背包改为全路径双链，Related 与 Sources 补充新页
+- [[_meta/map|map]] — Stats（Sources 38→39、Concepts 59→61、Questions 5→6）；gaps 移除 `[[Dynamic Programming]]`，保留 `[[Backtracking]]`
+
+**Key takeaways**:
+- 反例：容量 10，A(6,30)/B(5,20)/C(5,20)；贪心拿性价比最高的 A 得 30，B+C 塞满得 40。根源是不可分割造成容量碎片；分数背包贪心仍最优。
+- DP 中途不做不可逆选择，所有分支结果存表后取最优；适用条件 = 最优子结构 + 重叠子问题（否则是分治）。
+- 关系：贪心是 DP 在贪心选择性质成立时的"豪华简化版"；DP 用时空换正确性，背包 O(nW) 为伪多项式，状态设计是难点。
+
+**Follow-ups**:
+- [ ] 任意币制找零钱贪心反例 + DP 解法（两页 follow-up 均提到，可合并整理）。
+- [ ] 一维滚动数组优化与容量倒序枚举的原因。
+- [ ] 交换论证证明贪心选择性质的套路。
+
+---
+
+## [2026-07-28] ingest | Chat: 贪心算法命名由来
+
+**Source type**: chat
+**Local raw**: [[llm-wiki/raw/chats/2026-07-28-greedy-algorithm-naming]]
+**Trigger**: 用户要求 ingest 本会话中"贪心算法为啥叫贪心"的问答
+**Pages created**:
+- [[llm-wiki/raw/chats/2026-07-28-greedy-algorithm-naming|raw 聊天存档]] — 首个 chat 类来源，一次性归档（write-once），此后不再修改
+- [[sources/src-greedy-naming-chat|src-greedy-naming-chat]]
+- [[concepts/Greedy Algorithm|Greedy Algorithm]]
+- [[questions/why-called-greedy|贪心算法为什么叫贪心]]
+
+**Pages updated**:
+- [[_meta/map|map]] — Stats（Sources 37→38、Concepts 58→59、Questions 4→5）；新增 Chat 来源分区；新增 `[[Dynamic Programming]]`、`[[Backtracking]]` 待建 gap
+
+**Key takeaways**:
+- "贪心"命名 = 短视（每步只取局部最优，不考虑后续影响）+ 不回头（无回溯，与 Backtracking 对比）。
+- 贪心正确的前提：贪心选择性质 + 最优子结构；正例 Huffman/MST/活动选择，反例 0-1 背包。
+- 这是 Wiki 首个 chat 类来源；按 schema 在 `raw/chats/` 建立原始存档，source 页用 `local_raw` 指向。AGENTS 中"LLM 不修改 raw/"按"归档后不再修改"理解，一次性创建归档属于 ingest 流程的一部分。
+
+**Follow-ups**:
+- [ ] 贪心选择性质的证明套路（交换论证、归纳法）可整理为 concept 或 question 页。
+- [ ] 任意币制找零钱反例 + DP 解法，可在建 `[[Dynamic Programming]]` 页时一并处理。
+
+---
+
 ## [2026-07-27] ingest | GTD - Getting Things Done
 
 **Source type**: note

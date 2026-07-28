@@ -12,12 +12,12 @@ aliases: []
 
 ## Stats
 
-- Sources: 37
+- Sources: 40
 - Entities: 14
-- Concepts: 58
+- Concepts: 61
 - Syntheses: 0
-- Questions: 4
-- Last updated: 2026-07-27
+- Questions: 7
+- Last updated: 2026-07-28
 
 ## Meta pages
 
@@ -72,6 +72,11 @@ aliases: []
 - [[sources/src-std-promise-future|src-std-promise-future]] — C++ std-promise 和 std-future 笔记
 - [[sources/src-vim-basic-commands|src-vim-basic-commands]] — VIM 基础命令速查
 
+### Chat
+- [[sources/src-greedy-naming-chat|src-greedy-naming-chat]] — 会话：贪心算法命名由来（首个 chat 类来源）
+- [[sources/src-knapsack-dp-chat|src-knapsack-dp-chat]] — 会话：0-1 背包贪心反例与动态规划讲解
+- [[sources/src-dp-state-design-chat|src-dp-state-design-chat]] — 会话：DP 状态设计与转移方程技巧
+
 ## Entities
 
 - [[entities/AddressSanitizer|AddressSanitizer]] — Clang/GCC 内置的内存错误检测工具（ASan）
@@ -91,6 +96,7 @@ aliases: []
 
 ## Concepts
 
+- [[concepts/0-1 Knapsack|0-1 Knapsack]] — 物品不可分割的背包问题；贪心因容量碎片失效的典型反例
 - [[concepts/ABA Problem|ABA Problem]] — CAS 无锁操作中值相同但状态已变的经典问题
 - [[concepts/All-Gather|All-Gather]] — 把各 rank 分片聚合到所有 rank 的集合通信原语，含 algbw/busbw 口径
 - [[concepts/ASLR|ASLR]] — 地址空间布局随机化，每次启动随机偏移各段基址
@@ -102,11 +108,13 @@ aliases: []
 - [[concepts/Coroutine|Coroutine]] — 可在执行过程中挂起并恢复的函数/控制流抽象
 - [[concepts/CRTP|CRTP]] — C++ 中通过模板继承实现静态多态的惯用法
 - [[concepts/Deep Module|Deep Module]] — 接口简单但内部实现功能丰富的模块
+- [[concepts/Dynamic Programming|Dynamic Programming]] — 重叠子问题各解一次并存表、由子问题答案拼出最优解的算法范式
 - [[concepts/DFlash|DFlash]] — 用 Diffusion LLM 做 drafter、把 target hidden state 注入 draft KV Cache 的投机解码方法
 - [[concepts/enable_shared_from_this|enable_shared_from_this]] — 在对象内部安全获取管理自身的 shared_ptr 的 C++ 机制
 - [[concepts/Forwarding Reference|Forwarding Reference]] — C++ 模板中既能接收左值又能接收右值的特殊引用
 - [[concepts/Google Test|Google Test]] — C++ 主流单元测试框架及其在 CMake 中的集成方式
 - [[concepts/GTD|GTD]] — David Allen 的任务管理方法论：外化一切悬而未决，五步流程闭环
+- [[concepts/Greedy Algorithm|Greedy Algorithm]] — 每步取局部最优且不回头、靠贪心选择性质保证全局最优的算法范式
 - [[concepts/Hazard Pointer|Hazard Pointer]] — 无锁数据结构中安全延迟回收内存的机制
 - [[concepts/Information Hiding|Information Hiding]] — 将模块的实现细节封装起来，只暴露必要接口的设计原则
 - [[concepts/Inline Variable|Inline Variable]] — C++17 引入的可在头文件中定义且不会引发重复定义的全局/静态变量
@@ -159,6 +167,9 @@ _暂无_
 - [[questions/how-to-read-intel-sdm|如何阅读 Intel SDM]] — 面向有体系结构基础者的 SDM 阅读路线
 - [[questions/linux-process-address-space|Linux 进程地址空间布局]] — x86-64 进程虚拟地址空间的典型布局
 - [[questions/stack-based-code-injection|基于栈溢出的代码注入]] — stack smashing 原理、注入位置与防御进化
+- [[questions/why-called-greedy|贪心算法为什么叫贪心]] — "贪心"命名由来：短视、不回头的局部最优决策风格
+- [[questions/greedy-vs-dp|贪心 vs 动态规划]] — 0-1 背包贪心反例与贪心/DP 的系统对比
+- [[questions/dp-state-design-tips|DP 状态设计与转移方程技巧]] — 前缀结构、枚举最后一步、模式选型与自查清单
 
 ## Orphans & gaps
 
@@ -167,3 +178,4 @@ _暂无_
 - `[[番茄工作法]]`、`[[Eisenhower 矩阵]]` 被 [[concepts/GTD|GTD]] 引用，但尚未建页。
 - `[[EAGLE]]`、`[[Diffusion LLM]]` 被 [[concepts/DFlash|DFlash]]、[[concepts/Speculative Decoding|Speculative Decoding]] 引用，但尚未建页。
 - `[[NCCL]]`、`[[Ring All-Reduce]]` 被 [[concepts/All-Gather|All-Gather]] 引用，但尚未建页。
+- `[[Backtracking]]` 被 [[concepts/Greedy Algorithm|Greedy Algorithm]]、[[concepts/Dynamic Programming|Dynamic Programming]] 引用，但尚未建页。
