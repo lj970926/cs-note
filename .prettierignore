@@ -3,3 +3,4 @@ node_modules
 .quartz-cache
 content
 quartz/plugins/local/graph
+quartz/plugins/local/obsidian-plugin-excalidraw
