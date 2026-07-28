@@ -289,7 +289,7 @@ plugins:
     enabled: false
     options:
       theme: minimal
-  - source: github:quartz-community/obsidian-plugin-excalidraw
+  - source: ./quartz/plugins/local/obsidian-plugin-excalidraw
     enabled: true
     options:
       enableInteraction: true
