@@ -1177,3 +1177,63 @@ aliases: []
 **Key takeaways**:
 - algbw = S/t；busbw = algbw × (n-1)/n，来自 ring 上每 rank 实际传输 (n-1)·S/n 字节。
 - 修正因子对照：All-Reduce 2(n-1)/n，Reduce-Scatter 同 All-Gather，Broadcast/Reduce 为 1。
+
+---
+
+## [2026-07-29] ingest | chat: bash 脚本中执行临时多行命令
+
+**Trigger**: 用户要求 ingest 本次会话中关于 "bash 脚本里执行一个临时的多行命令" 的问答
+**Source type**: chat
+**Pages created**:
+- [[llm-wiki/raw/chats/2026-07-29-bash-multiline-command|raw chat 存档]]
+- [[sources/src-bash-multiline-chat|src-bash-multiline-chat]]
+- [[concepts/Heredoc|Heredoc]]
+- [[questions/bash-multiline-command|Bash 脚本中执行临时多行命令的方式]]
+
+**Pages updated**:
+- [[_meta/map|map]] — Sources 40→41，Concepts 61→62，Questions 7→8；新增 ANSI-C Quoting / Command Grouping 待建 gap
+
+**Key takeaways**:
+- Heredoc 定界符加引号（`<<'EOF'`）才阻止 `$` 展开，是"原样执行"的关键；忘加引号是最常见的坑。
+- 选型：喂解释器用 heredoc、远程用 `$'\n'` 或 `ssh host bash -s`、统一重定向用 `{ }`、传参复用定义函数。
+- `<<-` 只剥行首 Tab 不剥空格，允许内容缩进书写。
+
+---
+
+## [2026-07-29] ingest | chat: Cursor / Copilot Auto 模型路由
+
+**Trigger**: 用户要求 ingest 会话中关于模型路由的两段问答（Auto 怎么路由 + 路由评估用什么模型）
+**Source type**: chat（含 Web 搜索补充）
+**Pages created**:
+- [[llm-wiki/raw/chats/2026-07-29-model-routing-auto|raw chat 存档]]
+- [[sources/src-model-routing-chat|src-model-routing-chat]]
+- [[concepts/Model Routing|Model Routing]]
+- [[entities/GitHub Copilot|GitHub Copilot]]
+- [[questions/cursor-copilot-auto-routing|Cursor / Copilot 的 Auto 模型路由机制]]
+
+**Pages updated**:
+- [[_meta/map|map]] — Sources 41→43（含下方 RL TTS），Entities 14→15，Concepts 62→64，Questions 8→9
+
+**Key takeaways**:
+- "Auto" = 调用任何模型前的前置分类器，非随机选择或 fallback 链。
+- 路由模型受 <50ms 延迟/极低成本约束，主流是 BERT 级 encoder 分类器；训练靠大模型离线标注 + keep rate 在线反馈的蒸馏式自举。
+- Cursor Router（60 万+ 请求训练、三档优化、缓存感知）与 Copilot Auto（任务评估 + 健康度双信号）是同一架构的两个实例。
+
+---
+
+## [2026-07-29] ingest | chat: RL test-time scaling
+
+**Trigger**: 用户要求 ingest 会话中关于 RL test-time scaling 的问答
+**Source type**: chat
+**Pages created**:
+- [[llm-wiki/raw/chats/2026-07-29-rl-test-time-scaling|raw chat 存档]]
+- [[sources/src-rl-test-time-scaling-chat|src-rl-test-time-scaling-chat]]
+- [[concepts/Test-Time Scaling|Test-Time Scaling]]
+
+**Pages updated**:
+- [[_meta/map|map]] — 新增 RLVR / Process Reward Model 待建 gap
+
+**Key takeaways**:
+- RL（可验证奖励 RLVR）教会模型把更长思考时间转化为更准答案，推理算力成为继参数、数据后的第三条扩展轴。
+- 串行线（长 CoT，o1/R1，RL 主战场）vs 并行线（best-of-N、self-consistency、PRM 搜索）。
+- 模型能力 = 思考预算的函数；与 [[concepts/Speculative Decoding|Speculative Decoding]] 方向互补（一个省推理算力，一个加推理算力）。

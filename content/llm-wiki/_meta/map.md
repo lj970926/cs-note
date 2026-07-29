@@ -12,12 +12,12 @@ aliases: []
 
 ## Stats
 
-- Sources: 40
-- Entities: 14
-- Concepts: 61
+- Sources: 43
+- Entities: 15
+- Concepts: 64
 - Syntheses: 0
-- Questions: 7
-- Last updated: 2026-07-28
+- Questions: 9
+- Last updated: 2026-07-29
 
 ## Meta pages
 
@@ -76,6 +76,9 @@ aliases: []
 - [[sources/src-greedy-naming-chat|src-greedy-naming-chat]] — 会话：贪心算法命名由来（首个 chat 类来源）
 - [[sources/src-knapsack-dp-chat|src-knapsack-dp-chat]] — 会话：0-1 背包贪心反例与动态规划讲解
 - [[sources/src-dp-state-design-chat|src-dp-state-design-chat]] — 会话：DP 状态设计与转移方程技巧
+- [[sources/src-bash-multiline-chat|src-bash-multiline-chat]] — 会话：bash 脚本中执行临时多行命令的方式
+- [[sources/src-model-routing-chat|src-model-routing-chat]] — 会话：Cursor / Copilot Auto 模型路由机制（含 Web 搜索）
+- [[sources/src-rl-test-time-scaling-chat|src-rl-test-time-scaling-chat]] — 会话：RL test-time scaling 是什么
 
 ## Entities
 
@@ -85,6 +88,7 @@ aliases: []
 - [[entities/David Allen|David Allen]] — 生产力顾问，GTD 方法论提出者
 - [[entities/Drew Neil|Drew Neil]] — Vim 专家，《Practical VIM》作者
 - [[entities/Felix Cloutier|Felix Cloutier]] — x86 指令速查站 felixcloutier.com/x86 维护者
+- [[entities/GitHub Copilot|GitHub Copilot]] — GitHub 出品的 AI 编程助手，多模型 + Auto 路由
 - [[entities/Hermes|Hermes]] — 多平台消息接入的 AI 消息框架
 - [[entities/Intel|Intel]] — x86 架构定义者，Intel SDM 手册发布方
 - [[entities/John Ousterhout|John Ousterhout]] — 斯坦福大学计算机科学教授，《A Philosophy of Software Design》作者
@@ -116,6 +120,7 @@ aliases: []
 - [[concepts/GTD|GTD]] — David Allen 的任务管理方法论：外化一切悬而未决，五步流程闭环
 - [[concepts/Greedy Algorithm|Greedy Algorithm]] — 每步取局部最优且不回头、靠贪心选择性质保证全局最优的算法范式
 - [[concepts/Hazard Pointer|Hazard Pointer]] — 无锁数据结构中安全延迟回收内存的机制
+- [[concepts/Heredoc|Heredoc]] — Shell 中把多行文本原样传给命令 stdin 的重定向语法，定界符加引号阻止展开
 - [[concepts/Information Hiding|Information Hiding]] — 将模块的实现细节封装起来，只暴露必要接口的设计原则
 - [[concepts/Inline Variable|Inline Variable]] — C++17 引入的可在头文件中定义且不会引发重复定义的全局/静态变量
 - [[concepts/Integral Constant|Integral Constant]] — C++ 中把编译期常量及其类型信息封装成类型的模板元编程工具
@@ -127,6 +132,7 @@ aliases: []
 - [[concepts/Messaging Gateway|Messaging Gateway]] — 连接 AI 系统与外部消息平台的中间服务
 - [[concepts/Mixin|Mixin]] — 通过继承组合可复用功能单元的设计方式
 - [[concepts/Most Vexing Parse|Most Vexing Parse]] — C++ 中对象初始化被误解析为函数声明的语法歧义
+- [[concepts/Model Routing|Model Routing]] — 调用 LLM 前用前置分类器为请求选模型的机制，Cursor Router / Copilot Auto 背后的架构
 - [[concepts/NX Bit|NX Bit]] — 硬件级页不可执行位，实现 W^X 策略
 - [[concepts/Mermaid|Mermaid]] — 基于文本语法的图表绘制工具，可从 Markdown 代码块生成多种图表
 - [[concepts/Makefile|Makefile]] — GNU Make 使用的基于规则的构建描述文件
@@ -152,6 +158,7 @@ aliases: []
 - [[concepts/Rust Iterator|Rust Iterator]] — Rust 中基于 Iterator trait 的惰性遍历、消费适配器与迭代器适配器组合机制
 - [[concepts/Smart Pointer|Smart Pointer]] — 封装裸指针、自动管理生命周期的 C++ 指针类型
 - [[concepts/Thread Safety|Thread Safety]] — 多个线程访问共享资源时程序行为正确的性质
+- [[concepts/Test-Time Scaling|Test-Time Scaling]] — 推理时花更多算力换更好答案，RL（RLVR）让长思考真正有效
 - [[concepts/x86-64|x86-64]] — 由 AMD 定义、Intel 采用的 64 位 x86 指令集架构
 - [[concepts/Value Category|Value Category]] — C++ 中表达式的左值/右值分类
 - [[concepts/Persistent wiki|Persistent wiki]] — 持久化、复利式积累的知识库
@@ -170,6 +177,8 @@ _暂无_
 - [[questions/why-called-greedy|贪心算法为什么叫贪心]] — "贪心"命名由来：短视、不回头的局部最优决策风格
 - [[questions/greedy-vs-dp|贪心 vs 动态规划]] — 0-1 背包贪心反例与贪心/DP 的系统对比
 - [[questions/dp-state-design-tips|DP 状态设计与转移方程技巧]] — 前缀结构、枚举最后一步、模式选型与自查清单
+- [[questions/bash-multiline-command|Bash 脚本中执行临时多行命令的方式]] — heredoc / bash -c / ANSI-C 引号 / 命令分组 / 临时文件的选型
+- [[questions/cursor-copilot-auto-routing|Cursor / Copilot 的 Auto 模型路由机制]] — 前置分类器架构、路由信号、路由模型形态与训练信号
 
 ## Orphans & gaps
 
@@ -179,3 +188,5 @@ _暂无_
 - `[[EAGLE]]`、`[[Diffusion LLM]]` 被 [[concepts/DFlash|DFlash]]、[[concepts/Speculative Decoding|Speculative Decoding]] 引用，但尚未建页。
 - `[[NCCL]]`、`[[Ring All-Reduce]]` 被 [[concepts/All-Gather|All-Gather]] 引用，但尚未建页。
 - `[[Backtracking]]` 被 [[concepts/Greedy Algorithm|Greedy Algorithm]]、[[concepts/Dynamic Programming|Dynamic Programming]] 引用，但尚未建页。
+- `[[concepts/ANSI-C Quoting]]`、`[[concepts/Command Grouping]]` 被 [[concepts/Heredoc|Heredoc]] 引用，但尚未建页。
+- `[[concepts/RLVR]]`、`[[concepts/Process Reward Model]]` 被 [[concepts/Test-Time Scaling|Test-Time Scaling]] 引用，但尚未建页。
