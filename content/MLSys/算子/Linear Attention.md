@@ -148,6 +148,38 @@ stateDiagram-v2
 | 长文本显存 | 持续增长，可能 OOM | 恒定 |
 | 历史访问方式 | 精确回看每个 token | 压缩汇总（有损） |
 
+### 3.2 图示：S 到底存了什么
+
+每个历史 token 不是"原样存进去"，而是贡献一个 **秩-1 外积** $\phi(k_j)v_j^\top$，所有外积叠加成 $S$。查询时拿 $\phi(q_t)$ 去乘 $S$，就一次读出全部历史 value 的加权混合：
+
+```mermaid
+flowchart TB
+    subgraph IN["历史 tokens（写入侧）"]
+        direction LR
+        K1["φ(k₁)"] --> OP1["外积<br/>φ(k₁)v₁ᵀ"]
+        V1["v₁"] --> OP1
+        K2["φ(k₂)"] --> OP2["外积<br/>φ(k₂)v₂ᵀ"]
+        V2["v₂"] --> OP2
+        Kt["φ(kₜ)"] --> OPt["外积<br/>φ(kₜ)vₜᵀ"]
+        Vt["vₜ"] --> OPt
+    end
+
+    OP1 & OP2 & OPt --> SUM(("Σ"))
+    SUM --> S["S = Σ φ(kⱼ)vⱼᵀ<br/>d×d 关联记忆矩阵<br/>（快速权重 fast weights）"]
+
+    Q["当前 query<br/>φ(qₜ)"] --> RD["读出<br/>oₜ = S · φ(qₜ)"]
+    S --> RD
+    RD --> O["输出 = 所有历史 vⱼ<br/>按 φ(qₜ)·φ(kⱼ) 相似度加权混合"]
+```
+
+矩阵元素层面，$S_{ab} = \sum_j \phi(k_j)_a \cdot v_{j,b}$，即"第 $a$ 个 key 特征"和"第 $b$ 个 value 特征"在整段历史上的相关累计量。
+
+> [!tip] 三种等价视角看 S
+>
+> 1. **外积之和**：物理实现，$S=\sum_j \phi(k_j)v_j^\top$，一堆秩-1 矩阵叠在一起。
+> 2. **关联记忆 / KV 字典**：$\phi(k)$ 是地址、$v$ 是内容；若 key 两两正交，$S$ 退化成精确查找表，第 $a$ 行正好存着 key=$a$ 对应的 value。真实 key 非正交，多条记录是**叠加（superposition）**存放，容量上限约 $d$。
+> 3. **快速权重（Fast Weight）**：$o_t = S_t\phi(q_t)$ 等价于一个线性层，$S_t$ 是被每个 token 当场增量改写的权重；DeltaNet 里 $S_t = S_{t-1}(I-\beta k_tk_t^\top)+\beta v_tk_t^\top$ 就是在用 delta 规则最小化 $\|Sk_t-v_t\|$。
+
 ---
 
 ## 4. 朴素线性注意力的问题
