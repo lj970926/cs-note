@@ -70,12 +70,12 @@ flowchart LR
     end
 ```
 
-| 维度 | 标准 Attention | 线性 Attention |
-|---|---|---|
-| 中间矩阵 | $n \times n$ | $d \times d$（与 n 无关） |
-| 计算复杂度 | $O(n^2)$ | $O(n)$ |
-| 显存复杂度 | $O(n^2)$ | $O(n)$（训练）/ $O(1)$ 增量（推理） |
-| 能否 RNN 递推 | ❌ | ✅ |
+| 维度        | 标准 Attention | 线性 Attention              |
+| --------- | ------------ | ------------------------- |
+| 中间矩阵      | $n \times n$ | $d \times d$（与 n 无关）      |
+| 计算复杂度     | $O(n^2)$     | $O(n)$                    |
+| 显存复杂度     | $O(n^2)$     | $O(n)$（训练）/ $O(1)$ 增量（推理） |
+| 能否 RNN 递推 | ❌            | ✅                         |
 
 ---
 
@@ -161,14 +161,18 @@ stateDiagram-v2
 这两个问题催生了一系列增强：Delta Rule、Gamma 遗忘、门控、卷积……最终演进出 Qwen 使用的 Gated DeltaNet。
 
 ```mermaid
-timeline
-    title 线性注意力公式的迭代
-    2020 : Linear Transformers : 基础 φ 核函数 + RNN 递推
-    2021 : Delta Rule : 擦旧写新，引入学习率 β
-    2023 : RetNet / GLA : Gamma 衰减 + 门控
-    2024 : Gated DeltaNet (GDN) : Delta + Gamma + Gate + Conv 组合
-    2025 : Qwen3-Next 采用 : GDN 与 Gated Attention 3:1 混合
+flowchart LR
+    subgraph "线性注意力公式的迭代"
+        direction LR
+        N1["2020<br/>Linear Transformers<br/>基础 φ 核函数 + RNN 递推"]
+        N2["2021<br/>Delta Rule<br/>擦旧写新，引入学习率 β"]
+        N3["2023<br/>RetNet / GLA<br/>Gamma 衰减 + 门控"]
+        N4["2024<br/>Gated DeltaNet (GDN)<br/>Delta + Gamma + Gate + Conv 组合"]
+        N5["2025<br/>Qwen3-Next 采用<br/>GDN 与 Gated Attention 3:1 混合"]
+        N1 --> N2 --> N3 --> N4 --> N5
+    end
 ```
+
 
 ---
 
