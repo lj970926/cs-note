@@ -262,8 +262,11 @@ def _allocate_kv_cache_tensors(
         return kv_cache_raw_tensors
 ```
 注意这里根据kv_cache_tensor的 shared_by 属性把上面分好组的 Layer 全部使用相同的底层 tensor。
-* reshape：
+* reshape：根据 attn_group、kv_cache_spec 里的具体 metadata， 将上面 alloc 出来的，没有shape 信息的的 raw tensor 添加一个对应的 view。
 ![[IMG-20260724125636975.svg|1033]]
+这里注意 storage_block_size 这一概念。这个概念主要针对 Compressed KV Cache 的场景。将 storage block size 和上层框架使用的 block size 解耦，可以对上层框架隐藏 compressed KV的实现细节。上层框架仍然可以按照压缩前的 block size 处理。
+# Alloc
+
 ## 相关笔记
 
 - [[source-code/vllm/vllm 源码随手记]]：vLLM KV Cache 整体架构与 Block 管理
