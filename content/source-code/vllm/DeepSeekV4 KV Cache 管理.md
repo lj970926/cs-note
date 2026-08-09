@@ -226,7 +226,7 @@ def _get_kv_cache_config_deepseek_v4(
 ```
 这里的关键是根据page_size 和 layer_idx（代码里叫 tuple_idx），将拥有相同 page_size 和相同 layer_id 的 tensor 放到一个KVCacheTensor 中。(通过 shared_by参数)
 ## initialize_kv_cache_tensors
-上面得到的 KVCacheTensor 只是一些表示 KVCache size和 dtype 等的 metadata，实际的 KVCache 分配发生在 model_runner 的`initialize_kv_cache_tensors` 方法中。这里分两步走：
+上面得到的 KVCacheTensor 只是一些表示 KVCache size和 dtype 等的 metadata，实际的 KVCache 分配发生在 model_runner 的`initialize_kv_cache_tensors` 方法中。这里分三步走：
 * alloc：`_allocate_kv_cache_tensors` 。根据 KVCacheTensor 中预先计算的大小分配数对应的一维 raw_tensor，比较简单
 ```python
 def _allocate_kv_cache_tensors(
@@ -265,6 +265,29 @@ def _allocate_kv_cache_tensors(
 * reshape：根据 attn_group、kv_cache_spec 里的具体 metadata， 将上面 alloc 出来的，没有shape 信息的的 raw tensor 添加一个对应的 view。
 ![[IMG-20260724125636975.svg|1033]]
 这里注意 storage_block_size 这一概念。这个概念主要针对 Compressed KV Cache 的场景。将 storage block size 和上层框架使用的 block size 解耦，可以对上层框架隐藏 compressed KV的实现细节。上层框架仍然可以按照压缩前的 block size 处理。
+* `bind_kv_cache` 主要是把上面分配的 KVCache按照layer_name，绑定到具体 Layer 的 `kv_cache` 字段。
+```python
+class AttentionLayerBase(ABC):
+    """
+    Base class for attention-like layers (Attention, Mamba, etc.)
+    that support the v1 engine.
+
+    This provides a common interface for getting attention backends
+    from different layer types.
+    """
+
+    impl: "AttentionImpl"
+    supports_dcp: bool = True
+
+    def bind_kv_cache(self, kv_cache: torch.Tensor) -> None:
+        """Bind the allocated KV cache tensor to this layer.
+
+        The default stores the cache view as-is; subclasses (e.g. Mamba)
+        override this to unpack the raw buffer into per-state views.
+        """
+        self.kv_cache = kv_cache
+```
+
 # Alloc
 
 ## 相关笔记
