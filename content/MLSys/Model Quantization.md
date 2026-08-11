@@ -89,6 +89,26 @@ tags:
 - 相比 INT8 不需要 calibration outlier 处理，per-tensor scale + amax tracking 即可，是目前生产推理（TensorRT-LLM、vLLM、SGLang）的主流 W8A8 路线。
 - 进一步有 **FP4（MXFP4 等微缩放格式）**，Blackwell 起原生支持。
 
+## MoE 量化的粒度：per-(expert, channel/block)
+
+MoE 里每个 routed expert 就是一个独立 FFN（gate_proj / up_proj / down_proj），量化粒度要在普通 Linear 的基础上**叠加 expert 维**。
+
+- **权重布局**：`W_gate` 形状 `[E, I, H]`（或 grouped GEMM 常用的 2D 拼接 `[E·I, H]`，在第 0 维按专家切块）。
+- **per-channel-per-expert**：scale 形状 `[E, out_features]`，每个专家的每个 output channel 独立一个 scale，**不跨专家共享**。kernel 侧做 grouped GEMM 时，第 e 个专家的 GEMM 用 `scale[e, :]` 对自己的累加器输出 rescale——等价于把 E 个 per-channel Linear 打包到一个 launch。
+- **axis 仍然是 expert 内部的 output_features**（gate/up 的 `I`、down 的 `H`），不是 expert 维也不是 in_features 维，和密集层"沿输出通道切"是同一个道理。
+
+粒度从粗到细：
+
+| 粒度 | scale 形状（每专家） | 备注 |
+|---|---|---|
+| per-tensor-per-expert | `[E]` | 最省，精度差 |
+| per-channel-per-expert | `[E, out_features]` | W8A8 常用，硬件友好 |
+| per-block-per-expert | `[E, ceil(out/B), ceil(in/B)]` | FP8 MoE 主流，B=128 |
+
+**现代 FP8 MoE（DeepSeek-V3 等）实际用的是细粒度 block quant**：每个专家每 128×128 一块一个 scale（二维），是 per-channel 在 input 维上的推广——纯 per-channel 不足以同时压住激活 token 维变化和 MoE 权重 channel 间的 outlier。
+
+**激活侧**通常不是 per-channel：dispatch 后每个专家拿到 `[M_e, H]` 的 token 子集，激活用 **per-token-per-expert**（scale 形状 `[M_e]`），原因同密集层——activation 的 per-channel 要在累加器内部 rescale，硬件不友好。
+
 ## KV Cache 量化
 长上下文场景下 KV cache 占用 >> 权重，单独量化非常划算。
 - **per-token + per-head** INT8 / INT4 较常见
