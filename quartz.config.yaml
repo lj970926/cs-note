@@ -12,7 +12,9 @@ configuration:
     - private
     - templates
     - .obsidian
-    - llm-wiki
+    - .agent
+    - AGENTS.md
+    - CLAUDE.md
   theme:
     fontOrigin: googleFonts
     cdnCaching: true

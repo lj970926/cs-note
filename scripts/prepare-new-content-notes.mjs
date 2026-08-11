@@ -7,7 +7,14 @@ import { pathToFileURL } from "node:url"
 import YAML from "yaml"
 
 const CONTENT_DIR = "content"
-const IGNORED_CONTENT_PARTS = new Set([".obsidian", "templates", "private", "llm-wiki"])
+const IGNORED_CONTENT_PARTS = new Set([
+  ".obsidian",
+  "templates",
+  "private",
+  ".agent",
+  "AGENTS.md",
+  "CLAUDE.md",
+])
 
 function toPosixPath(filePath) {
   return filePath.split(path.sep).join("/")
