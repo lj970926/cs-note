@@ -36,3 +36,8 @@ created: 2026-08-11
 ## [2026-08-11] update | 补充 MoE 量化粒度
 
 - 在 [[MLSys/Model Quantization]] 的"KV Cache 量化"前新增 `MoE 量化的粒度：per-(expert, channel/block)` 小节：per-channel-per-expert 的 scale 形状 `[E, out_features]`、FP8 MoE 的 128×128 block quant、激活用 per-token-per-expert。
+
+## [2026-08-11] note | 算法导论 (CLRS) 阅读路线
+
+- 新增 [[book-notes/算法导论 (CLRS) 阅读路线]]：把 CLRS 35 章按"地基(Ch1–5) → 核心(Ch6–16) → 进阶图算法(Ch21–26) → 选读(Ch18–20,27–35)"四阶段组织，附阅读建议和与 LeetCode 的配合策略。
+- 同步更新 `.agent/index.md` 的 book-notes 条目。

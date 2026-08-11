@@ -153,6 +153,7 @@ created: 2026-08-11
 - [[book-notes/Linux 多线程服务端编程 使用 muduo C++ 网络库|Linux 多线程服务端编程 (muduo)]] —— muduo 网络库读书笔记
 - [[book-notes/Practical VIM|Practical VIM]] —— Vim 实践
 - [[book-notes/The Rust Programming Language|The Rust Programming Language]] —— Rust 官方书（枢纽页）
+- [[book-notes/算法导论 (CLRS) 阅读路线|算法导论 (CLRS) 阅读路线]] —— CLRS 分阶段阅读路线与 LeetCode 配合策略
 
 ## obsidian-usage —— Obsidian 元笔记
 
