@@ -41,3 +41,9 @@ created: 2026-08-11
 
 - 新增 [[book-notes/算法导论 (CLRS) 阅读路线]]：把 CLRS 35 章按"地基(Ch1–5) → 核心(Ch6–16) → 进阶图算法(Ch21–26) → 选读(Ch18–20,27–35)"四阶段组织，附阅读建议和与 LeetCode 的配合策略。
 - 同步更新 `.agent/index.md` 的 book-notes 条目。
+
+## [2026-08-12] note | DeepEP normal dispatch 各 rank 不同 token 数
+
+- 新增 [[MLSys/DeepEP normal dispatch 各 rank 不同 token 数]]：normal(高吞吐) dispatch/combine 天然支持各 rank 不同 token 数，靠 count all-to-all/notify 协商收发布局；`num_tokens_per_rank` 等是可选预计算元信息而非等长约束；等长只在叠加 CUDA Graph 时由上层 padding 强加。
+- 区分 V1 `Buffer` 与 V2 `ElasticBuffer`，并链接到 [[vLLM DP 协调、CUDA Graph 与 DeepEP Low Latency]] 说明 LL 路径的固定容量协议差异。
+- 同步更新 `.agent/index.md` 的 MLSys 条目。
