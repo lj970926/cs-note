@@ -71,6 +71,6 @@ normal kernel 会把收发数量按 NVLink/IPC 与 RDMA 的传输粒度做对齐
 
 - [DeepEP（V2 README）](https://github.com/deepseek-ai/DeepEP) —— high-throughput / low-latency 已统一为 `ElasticBuffer`，变长靠 `handle` 元数据表达。
 - [DeepEP V1 legacy 文档](https://github.com/deepseek-ai/DeepEP/blob/main/docs/legacy.md) —— 含 normal/LL 示例，"dispatch 内部不知道会收到多少 token" 及 normal 路径的 CUDA graph 说明。
-- [V1 源码 `deep_ep/buffer.py`](https://github.com/deepseek-ai/DeepEP/blob/v1.0.0/deep_ep/buffer.py) —— `Buffer.dispatch/combine`、`get_dispatch_layout` 的逐参数 docstring（用 `v1.0.0` tag 访问，main 分支已被 V2 替换）。
+- [V1 源码 `deep_ep/buffer.py`](https://github.com/deepseek-ai/DeepEP/blob/v1.2.1/deep_ep/buffer.py) —— `Buffer.dispatch/combine`、`get_dispatch_layout` 的逐参数 docstring（用 `v1.2.1` tag 访问，main 分支已被 V2 替换）。
 - [V2 源码 `deep_ep/buffers/elastic.py`](https://github.com/deepseek-ai/DeepEP/blob/main/deep_ep/buffers/elastic.py) —— `ElasticBuffer.dispatch/combine` 与 `EPHandle`。
 - [deepep 源码分析（一）—— notify_dispatch](https://blog.csdn.net/u010643777/article/details/160667834) —— 含各 rank `num_tokens_per_rank` 不同的数值示例，直观展示变长协商。
