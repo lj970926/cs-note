@@ -53,3 +53,9 @@ created: 2026-08-11
 - 新增 [[MLSys/算子/双调排序 (Bitonic Sort)]]：整理双调序列、双调合并、伪代码、复杂度及其适合 GPU 并行执行的原因。
 - 补充它与 [[top_k_top_p sampling]] 中小规模候选集排序/选择的联系，并说明 Top-k 不一定需要完整排序。
 - 同步更新 `.agent/index.md` 的 MLSys 条目。
+
+## [2026-08-13] note | Warp Shuffle
+
+- 新增 [[MLSys/算子/Warp Shuffle]]：整理 CUDA warp 内寄存器交换机制、四类 shuffle intrinsic、warp reduce 与蝶形通信。
+- 重点记录参与 mask、部分 warp、分支发散、无效来源 lane 以及 `_sync` 不等于内存屏障等易错点。
+- 补充 `__shfl_xor_sync` 与 [[双调排序 (Bitonic Sort)]] 比较伙伴选择的联系，并同步更新 `.agent/index.md`。
