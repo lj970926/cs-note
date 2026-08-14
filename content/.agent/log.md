@@ -83,3 +83,9 @@ created: 2026-08-11
 
 - 将 [[AI-agent/DeepSeek Harness/DeepSeek Harness 四种 Agent 模式]] 与 [[AI-agent/DeepSeek Harness/DSH 插件系统]] 迁入 `AI-agent/DeepSeek Harness/` 独立目录，便于后续集中收录 DSH 相关笔记。
 - 同步更新 `.agent/index.md` 中的导航路径。
+
+## [2026-08-14] note | PyTorch Dispatcher 机制
+
+- 新增 [[source-code/Pytorch/PyTorch Dispatcher 机制]]：以 `torch.add` 和自定义 `mylib::scaled_add` 为主线，梳理 operator schema、DispatchKeySet、优先级选择与 redispatch 调用链。
+- 补充 CPU/CUDA/Meta/Composite 注册、C++ `TORCH_LIBRARY_IMPL`、fallback/fallthrough、boxed/unboxed、`TorchDispatchMode`、`__torch_dispatch__` 及 Dispatcher 与 DispatchStub 的区别。
+- 同步更新 `.agent/index.md` 的 source-code/Pytorch 条目。
