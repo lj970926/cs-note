@@ -161,3 +161,5 @@ for (const file of files) {
 - 创造模式：打开发动机盖，允许你改装驾驶舱本身。
 
 它们共享同一套底层插件框架，差别是 preset 给会话装配哪些插件、以什么形式暴露工具，以及是否允许触碰运行时自身。
+
+底层插件机制（Cordis、profile/bundle/patch、dual-face 插件、`dsh.client` 浏览器模块表、HMR）见 [[DSH 插件系统]]。
