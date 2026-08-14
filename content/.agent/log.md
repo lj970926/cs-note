@@ -62,7 +62,7 @@ created: 2026-08-11
 
 ## [2026-08-14] note | DeepSeek Harness 四种 Agent 模式
 
-- 新增 [[AI-agent/DeepSeek Harness 四种 Agent 模式]]：整理标准、PTC、极简、创造四个内置 agent preset 的能力差异、Cordis/preset 机制与选型建议。
+- 新增 [[AI-agent/DeepSeek Harness/DeepSeek Harness 四种 Agent 模式]]：整理标准、PTC、极简、创造四个内置 agent preset 的能力差异、Cordis/preset 机制与选型建议。
 - 说明 PTC 是 Programmatic Tool Calling：通过 Code Mode SDK / TypeScript 程序组合多步工具调用。
 - 同步更新 `.agent/index.md` 的 AI-agent 条目。
 
@@ -74,7 +74,12 @@ created: 2026-08-11
 
 ## [2026-08-14] note | DSH 插件系统
 
-- 新增 [[AI-agent/DSH 插件系统]]：基于本机 `@deepseek-ai/dsh@0.1.0-rc.6` npm 包探索整理。
+- 新增 [[AI-agent/DeepSeek Harness/DSH 插件系统]]：基于本机 `@deepseek-ai/dsh@0.1.0-rc.6` npm 包探索整理。
 - 覆盖 Cordis 基础概念、profile/bundle/patch 三层叠加、dual-face 插件（Node 半 `exports["."]` + Client 半 `exports["./client"]`）、`dsh.client` 字段约定、`window.__ModuleLoader__` factory-form CJS 模块表、client UI slot 系统、HMR 流程与触发条件。
 - 给出第三方 client-only 插件骨架与 `dsh plugin --profile web add` 启用方式，并列了关键源码文件速查表。
 - 在 [[DeepSeek Harness 四种 Agent 模式]] 的延伸阅读里加上互链；同步更新 `.agent/index.md`。
+
+## [2026-08-14] update | DeepSeek Harness 内容归档
+
+- 将 [[AI-agent/DeepSeek Harness/DeepSeek Harness 四种 Agent 模式]] 与 [[AI-agent/DeepSeek Harness/DSH 插件系统]] 迁入 `AI-agent/DeepSeek Harness/` 独立目录，便于后续集中收录 DSH 相关笔记。
+- 同步更新 `.agent/index.md` 中的导航路径。
