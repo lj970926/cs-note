@@ -65,3 +65,9 @@ created: 2026-08-11
 - 新增 [[AI-agent/DeepSeek Harness 四种 Agent 模式]]：整理标准、PTC、极简、创造四个内置 agent preset 的能力差异、Cordis/preset 机制与选型建议。
 - 说明 PTC 是 Programmatic Tool Calling：通过 Code Mode SDK / TypeScript 程序组合多步工具调用。
 - 同步更新 `.agent/index.md` 的 AI-agent 条目。
+
+## [2026-08-14] note | vLLM Quantization Config、Method 与 Scheme
+
+- 新增 [[source-code/vllm/vLLM Quantization Config、Method 与 Scheme]]：梳理 `QuantizationConfig → QuantizeMethodBase` 的通用主干，以及权重创建、加载后处理和 forward 生命周期。
+- 说明 `Scheme` 不是所有量化后端共有的抽象，而是 compressed-tensors 为复用 Method 外壳、拆分具体 W/A 组合而设置的内部策略层；同时区分声明式 `QuantizationArgs` 与执行实现。
+- 同步更新 `.agent/index.md` 的 source-code/vllm 条目。
