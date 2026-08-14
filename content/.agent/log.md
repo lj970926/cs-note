@@ -71,3 +71,10 @@ created: 2026-08-11
 - 新增 [[source-code/vllm/vLLM Quantization Config、Method 与 Scheme]]：梳理 `QuantizationConfig → QuantizeMethodBase` 的通用主干，以及权重创建、加载后处理和 forward 生命周期。
 - 说明 `Scheme` 不是所有量化后端共有的抽象，而是 compressed-tensors 为复用 Method 外壳、拆分具体 W/A 组合而设置的内部策略层；同时区分声明式 `QuantizationArgs` 与执行实现。
 - 同步更新 `.agent/index.md` 的 source-code/vllm 条目。
+
+## [2026-08-14] note | DSH 插件系统
+
+- 新增 [[AI-agent/DSH 插件系统]]：基于本机 `@deepseek-ai/dsh@0.1.0-rc.6` npm 包探索整理。
+- 覆盖 Cordis 基础概念、profile/bundle/patch 三层叠加、dual-face 插件（Node 半 `exports["."]` + Client 半 `exports["./client"]`）、`dsh.client` 字段约定、`window.__ModuleLoader__` factory-form CJS 模块表、client UI slot 系统、HMR 流程与触发条件。
+- 给出第三方 client-only 插件骨架与 `dsh plugin --profile web add` 启用方式，并列了关键源码文件速查表。
+- 在 [[DeepSeek Harness 四种 Agent 模式]] 的延伸阅读里加上互链；同步更新 `.agent/index.md`。

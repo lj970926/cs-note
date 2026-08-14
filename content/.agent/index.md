@@ -147,6 +147,7 @@ created: 2026-08-11
 
 - [[AI-agent/LLM Wiki|LLM Wiki]] —— Karpathy 的 LLM 维护个人知识库模式（本指令的方法论来源）
 - [[AI-agent/DeepSeek Harness 四种 Agent 模式|DeepSeek Harness 四种 Agent 模式]] —— 标准、PTC、极简、创造四个 preset 的能力差异与选型
+- [[AI-agent/DSH 插件系统|DSH 插件系统]] —— Cordis profile/bundle/patch、dual-face 插件、dsh.client 模块表与 HMR 机制
 - [[AI-agent/Cursor Agent Best Practice|Cursor Agent Best Practice]] —— Cursor Agent 工作流最佳实践
 - [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule|Claude Code Loop 工程]] —— loop/goal/schedule 用法
 - [[AI-agent/hermes/Hermes Gateway|Hermes Gateway]] —— Hermes 网关
