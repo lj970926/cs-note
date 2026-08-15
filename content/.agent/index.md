@@ -98,6 +98,7 @@ created: 2026-08-11
 ### Python / CMake / Make / Shell / Mermaid
 
 - [[language/Python/Python dict key：__hash__与 __eq__|Python dict key]] —— dict key 的 __hash__/__eq__
+- [[language/Python/Python __new__ 方法|Python __new__ 方法]] —— 对象创建与初始化的分工；不可变类型子类与实例复用
 - [[language/CMake/General Rules for Using Depencies|CMake 依赖使用通则]] —— CMake 依赖管理一般规则
 - [[language/CMake/Google Test|Google Test]] —— GTest 集成
 - [[language/CMake/include directory|include directory]] —— include 目录处理
