@@ -89,3 +89,13 @@ created: 2026-08-11
 - 新增 [[source-code/Pytorch/PyTorch Dispatcher 机制]]：以 `torch.add` 和自定义 `mylib::scaled_add` 为主线，梳理 operator schema、DispatchKeySet、优先级选择与 redispatch 调用链。
 - 补充 CPU/CUDA/Meta/Composite 注册、C++ `TORCH_LIBRARY_IMPL`、fallback/fallthrough、boxed/unboxed、`TorchDispatchMode`、`__torch_dispatch__` 及 Dispatcher 与 DispatchStub 的区别。
 - 同步更新 `.agent/index.md` 的 source-code/Pytorch 条目。
+
+## [2026-08-15] note | 单调栈
+
+- 新增 [[算法/单调栈]]：整理单调栈的适用题型、识别特征、单调性维护、常用 C++ 模板，以及它与单调队列、堆、区间数据结构的区别。
+- 同步更新 `.agent/index.md` 的算法条目。
+
+## [2026-08-15] update | 算法目录
+
+- 新建 `算法/` 目录，将 [[算法/单调栈]] 作为算法与数据结构笔记的归档位置。
+- 删除旧路径的迁移提示文件，[[算法/单调栈]] 作为唯一正文。

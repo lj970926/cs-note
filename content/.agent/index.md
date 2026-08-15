@@ -107,6 +107,10 @@ created: 2026-08-11
 - [[language/mermaid/Mermaid 使用指南|Mermaid 使用指南]] —— Mermaid 画图语法（流程图等）
 - [[language/mermaid/Quartz Mermaid 排错手册|Quartz Mermaid 排错手册]] —— Quartz 中 Mermaid 渲染问题排查
 
+## 算法 —— 算法与数据结构
+
+- [[算法/单调栈|单调栈]] —— 单调栈的适用题型、识别特征、维护方式与常用模板
+
 ## 设计模式
 
 - [[设计模式/设计原则|设计原则]] —— SOLID 等设计原则（枢纽页）
