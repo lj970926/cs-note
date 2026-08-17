@@ -105,3 +105,8 @@ created: 2026-08-11
 - 新增 [[language/Python/Python __new__ 方法]]：说明 `__new__` 创建实例、`__init__` 初始化实例的调用顺序，以及 `__new__` 返回非本类实例时 `__init__` 不执行的规则。
 - 补充不可变内置类型子类和单例/实例复用两类使用场景，并链接到 [[Python dict key：__hash__与 __eq__]]。
 - 同步更新 `.agent/index.md` 的 Python 条目。
+
+## [2026-08-17] note | 一行执行多个命令
+
+- 新增 [[language/shellscript/一行执行多个命令]]：整理 `;`、`&&`、`||`、`&`、`|` 等命令连接符的语义，以及 `{}` 与 `()` 分组的区别。
+- 链接到 [[shell expansion]]，并同步更新 `.agent/index.md` 的 shell 条目。

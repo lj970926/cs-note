@@ -105,6 +105,7 @@ created: 2026-08-11
 - [[language/CMake/判断编译器类型|判断编译器类型]] —— CMake 判断编译器
 - [[language/Makefile|Makefile]] —— Makefile 基础
 - [[language/shellscript/shell expansion|shell expansion]] —— shell 展开（通配/参数/命令替换）
+- [[language/shellscript/一行执行多个命令|一行执行多个命令]] —— ;、&&、||、&、| 等命令连接符的区别
 - [[language/mermaid/Mermaid 使用指南|Mermaid 使用指南]] —— Mermaid 画图语法（流程图等）
 - [[language/mermaid/Quartz Mermaid 排错手册|Quartz Mermaid 排错手册]] —— Quartz 中 Mermaid 渲染问题排查
 
