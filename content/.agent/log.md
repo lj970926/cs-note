@@ -110,3 +110,14 @@ created: 2026-08-11
 
 - 新增 [[language/shellscript/一行执行多个命令]]：整理 `;`、`&&`、`||`、`&`、`|` 等命令连接符的语义，以及 `{}` 与 `()` 分组的区别。
 - 链接到 [[shell expansion]]，并同步更新 `.agent/index.md` 的 shell 条目。
+
+## [2026-08-17] note | Programming Massively Parallel Processors 第一章
+
+- 新增 [[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction]]：整理 CPU multicore 与 GPU many-core 的设计取舍、典型 CUDA GPU 架构、GPU 适用场景、Amdahl 定律、内存带宽瓶颈、CPU/GPU 异构协作，以及 MPI/OpenMP/CUDA/OpenCL 的定位。
+- 标注 G80/GT200 数字为历史背景，并链接到 [[MLSys/算子/Warp Shuffle]] 与 [[MLSys/CUDA Graph]] 作为后续延伸阅读。
+- 同步更新 `.agent/index.md` 的 book-notes 条目。
+
+## [2026-08-17] update | Programming Massively Parallel Processors 第一章：SP 与 warp
+
+- 在 [[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction]] 的 GPU 架构小节补充 SP、thread、warp、lane 的层次关系。
+- 说明 G80/GT200 中 8 SP 与 32-thread warp 的关系、warp 调度和 latency hiding，并强调 SP 与线程不是固定一一绑定。
