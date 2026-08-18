@@ -121,3 +121,9 @@ created: 2026-08-11
 
 - 在 [[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction]] 的 GPU 架构小节补充 SP、thread、warp、lane 的层次关系。
 - 说明 G80/GT200 中 8 SP 与 32-thread warp 的关系、warp 调度和 latency hiding，并强调 SP 与线程不是固定一一绑定。
+
+## [2026-08-18] note | GPT-J 与 GPT-NeoX RoPE 配对布局
+
+- 新增 [[MLSys/算子/GPT-J 与 GPT-NeoX RoPE 配对布局]]：记录 GPT-J/interleaved 与 GPT-NeoX/non-interleaved 的维度配对、`rotate` 结果及对应实现开关。
+- 说明两者共享同一 RoPE 二维旋转数学形式，但训练和推理必须使用一致的 tensor layout；补充 `rotary_dim` 的作用。
+- 同步更新 `.agent/index.md` 的 MLSys 条目。

@@ -35,6 +35,7 @@ created: 2026-08-11
 - [[MLSys/算子/Linear Attention|Linear Attention]] —— Qwen 的 Linear Attention / Gated DeltaNet 详解
 - [[MLSys/算子/RMS Norm|RMS Norm]] —— RMSNorm 算子
 - [[MLSys/算子/Rotary Embedding|Rotary Embedding]] —— RoPE 旋转位置编码
+- [[MLSys/算子/GPT-J 与 GPT-NeoX RoPE 配对布局|GPT-J / GPT-NeoX RoPE 配对布局]] —— interleaved 与 non-interleaved 的旋转维度配对 convention
 
 ## paper —— 论文笔记
 
