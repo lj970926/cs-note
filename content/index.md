@@ -16,7 +16,7 @@ me.learn("LLM training, inference, and serving");
 
 ## About this site
 
-This is a [digital garden](https://github.com/jackyzha0/quartz) automatically published from my Obsidian notes rather than a polished, complete blog. You may come across notes that are half-written, rough around the edges, or still evolving — treat them as work in progress. 🌱
+This is a [digital garden](https://github.com/jackyzha0/quartz) automatically published from my [Obsidian notes](https://github.com/lj970926/cs-note) rather than a polished, complete blog. You may come across notes that are half-written, rough around the edges, or still evolving — treat them as work in progress. 🌱
 
 ## Elsewhere
 
