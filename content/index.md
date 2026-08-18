@@ -4,11 +4,15 @@ title: Welcome
 
 # Hi, I'm lj970926 👋
 
-This is my engineering notebook and digital garden, where I collect what I learn about systems engineering, machine learning systems, source-code reading, and everyday developer tools. I use it to leave a trail for questions I want to revisit: which abstractions are worth unpacking, which performance problems need measurement, and which engineering trade-offs deserve a second look.
+```cpp
+auto me = Developer{
+    .name = "lj970926",
+    .languages = {"C++", "Python", "Rust"},
+    .focus = "Machine Learning Systems",
+};
 
-I mainly work with **C++** and **Python**. C++ keeps me close to performance, memory, concurrency, and runtime behavior, while Python helps me move quickly across the machine learning ecosystem. I am also exploring **Rust**, especially its approach to safety and expressiveness in systems programming.
-
-My current focus is **Machine Learning Systems**, especially LLM training, inference, and serving. I care about how systems make large models faster, more efficient, and more reliable in practice. I read projects such as **vLLM**, **SGLang**, **PaddlePaddle**, and **PyTorch**, and I try to connect papers, implementation details, and experiments into one working mental model.
+me.learn("LLM training, inference, and serving");
+```
 
 ## How I Write
 
