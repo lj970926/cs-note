@@ -14,11 +14,9 @@ auto me = Developer{
 me.learn("LLM training, inference, and serving");
 ```
 
-## How I Write
+## About this site
 
-Not every note here is a polished tutorial. Some are markers left behind during source-code reading, some are clues from debugging sessions, and some are attempts to move an idea from “I think I get it” to “I can explain, reproduce, and modify it.” I prefer starting from concrete problems: read the code, run experiments, look at the metrics, and then rebuild the abstraction from the ground up.
-
-If these notes help you avoid a small detour, or make one more layer of a complex system visible, then they have already done something useful.
+This is a [digital garden](https://github.com/jackyzha0/quartz) automatically published from my Obsidian notes rather than a polished, complete blog. You may come across notes that are half-written, rough around the edges, or still evolving — treat them as work in progress. 🌱
 
 ## Elsewhere
 
