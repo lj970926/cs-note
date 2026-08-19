@@ -2,7 +2,7 @@
 title: Welcome
 ---
 
-# Hi, I'm lj970926 👋
+# Hi, I'm lj970926 🤗
 
 ```cpp
 auto me = Developer{
