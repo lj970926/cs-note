@@ -26,6 +26,11 @@ created: 2026-08-11
 
 ---
 
+## [2026-08-19] note | UVA、UVM 与 GPUDirect RDMA
+
+- 新增 [[MLSys/UVA、UVM 与 GPUDirect RDMA]]：以“地址怎么表示 / 数据放在哪 / 数据怎么跨机器搬”区分 UVA、UVM 与 GDR，说明其数据路径、API 和 NCCL 语境。
+- 关联 [[IBGDA]] 与 [[NIXL]]，并同步更新 `.agent/index.md` 的 MLSys 条目。
+
 ## [2026-08-11] init | 建立 Agent 工作目录与索引
 
 - 新增 `content/AGENTS.md`、`content/CLAUDE.md`，规定回答前先检索笔记、仅在用户明确要求时写笔记。
