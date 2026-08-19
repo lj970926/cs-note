@@ -26,11 +26,6 @@ created: 2026-08-11
 
 ---
 
-## [2026-08-19] note | UVA、UVM 与 GPUDirect RDMA
-
-- 新增 [[MLSys/UVA、UVM 与 GPUDirect RDMA]]：以“地址怎么表示 / 数据放在哪 / 数据怎么跨机器搬”区分 UVA、UVM 与 GDR，说明其数据路径、API 和 NCCL 语境。
-- 关联 [[IBGDA]] 与 [[NIXL]]，并同步更新 `.agent/index.md` 的 MLSys 条目。
-
 ## [2026-08-11] init | 建立 Agent 工作目录与索引
 
 - 新增 `content/AGENTS.md`、`content/CLAUDE.md`，规定回答前先检索笔记、仅在用户明确要求时写笔记。
@@ -132,3 +127,13 @@ created: 2026-08-11
 - 新增 [[MLSys/算子/GPT-J 与 GPT-NeoX RoPE 配对布局]]：记录 GPT-J/interleaved 与 GPT-NeoX/non-interleaved 的维度配对、`rotate` 结果及对应实现开关。
 - 说明两者共享同一 RoPE 二维旋转数学形式，但训练和推理必须使用一致的 tensor layout；补充 `rotary_dim` 的作用。
 - 同步更新 `.agent/index.md` 的 MLSys 条目。
+
+## [2026-08-19] note | UVA、UVM 与 GPUDirect RDMA
+
+- 新增 [[MLSys/UVA、UVM 与 GPUDirect RDMA]]：以“地址怎么表示 / 数据放在哪 / 数据怎么跨机器搬”区分 UVA、UVM 与 GDR，说明其数据路径、API 和 NCCL 语境。
+- 关联 [[IBGDA]] 与 [[NIXL]]，并同步更新 `.agent/index.md` 的 MLSys 条目。
+
+## [2026-08-19] update | UVA、UVM 与 GPUDirect RDMA：底层机制
+
+- 补充 UVA 的 VA 划分、CPU/GPU 各自页表与 TLB 翻译、`cudaMalloc` 映射、pinned host memory、P2P 映射，以及它与 UVM 页迁移的边界。
+- 说明 64 位 VA 的容量与“预留 VA 不等于分配物理内存”，记录 CUDA VMM 的 `cuMemAddressReserve()` / `cuMemMap()` 分离模型；同步更新 `.agent/index.md` 摘要。
