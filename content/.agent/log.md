@@ -149,3 +149,8 @@ created: 2026-08-11
 - 补充 `record_stream()` 对 NCCL 输入、输出、原地及临时通信 buffer 的生命周期保护，并说明执行依赖与 allocator safety 必须分别处理。
 - 说明通信 kernel 下发后调用最直观，但本质是登记 foreign stream，而不是记录某个 kernel 的完成点。
 - 记录当前 `ProcessGroupNCCL` 主要通过 `WorkNCCL` / `TensorShelf` 保存 Tensor 强引用来替代直接 `recordStream()` 的实现，并同步更新 `.agent/index.md`。
+
+## [2026-08-20] update | git 常用命令：追踪单个文件历史
+
+- 在 [[命令行工具/git 常用命令]] 中补充 `git log --follow -p -- path/to/file` 主用法，以及 `show`、`blame`、`diff` 和 `tig` 的配套用法。
+- 记录 `--follow` 的单文件限制和 rename 相似度推断边界，关联 [[其他/大型项目源码阅读方法论]]，并同步更新 `.agent/index.md`。
