@@ -54,7 +54,7 @@ created: 2026-08-11
 
 - [[source-code/Linux-0.11/系统启动|Linux 0.11 系统启动]] —— Linux 0.11 启动流程源码梳理
 - [[source-code/Paddle/分布式初始化|Paddle 分布式初始化]] —— PaddlePaddle 分布式初始化流程
-- [[source-code/Pytorch/CUDACachingAllocator|CUDA Caching Allocator]] —— PyTorch CUDA 显存缓存分配器
+- [[source-code/Pytorch/CUDACachingAllocator|CUDA Caching Allocator]] —— `record_stream()` 的跨-stream显存生命周期管理、与 `wait_stream()` 的边界，以及 NCCL 通信中的 Tensor 保护
 - [[source-code/Pytorch/PyTorch Dispatcher 机制|PyTorch Dispatcher 机制]] —— DispatchKeySet、优先级、redispatch、算子注册、Meta/Composite 与 Python dispatch
 - [[source-code/Pytorch/PyTorch 编译框架|PyTorch 编译框架]] —— PyTorch compiler / torch.compile 结构
 - [[source-code/brpc/bthread|brpc bthread]] —— brpc 的 M:N 协程 bthread 实现

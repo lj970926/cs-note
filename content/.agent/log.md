@@ -137,3 +137,15 @@ created: 2026-08-11
 
 - 补充 UVA 的 VA 划分、CPU/GPU 各自页表与 TLB 翻译、`cudaMalloc` 映射、pinned host memory、P2P 映射，以及它与 UVM 页迁移的边界。
 - 说明 64 位 VA 的容量与“预留 VA 不等于分配物理内存”，记录 CUDA VMM 的 `cuMemAddressReserve()` / `cuMemMap()` 分离模型；同步更新 `.agent/index.md` 摘要。
+
+## [2026-08-20] update | CUDACachingAllocator：Tensor.record_stream
+
+- 扩写 [[source-code/Pytorch/CUDACachingAllocator]]，整理 `Tensor.record_stream()` 在跨 CUDA stream 使用中的显存生命周期管理作用。
+- 区分 `wait_stream()` 的执行依赖与 `record_stream()` 的内存生命周期依赖，并补充 creation stream、foreign stream user、allocator block 心智模型及显式 event/wait 替代方案。
+- 关联 [[source-code/vllm/DBO 源码梳理]]，同步更新 `.agent/index.md` 摘要。
+
+## [2026-08-20] update | CUDACachingAllocator：通信场景
+
+- 补充 `record_stream()` 对 NCCL 输入、输出、原地及临时通信 buffer 的生命周期保护，并说明执行依赖与 allocator safety 必须分别处理。
+- 说明通信 kernel 下发后调用最直观，但本质是登记 foreign stream，而不是记录某个 kernel 的完成点。
+- 记录当前 `ProcessGroupNCCL` 主要通过 `WorkNCCL` / `TensorShelf` 保存 Tensor 强引用来替代直接 `recordStream()` 的实现，并同步更新 `.agent/index.md`。
