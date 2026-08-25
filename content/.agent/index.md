@@ -137,6 +137,7 @@ created: 2026-08-11
 - [[命令行工具/SSH 端口转发|SSH 端口转发]] —— 本地/远程/动态端口转发
 - [[命令行工具/aria2|aria2]] —— 多线程下载工具
 - [[命令行工具/clang-format|clang-format]] —— C/C++ 代码格式化
+- [[命令行工具/Git LFS|Git LFS]] —— 大文件的 pointer/LFS 存储机制、日常使用、GitHub 查看方式与历史迁移
 - [[命令行工具/git 常用命令|git 常用命令]] —— git 常用操作，包括用 log/follow/blame/diff 追踪单个文件的修改历史
 - [[命令行工具/grep|grep]] —— 文本搜索
 - [[命令行工具/objdump|objdump]] —— 目标文件反汇编

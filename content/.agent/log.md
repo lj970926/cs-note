@@ -26,6 +26,12 @@ created: 2026-08-11
 
 ---
 
+## [2026-08-25] ingest | Git LFS
+
+- 基于 ChatGPT 分享对话整理 [[命令行工具/Git LFS]]，并结合 Git LFS、GitHub 官方文档核对关键行为。
+- 覆盖 pointer/LFS 存储机制、安装与跟踪、克隆与验证、GitHub 查看入口、现有文件与历史迁移，以及 GitHub Pages、配额和历史重写等注意事项。
+- 链接到 [[命令行工具/git 常用命令]]，并同步更新 `.agent/index.md` 的命令行工具条目。
+
 ## [2026-08-11] init | 建立 Agent 工作目录与索引
 
 - 新增 `content/AGENTS.md`、`content/CLAUDE.md`，规定回答前先检索笔记、仅在用户明确要求时写笔记。
