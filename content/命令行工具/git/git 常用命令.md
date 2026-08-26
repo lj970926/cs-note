@@ -3,6 +3,8 @@ title: "git 常用命令"
 tags:
   - tool
   - git
+aliases: []
+created: 2026-06-26
 ---
 
 * 强行将某个分支set到另一个分支
@@ -99,4 +101,4 @@ tig --follow -- path/to/file
 在源码阅读中，这些历史证据还可用来追溯一段代码的设计动机，参见 [[其他/大型项目源码阅读方法论]]。
 
 ## Related
-- [[pre-commit]]
+- [[命令行工具/git/pre-commit]]

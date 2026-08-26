@@ -4,6 +4,8 @@ tags:
   - tool
   - git
   - cpp
+aliases: []
+created: 2026-06-26
 ---
 
 # 新建空白配置
@@ -22,4 +24,4 @@ pre-commit sample-config &> .pre-commit-config.yaml
 ```
 
 ## Related
-- [[git 常用命令]]
+- [[命令行工具/git/git 常用命令]]

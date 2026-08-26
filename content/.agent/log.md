@@ -28,9 +28,9 @@ created: 2026-08-11
 
 ## [2026-08-25] ingest | Git LFS
 
-- 基于 ChatGPT 分享对话整理 [[命令行工具/Git LFS]]，并结合 Git LFS、GitHub 官方文档核对关键行为。
+- 基于 ChatGPT 分享对话整理 [[命令行工具/git/Git LFS]]，并结合 Git LFS、GitHub 官方文档核对关键行为。
 - 覆盖 pointer/LFS 存储机制、安装与跟踪、克隆与验证、GitHub 查看入口、现有文件与历史迁移，以及 GitHub Pages、配额和历史重写等注意事项。
-- 链接到 [[命令行工具/git 常用命令]]，并同步更新 `.agent/index.md` 的命令行工具条目。
+- 链接到 [[命令行工具/git/git 常用命令]]，并同步更新 `.agent/index.md` 的命令行工具条目。
 
 ## [2026-08-11] init | 建立 Agent 工作目录与索引
 
@@ -158,5 +158,10 @@ created: 2026-08-11
 
 ## [2026-08-20] update | git 常用命令：追踪单个文件历史
 
-- 在 [[命令行工具/git 常用命令]] 中补充 `git log --follow -p -- path/to/file` 主用法，以及 `show`、`blame`、`diff` 和 `tig` 的配套用法。
+- 在 [[命令行工具/git/git 常用命令]] 中补充 `git log --follow -p -- path/to/file` 主用法，以及 `show`、`blame`、`diff` 和 `tig` 的配套用法。
 - 记录 `--follow` 的单文件限制和 rename 相似度推断边界，关联 [[其他/大型项目源码阅读方法论]]，并同步更新 `.agent/index.md`。
+
+## [2026-08-26] update | Git 笔记目录整理
+
+- 将 [[命令行工具/git/Git LFS]]、[[命令行工具/git/git 常用命令]] 和 [[命令行工具/git/pre-commit]] 移至 `命令行工具/git/` 子目录。
+- 同步更新 `.agent/index.md` 与相关 wikilink。

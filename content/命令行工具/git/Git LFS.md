@@ -110,7 +110,7 @@ git commit -m "feat: add model weights"
 git push
 ```
 
-之后的日常 `add`、`commit`、`push` 与普通 Git 基本一致。其他常用 Git 操作见 [[git 常用命令]]。
+之后的日常 `add`、`commit`、`push` 与普通 Git 基本一致。其他常用 Git 操作见 [[命令行工具/git/git 常用命令]]。
 
 ## 4. 克隆与下载
 
