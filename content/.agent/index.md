@@ -159,7 +159,7 @@ created: 2026-08-11
 - [[AI-agent/DeepSeek Harness/DeepSeek Harness 四种 Agent 模式|DeepSeek Harness 四种 Agent 模式]] —— 标准、PTC、极简、创造四个 preset 的能力差异与选型
 - [[AI-agent/DeepSeek Harness/DSH 插件系统|DSH 插件系统]] —— Cordis profile/bundle/patch、dual-face 插件、dsh.client 模块表与 HMR 机制
 - [[AI-agent/Cursor Agent Best Practice|Cursor Agent Best Practice]] —— Cursor Agent 工作流最佳实践
-- [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule|Claude Code Loop 工程]] —— loop/goal/schedule 用法
+- [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule|Claude Code Loop 工程]] —— loop/goal/schedule 与后台会话、后台命令的用法和选型
 - [[AI-agent/hermes/Hermes Gateway|Hermes Gateway]] —— Hermes 网关
 
 ## book-notes —— 读书笔记

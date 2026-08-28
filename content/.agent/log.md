@@ -165,3 +165,9 @@ created: 2026-08-11
 
 - 将 [[命令行工具/git/Git LFS]]、[[命令行工具/git/git 常用命令]] 和 [[命令行工具/git/pre-commit]] 移至 `命令行工具/git/` 子目录。
 - 同步更新 `.agent/index.md` 与相关 wikilink。
+
+## [2026-08-28] update | Claude Code Loop 工程：后台运行
+
+- 在 [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule]] 补充 `claude --bg`、`/background` / `/bg`、`claude agents`、attach/logs/stop 的后台会话工作流。
+- 区分后台会话、后台 Bash 命令（`Ctrl+B` / `/tasks`）、`/loop`、云端 routine 与 `tmux` 的适用边界，补充后台权限限制和官方文档链接。
+- 同步更新 `.agent/index.md` 条目。

@@ -12,8 +12,8 @@ aliases: []
 
 
 > [!abstract] 一句话总结
-> `/loop`、`/goal`、`/schedule` 是 Claude Code "loop engineering"（循环工程）的三个核心原语，让 Claude 不用逐条 prompt、自己持续干活。
-> **核心区别只有一句话：`/loop` 由时钟驱动，`/goal` 由完成条件驱动，`/schedule` 是正式的调度系统（可跨 session / 跨关机存活）。**
+> `/loop`、`/goal`、`/schedule` 是 Claude Code "loop engineering"（循环工程）的三个核心原语，让 Claude 不用逐条 prompt、自己持续干活；`/background` / `claude --bg` 则能把整个会话脱离终端持续执行。
+> **核心区别只有一句话：`/loop` 由时钟驱动，`/goal` 由完成条件驱动，`/schedule` 是正式的调度系统（可跨 session / 跨关机存活），后台会话则适合一次性的长任务。**
 
 ---
 
@@ -145,7 +145,60 @@ Anthropic 在 2026 年 6-7 月官方提出 "loop engineering" 概念：不再逐
 
 ---
 
-## 4. 开启与停止：速查
+## 4. 后台运行整个 Claude Code 会话
+
+后台会话适合一次性的长任务：它是独立于终端的 Claude Code 进程，终端断开后仍会继续运行；和 `/loop` 的周期性触发、`/schedule` 的定时触发不是一回事。
+
+### 启动、脱离与管理
+
+从 shell 直接启动：
+
+```bash
+claude --bg "运行测试并修复失败项"
+```
+
+已在交互会话中时，用以下任一命令脱离（可额外发送一条指令）：
+
+```text
+/background 继续完成任务并运行测试
+/bg
+```
+
+常用管理命令：
+
+```bash
+claude agents       # 总览后台会话及状态
+claude attach <id>  # 在当前终端重新接入
+claude logs <id>    # 查看近期输出
+claude stop <id>    # 停止会话；记录与工作树仍保留
+```
+
+`claude agents`（Agent View）里可查看 Working / Needs Input / Idle / Completed / Failed 状态，并能直接回复或重新接入。任务完成且无人连接约一小时后，进程会被回收；会话记录仍在，下次 attach 时可从原有状态恢复。
+
+> [!warning] 后台权限边界
+> 后台 agent 没有交互式审批通道：需要新授权的工具调用会自动拒绝。涉及删除、推送、发布或外部消息时，先在前台授予合适权限，或等它提示后 attach 回去处理。
+
+### 只把命令放到后台
+
+这和后台会话不同。Claude Code 内的 Bash 命令可以异步运行，让主对话继续：直接要求 Claude "在后台运行"，或在运行中的 Bash 调用上按 `Ctrl+B`。用 `/tasks` 查看、接入或停止当前会话的后台任务。
+
+- 在 tmux 中，`Ctrl+B` 是 tmux 前缀，需连续按两次 `Ctrl+B` 才会传给 Claude Code。
+- 后台 Bash 任务会在 Claude Code 退出时自动清理；它不适合需要跨终端存活的服务。
+- 若只是希望传统终端进程持续存活，`tmux` 仍然合适，见 [[命令行工具/tmux 快捷键]]。
+
+### 选型补充
+
+| 需求 | 首选 |
+| --- | --- |
+| 一次性长任务，想释放当前终端 | `claude --bg` 或 `/background` |
+| 当前会话内并发跑测试、dev server 等命令 | `Ctrl+B` / `/tasks` |
+| 当前会话中周期性检查 CI、部署等外部状态 | `/loop` |
+| 电脑关闭后仍须按计划运行 | `/schedule` 云端 routine |
+| 单纯保持一个传统 shell 进程存活 | `tmux` |
+
+---
+
+## 5. 开启与停止：速查
 
 ### 各原语的控制方式
 
@@ -164,7 +217,7 @@ Anthropic 在 2026 年 6-7 月官方提出 "loop engineering" 概念：不再逐
 
 ---
 
-## 5. 可观测性：怎么查看当前 session 里活跃的东西
+## 6. 可观测性：怎么查看当前 session 里活跃的东西
 
 | 原语 | 查看方式 | 常驻状态显示 |
 |---|---|---|
@@ -191,7 +244,7 @@ Anthropic 在 2026 年 6-7 月官方提出 "loop engineering" 概念：不再逐
 
 ---
 
-## 6. 对比速查表
+## 7. 对比速查表
 
 | | `/goal` | `/loop` | Stop hook | `/schedule`（云端） |
 |---|---|---|---|---|
@@ -213,7 +266,7 @@ Anthropic 在 2026 年 6-7 月官方提出 "loop engineering" 概念：不再逐
 
 ---
 
-## 7. 组合用法：Proactive Loop
+## 8. 组合用法：Proactive Loop
 
 三个原语可以组合成完整的无人值守工作流。官方博客的示例：
 
@@ -233,7 +286,7 @@ and have a judge adversarially review them.
 
 ---
 
-## 8. 实践建议清单
+## 9. 实践建议清单
 
 - [ ] **条件必须可验证**："`npm test` 全绿且 `git status` 干净" ✅，"改进一下代码" ❌
 - [ ] **永远加 turn 上限**：`or stop after N turns` 不是装饰
@@ -246,13 +299,15 @@ and have a judge adversarially review them.
 
 ---
 
-## 9. 官方文档与延伸阅读
+## 10. 官方文档与延伸阅读
 
 ### 官方文档（code.claude.com）
 
 - [Scheduled tasks（/loop、cron 工具、定时任务）](https://code.claude.com/docs/en/scheduled-tasks)
 - [Keep Claude working toward a goal（/goal）](https://code.claude.com/docs/en/goal)
 - [Routines（云端定时自动化）](https://code.claude.com/docs/en/routines)
+- [Agent view（后台会话的启动、监控与重新接入）](https://code.claude.com/docs/en/agent-view)
+- [Interactive mode（后台 Bash 命令与 `Ctrl+B`）](https://code.claude.com/docs/en/interactive-mode)
 - [Changelog（功能更新最先同步的地方）](https://code.claude.com/docs/en/changelog)
 - [Agent SDK：How the agent loop works（底层 agent loop 机制）](https://code.claude.com/docs/en/agent-sdk/agent-loop)
 
