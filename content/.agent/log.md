@@ -171,3 +171,10 @@ created: 2026-08-11
 - 在 [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule]] 补充 `claude --bg`、`/background` / `/bg`、`claude agents`、attach/logs/stop 的后台会话工作流。
 - 区分后台会话、后台 Bash 命令（`Ctrl+B` / `/tasks`）、`/loop`、云端 routine 与 `tmux` 的适用边界，补充后台权限限制和官方文档链接。
 - 同步更新 `.agent/index.md` 条目。
+
+## [2026-08-30] note | IILE（立即调用的 Lambda 表达式）
+
+- 新增 [[language/C++/IILE（立即调用的 Lambda 表达式）]]：说明 IILE 的语法、立即调用时机，以及将多步初始化保持为 `const` 表达式的用途。
+- 记录其在收紧中间变量/RAII 资源作用域、构造函数实参等表达式位置和就地表达依赖方面的优势，并说明何时应改用命名函数。
+- 与 [[source-code/folly/SCOPE_EXIT]] 互链，区分立即执行与作用域退出时执行。
+- 同步更新 `.agent/index.md` 的 C++ 条目。

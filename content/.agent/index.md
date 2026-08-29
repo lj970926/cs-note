@@ -78,6 +78,7 @@ created: 2026-08-11
 - [[language/C++/C++17 inline static|C++17 inline static]] —— inline 静态成员
 - [[language/C++/CRTP(将子类作为父类模板)|CRTP]] —— 奇异递归模板模式
 - [[language/C++/Coroutine|C++ Coroutine]] —— C++20 协程
+- [[language/C++/IILE（立即调用的 Lambda 表达式）|IILE]] —— 将多步局部逻辑封装为立即求值的初始化表达式
 - [[language/C++/Most vexing parse|Most vexing parse]] —— 最令人头疼的语法解析
 - [[language/C++/compare_exchange_weak vs strong|compare_exchange weak/strong]] —— CAS weak 与 strong 的区别
 - [[language/C++/enable_shared_from_this|enable_shared_from_this]] —— 安全获取 this 的 shared_ptr
