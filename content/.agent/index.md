@@ -25,6 +25,7 @@ created: 2026-08-11
 - [[MLSys/UVA、UVM 与 GPUDirect RDMA|UVA / UVM / GDR]] —— 统一编址、统一内存管理与网卡直访 GPU 显存的职责边界，以及页表/VMM 底层机制
 - [[MLSys/DeepEP normal dispatch 各 rank 不同 token 数|DeepEP normal dispatch 变长]] —— normal kernel 支持各 rank 不同 token 数，等长只是 CUDA Graph 约束
 - [[MLSys/MoE matmul 计算量与 EP 收益|MoE matmul 计算量与 EP 收益]] —— MoE 计算量分析与专家并行收益估算
+- [[MLSys/算子/多头潜在注意力 (MLA)|多头潜在注意力（MLA）]] —— DeepSeek 的低秩 K/V 联合压缩、matrix absorption、Decoupled RoPE 与推理 KV Cache 布局
 - [[MLSys/Model Quantization|Model Quantization]] —— 模型量化总览
 - [[MLSys/NIXL|NIXL]] —— NVIDIA Inference Xfer Library，推理时 KV/权重传输
 - [[MLSys/Models/DeepSeek R1|DeepSeek R1]] —— DeepSeek-R1 推理模型笔记
@@ -36,6 +37,7 @@ created: 2026-08-11
 - [[MLSys/算子/Linear Attention|Linear Attention]] —— Qwen 的 Linear Attention / Gated DeltaNet 详解
 - [[MLSys/算子/RMS Norm|RMS Norm]] —— RMSNorm 算子
 - [[MLSys/算子/Rotary Embedding|Rotary Embedding]] —— RoPE 旋转位置编码
+- [[MLSys/算子/行主序与列主序 (row-major 与 column-major)|行主序与列主序]] —— 矩阵在一维内存中的行/列分块布局，以及 major 命名的含义
 - [[MLSys/算子/GPT-J 与 GPT-NeoX RoPE 配对布局|GPT-J / GPT-NeoX RoPE 配对布局]] —— interleaved 与 non-interleaved 的旋转维度配对 convention
 
 ## paper —— 论文笔记

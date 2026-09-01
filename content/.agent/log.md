@@ -24,6 +24,24 @@ created: 2026-08-11
 
 > 最近 5 条：`grep "^## \[" log.md | tail -5`
 
+## [2026-09-01] update | 多头潜在注意力 (MLA)：Prefill 的 absorb 取舍
+
+- 在 [[MLSys/算子/多头潜在注意力 (MLA)]] 中区分压缩 cache 写入与 attention 的 MHA / MQA 计算路径；记录长 dense Prefill 通常更适合 MHA 展开 + FlashAttention，而 Decode 更适合 absorb，Sparse / chunked Prefill 则应按 kernel benchmark 选择。
+
+## [2026-09-01] update | 多头潜在注意力 (MLA)：显式多头 matrix absorption
+
+- 修正 [[MLSys/算子/多头潜在注意力 (MLA)]] 的 matrix absorption 推导：按 head 切分 $W_i^{UK}$、$W_i^{UV}$ 与 $W_i^O$，明确各 head 分别吸收 Key / Value 投影，而只共享 latent cache $c^{KV}$。
+
+## [2026-09-01] note | 多头潜在注意力 (MLA)
+
+- 新增 [[MLSys/算子/多头潜在注意力 (MLA)]]：整理 DeepSeek MLA 的 K/V 低秩联合压缩、matrix absorption 与 Decoupled RoPE，并从推理引擎视角说明 `$[c^{KV}, k^R]$` KV Cache 布局和 HBM 带宽收益。
+- 关联 [[DeepSeek R1]]、[[DeepSeek-V3 Technical Report]]、[[Rotary Embedding]]、[[source-code/vllm/DeepSeekV4 KV Cache 管理]] 与 [[Model Quantization#KV Cache 量化]]；同步更新 `.agent/index.md`。
+
+## [2026-09-01] note | 行主序与列主序 (row-major 与 column-major)
+
+- 新增 [[MLSys/算子/行主序与列主序 (row-major 与 column-major)]]：解释 `major` 指外层、变化较慢的高位维度，而非重要性；给出两种布局的线性偏移公式、连续访问方向和常见语言约定。
+- 关联 [[Warp Shuffle]]，说明矩阵布局会影响 GPU 内存访问及布局重排；同步更新 `.agent/index.md`。
+
 ---
 
 ## [2026-08-25] ingest | Git LFS
