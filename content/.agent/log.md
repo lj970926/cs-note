@@ -24,6 +24,10 @@ created: 2026-08-11
 
 > 最近 5 条：`grep "^## \[" log.md | tail -5`
 
+## [2026-09-02] note | C++ 预定义宏（__FILE__、__LINE__ 等）
+
+- 新建 [[language/C++/C++ 预定义宏（__FILE__、__LINE__ 等）]]：标准/编译器扩展预定义宏一览，日志断言、唯一变量名拼接、条件编译等典型用法，以及 C++20 `std::source_location` 替代方案。链接到 [[source-code/folly/SCOPE_EXIT]]。
+
 ## [2026-09-01] update | 多头潜在注意力 (MLA)：Prefill 的 absorb 取舍
 
 - 在 [[MLSys/算子/多头潜在注意力 (MLA)]] 中区分压缩 cache 写入与 attention 的 MHA / MQA 计算路径；记录长 dense Prefill 通常更适合 MHA 展开 + FlashAttention，而 Decode 更适合 absorb，Sparse / chunked Prefill 则应按 kernel benchmark 选择。

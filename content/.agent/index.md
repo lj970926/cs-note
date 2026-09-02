@@ -78,6 +78,7 @@ created: 2026-08-11
 - [[language/C++/AddressSanitizer (ASan) 使用指南|AddressSanitizer 使用指南]] —— ASan 内存错误检测
 - [[language/C++/C++ 转发引用、引用折叠与 make_pair报错理解|转发引用 / 引用折叠]] —— 转发引用、引用折叠与 make_pair 报错
 - [[language/C++/C++17 inline static|C++17 inline static]] —— inline 静态成员
+- [[language/C++/C++ 预定义宏（__FILE__、__LINE__ 等）|C++ 预定义宏]] —— __FILE__/__LINE__/__func__ 与 C++20 source_location
 - [[language/C++/CRTP(将子类作为父类模板)|CRTP]] —— 奇异递归模板模式
 - [[language/C++/Coroutine|C++ Coroutine]] —— C++20 协程
 - [[language/C++/IILE（立即调用的 Lambda 表达式）|IILE]] —— 将多步局部逻辑封装为立即求值的初始化表达式
