@@ -24,6 +24,10 @@ created: 2026-08-11
 
 > 最近 5 条：`grep "^## \[" log.md | tail -5`
 
+## [2026-09-03] note | CUDA Tiling
+
+- 新建 [[MLSys/算子/CUDA Tiling]]：梳理 tiling 的六类作用——数据复用、工作集裁剪、IO 感知（online softmax）、并行化与延迟隐藏、coalescing、算术强度。链接到 [[paper/FlashAttention- Fast and Memory-Efficient Exact Attention with IO-Awareness]]、[[MLSys/算子/多头潜在注意力 (MLA)]]、[[MLSys/算子/Linear Attention]]、[[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction]] 等。
+
 ## [2026-09-02] note | C++ 预定义宏（__FILE__、__LINE__ 等）
 
 - 新建 [[language/C++/C++ 预定义宏（__FILE__、__LINE__ 等）]]：标准/编译器扩展预定义宏一览，日志断言、唯一变量名拼接、条件编译等典型用法，以及 C++20 `std::source_location` 替代方案。链接到 [[source-code/folly/SCOPE_EXIT]]。

@@ -34,6 +34,7 @@ created: 2026-08-11
 - [[MLSys/vllm/vLLM 监控：使用 Binary 部署 Prometheus + Grafana|vLLM 监控]] —— 用二进制部署 Prometheus+Grafana 监控 vLLM
 - [[MLSys/算子/Warp Shuffle|Warp Shuffle]] —— CUDA warp 内寄存器数据交换、归约模式与 mask 陷阱
 - [[MLSys/算子/双调排序 (Bitonic Sort)|双调排序]] —— 适合 GPU/SIMD 的固定比较网络及其双调合并过程
+- [[MLSys/算子/CUDA Tiling|CUDA Tiling]] —— 分块的作用：数据复用、IO 感知（FlashAttention）、并行划分与算术强度
 - [[MLSys/算子/Linear Attention|Linear Attention]] —— Qwen 的 Linear Attention / Gated DeltaNet 详解
 - [[MLSys/算子/RMS Norm|RMS Norm]] —— RMSNorm 算子
 - [[MLSys/算子/Rotary Embedding|Rotary Embedding]] —— RoPE 旋转位置编码
