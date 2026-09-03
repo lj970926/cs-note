@@ -24,6 +24,11 @@ created: 2026-08-11
 
 > 最近 5 条：`grep "^## \[" log.md | tail -5`
 
+## [2026-09-03] note | Claude Code 快捷键
+
+- 新建 [[AI-agent/claude-code/Claude Code 快捷键]]：整理输入框编辑（readline/emacs 风格，Ctrl+U/K/W/Y）、发送与换行、会话控制（Esc、Ctrl+C/D/L、Shift+Tab、Ctrl+B/T）与 `#`/`!`/`@`/`/` 特殊前缀。
+- 关联 [[命令行工具/shell 快捷键]] 与 [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule]]；同步更新 `.agent/index.md`。
+
 ## [2026-09-03] note | CUDA Tiling
 
 - 新建 [[MLSys/算子/CUDA Tiling]]：梳理 tiling 的六类作用——数据复用、工作集裁剪、IO 感知（online softmax）、并行化与延迟隐藏、coalescing、算术强度。链接到 [[paper/FlashAttention- Fast and Memory-Efficient Exact Attention with IO-Awareness]]、[[MLSys/算子/多头潜在注意力 (MLA)]]、[[MLSys/算子/Linear Attention]]、[[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction]] 等。
@@ -204,3 +209,10 @@ created: 2026-08-11
 - 记录其在收紧中间变量/RAII 资源作用域、构造函数实参等表达式位置和就地表达依赖方面的优势，并说明何时应改用命名函数。
 - 与 [[source-code/folly/SCOPE_EXIT]] 互链，区分立即执行与作用域退出时执行。
 - 同步更新 `.agent/index.md` 的 C++ 条目。
+
+## [2026-09-03] update | Vim 基础命令：重构
+
+- 重构 [[coding-tools/VIM使用/基础命令]]：按模式与功能分组改为表格，清理 Obsidian 反斜杠转义残留（`\^`、`\<C-a\>` 等）并改用行内代码。
+- 修正事实错误：数字减一为 `<C-x>`（原文误作 `<C-b>`）；表达式寄存器为 `<C-r>=`；`:[range]t{address}` 是复制而非移动。
+- 修正错别字（插入「模式」、address、删除缓冲区等），补全 `q:` 条目，并补充 `hjkl`/`w`/`gg`/`dd`/`yy`/`p`/`u` 等基础命令。
+- 同步更新 `.agent/index.md` 摘要。

@@ -165,6 +165,7 @@ created: 2026-08-11
 - [[AI-agent/DeepSeek Harness/DSH 插件系统|DSH 插件系统]] —— Cordis profile/bundle/patch、dual-face 插件、dsh.client 模块表与 HMR 机制
 - [[AI-agent/Cursor Agent Best Practice|Cursor Agent Best Practice]] —— Cursor Agent 工作流最佳实践
 - [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule|Claude Code Loop 工程]] —— loop/goal/schedule 与后台会话、后台命令的用法和选型
+- [[AI-agent/claude-code/Claude Code 快捷键|Claude Code 快捷键]] —— 输入框编辑（Ctrl+U/K/W）、会话控制（Esc、Shift+Tab）与特殊前缀（#/!/@//）
 - [[AI-agent/hermes/Hermes Gateway|Hermes Gateway]] —— Hermes 网关
 
 ## book-notes —— 读书笔记
@@ -186,7 +187,7 @@ created: 2026-08-11
 
 ## coding-tools —— 开发工具
 
-- [[coding-tools/VIM使用/基础命令|Vim 基础命令]] —— Vim 基础
+- [[coding-tools/VIM使用/基础命令|Vim 基础命令]] —— 按模式分组的 Vim 命令速查表（移动/编辑/可视/命令行/缓冲区）
 - [[coding-tools/VIM使用/neo-tree|neo-tree]] —— neo-tree 文件树
 
 ## 编译相关
