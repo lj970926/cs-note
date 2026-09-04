@@ -24,6 +24,11 @@ created: 2026-08-11
 
 > 最近 5 条：`grep "^## \[" log.md | tail -5`
 
+## [2026-09-04] note | 普通对话与 Deep Research：从 Agent 架构理解差异
+
+- 新建 [[AI-agent/普通对话与 Deep Research：从 Agent 架构理解差异]]：从目标、工具调用闭环、证据要求和适用任务对比普通对话与 Deep Research；将后者解释为规划—检索—评估—再检索—综合的研究型 Agent。
+- 用长上下文/Agent serving benchmark 选型示例说明 Deep Research 的适用边界，并关联 [[Cursor Agent Best Practice]]、[[LLM Wiki]]、[[Claude Code Loop 工程：loop、goal 与 schedule]] 与 [[MLSys/vLLM 监控：使用 Binary 部署 Prometheus + Grafana]]；同步更新 `.agent/index.md`。
+
 ## [2026-09-03] note | Claude Code 快捷键
 
 - 新建 [[AI-agent/claude-code/Claude Code 快捷键]]：整理输入框编辑（readline/emacs 风格，Ctrl+U/K/W/Y）、发送与换行、会话控制（Esc、Ctrl+C/D/L、Shift+Tab、Ctrl+B/T）与 `#`/`!`/`@`/`/` 特殊前缀。
