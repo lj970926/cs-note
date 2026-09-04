@@ -216,3 +216,32 @@ created: 2026-08-11
 - 修正事实错误：数字减一为 `<C-x>`（原文误作 `<C-b>`）；表达式寄存器为 `<C-r>=`；`:[range]t{address}` 是复制而非移动。
 - 修正错别字（插入「模式」、address、删除缓冲区等），补全 `q:` 条目，并补充 `hjkl`/`w`/`gg`/`dd`/`yy`/`p`/`u` 等基础命令。
 - 同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-03] note | Programming Massively Parallel Processors 第二章
+
+- 新增 [[book-notes/Programming Massively Parallel Processors/Chapter2 Data parallel computing]]：记录 CUDA 的 grid/block/thread 两级线程层级、`gridDim`/`blockDim` 的含义，以及 block 固定大小与边界线程处理。
+- 说明 block 是 SM 调度单位、线程通常按 warp 执行，并关联 [[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction]] 的 GPU 线程化模型。
+- 同步更新 `.agent/index.md` 的 book-notes 条目。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：SPMD 与 SIMD
+
+- 在 [[book-notes/Programming Massively Parallel Processors/Chapter2 Data parallel computing]] 中补充 SPMD 与 SIMD 的定义、对比表和核心区别：同一程序不等于同一时刻执行同一条指令。
+- 补充 CUDA 3.0 及之后每个 block 最多 1024 个线程、部分更早版本最多 512 个线程的历史版本说明，并同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：Block size 与 warp 对齐
+
+- 补充 block 线程总数通常选择为 32 的倍数，以免最后一个 warp 出现未使用的 lane。
+- 辨析“每个维度都是 32 的倍数”的误读，以 `dim3(16, 16)` 和 `dim3(32, 8)` 说明真正参与 warp 划分的是各维度乘积，并记录 block size 还受内存访问、资源用量和 occupancy 影响。
+- 关联 [[MLSys/算子/Warp Shuffle]]，同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：CUDA 内建坐标变量
+
+- 补充 `blockDim`、`blockIdx`、`threadIdx` 的类型、含义、取值范围及 `x`/`y`/`z` 分量，并明确它们是 kernel 内建变量而非操作系统环境变量。
+- 通过一维数组与二维图像示例说明全局线程坐标、向上取整的 grid size 和边界检查，并补充相关的 `gridDim` 与 `warpSize`。
+- 同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：内建变量的硬件实现
+
+- 补充 CUDA 内建坐标变量从 CUDA C++、NVVM、PTX special register 到 SASS `S2R` 的降低路径，以及 `threadIdx`/`blockDim`/`blockIdx`/`gridDim` 与 `%tid`/`%ntid`/`%ctaid`/`%nctaid` 的对应关系。
+- 说明这些值来自 kernel launch 与 CTA/thread 调度状态，不是内存变量或通常意义上的编译时常量；同时区分 PTX 保证的特殊寄存器接口与未公开保证的芯片物理实现。
+- 添加 PTX 与 SASS 形式示例、NVIDIA PTX ISA 官方参考，并同步更新 `.agent/index.md` 摘要。
