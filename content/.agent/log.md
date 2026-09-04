@@ -245,3 +245,9 @@ created: 2026-08-11
 - 补充 CUDA 内建坐标变量从 CUDA C++、NVVM、PTX special register 到 SASS `S2R` 的降低路径，以及 `threadIdx`/`blockDim`/`blockIdx`/`gridDim` 与 `%tid`/`%ntid`/`%ctaid`/`%nctaid` 的对应关系。
 - 说明这些值来自 kernel launch 与 CTA/thread 调度状态，不是内存变量或通常意义上的编译时常量；同时区分 PTX 保证的特殊寄存器接口与未公开保证的芯片物理实现。
 - 添加 PTX 与 SASS 形式示例、NVIDIA PTX ISA 官方参考，并同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：CUDA 函数限定符
+
+- 根据教材 Figure 2.13 补充 `__host__`、`__device__`、`__global__` 函数的执行位置、调用端和调用方式，并加入完整代码示例。
+- 记录 `__global__` 必须返回 `void`、execution configuration、异步 launch 和 CUDA Dynamic Parallelism 例外。
+- 补充 `__host__ __device__` 双端编译、`__CUDA_ARCH__`，以及函数限定符和变量 memory space specifier 的区别；同步更新 `.agent/index.md` 摘要。

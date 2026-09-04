@@ -174,7 +174,7 @@ created: 2026-08-11
 - [[book-notes/Computer Organization and Design/Chapter 3|Computer Organization and Design Ch.3]] —— 计算机组成与设计 第3章
 - [[book-notes/Linux 多线程服务端编程 使用 muduo C++ 网络库|Linux 多线程服务端编程 (muduo)]] —— muduo 网络库读书笔记
 - [[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction|Programming Massively Parallel Processors Ch.1]] —— CPU/GPU 设计取舍、GPU 架构、Amdahl 定律与 CUDA 并行编程定位
-- [[book-notes/Programming Massively Parallel Processors/Chapter2 Data parallel computing|Programming Massively Parallel Processors Ch.2]] —— CUDA 线程层级、内建坐标变量及 PTX 特殊寄存器映射、全局索引、SPMD/SIMD 与 warp 对齐
+- [[book-notes/Programming Massively Parallel Processors/Chapter2 Data parallel computing|Programming Massively Parallel Processors Ch.2]] —— CUDA 线程层级与内建坐标变量、PTX 特殊寄存器、函数执行空间限定符、SPMD/SIMD 及 warp 对齐
 - [[book-notes/Practical VIM|Practical VIM]] —— Vim 实践
 - [[book-notes/The Rust Programming Language|The Rust Programming Language]] —— Rust 官方书（枢纽页）
 - [[book-notes/算法导论 (CLRS) 阅读路线|算法导论 (CLRS) 阅读路线]] —— CLRS 分阶段阅读路线与 LeetCode 配合策略

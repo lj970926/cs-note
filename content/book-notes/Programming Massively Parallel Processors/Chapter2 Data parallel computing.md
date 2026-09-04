@@ -157,6 +157,82 @@ $$
 
 32 的倍数只是 block size 的基础经验，并不保证性能最优。实际配置还要综合数据布局与内存访问方式、寄存器和 shared memory 用量、occupancy，以及目标 GPU 的资源限制。
 
+## CUDA 函数执行空间限定符
+
+CUDA C++ 使用函数限定符（execution space specifier）说明函数**在哪里执行**以及**可以从哪里调用**。教材 Figure 2.13 中的三个基本限定符如下：
+
+| 函数限定符 | 执行位置 | 通常从哪里调用 | 调用方式 |
+| --- | --- | --- | --- |
+| `__host__`，或不写限定符 | CPU / host | host | 普通函数调用 |
+| `__device__` | GPU / device | `__device__` 或 `__global__` 函数 | device code 中的普通函数调用 |
+| `__global__` | GPU / device | 通常由 host 调用；动态并行时也可由 device 调用 | 使用 `<<<grid, block>>>` 启动 kernel |
+
+### `__host__`：普通 CPU 函数
+
+```cpp
+__host__ float host_func(float x) {
+    return x + 1.0f;
+}
+```
+
+`__host__` 函数在 CPU 上执行，并从 host code 调用。如果函数没有写 `__host__`、`__device__` 或 `__global__`，默认就是 host 函数，因此通常省略 `__host__`。
+
+### `__device__`：GPU 上的辅助函数
+
+```cpp
+__device__ float square(float x) {
+    return x * x;
+}
+
+__global__ void apply_square(float* data, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        data[i] = square(data[i]);
+    }
+}
+```
+
+`__device__` 函数在 GPU 上执行，只能从 device code 调用，例如从 kernel 或另一个 `__device__` 函数中调用。它可以像普通函数一样返回值，不使用 `<<<...>>>` 启动。
+
+### `__global__`：kernel 入口
+
+```cpp
+__global__ void kernel_func(float* data, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        data[i] += 1.0f;
+    }
+}
+
+// host code
+kernel_func<<<blocks_per_grid, threads_per_block>>>(data, n);
+```
+
+`__global__` 声明的是 CUDA kernel：函数体在 GPU 上执行，但普通情况下由 CPU 上的 host code 使用 execution configuration `<<<grid, block>>>` 发起。它有几个重要特点：
+
+- 返回类型必须是 `void`，计算结果需要通过指针参数写入 device memory；
+- 调用时必须提供 execution configuration；
+- kernel launch 对 host 通常是异步的：launch 返回不代表 GPU 已经执行完毕；
+- 在支持并启用 **CUDA Dynamic Parallelism** 时，一个 kernel 也可以从 device 端启动另一个 `__global__` kernel，这是教材表格中“只能从 host 调用”的例外。
+
+> [!important] 调用边界
+> host 不能像普通函数一样直接调用 `__device__` 函数，device code 也不能直接调用只标记为 `__host__` 的函数。`__global__` kernel 是 host 向 device 提交并行工作的主要入口。
+
+### `__host__ __device__`：同时生成 CPU 与 GPU 版本
+
+```cpp
+__host__ __device__ float clamp_zero(float x) {
+    return x < 0.0f ? 0.0f : x;
+}
+```
+
+两个限定符可以组合使用。编译器会分别生成 host 版本和 device 版本，使函数能在两侧调用；但函数体必须能够在两个执行环境中成立。需要区分两条编译路径时，可以使用 `__CUDA_ARCH__` 条件编译。
+
+> [!warning] 函数与变量上的 `__device__` 含义不同
+> 本节讨论的是**函数限定符**。当 `__device__` 用于命名空间或文件作用域变量时，它是 memory space specifier，表示变量位于 device global memory；不要和 `__device__` 函数混为一谈。
+
+官方定义参见 [CUDA Programming Guide：Execution Space Specifiers](https://docs.nvidia.com/cuda/cuda-programming-guide/05-appendices/cpp-language-extensions.html#execution-space-specifiers)。
+
 ## SPMD 与 SIMD 的区别
 
 CUDA 采用 **SPMD（Single Program Multiple Data，单程序多数据）**编程模型：多个并行处理单元在不同的数据上执行同一个程序（kernel），但它们在同一时刻**不一定执行同一条指令**。例如，不同线程可以根据自己的 thread ID 处理不同数据，也可能因条件分支而走不同的控制流。
