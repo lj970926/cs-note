@@ -28,6 +28,17 @@ source: "Programming Massively Parallel Processors: A Hands-on Approach"
 > [!info] CUDA 版本背景
 > CUDA 3.0 及之后的版本允许每个 thread block 最多包含 1024 个线程；更早的一些 CUDA 版本只允许最多 512 个线程。这是历史版本差异，实际编程时仍应查询目标设备的能力上限。
 
+### Block 执行顺序不可假设：Kernel 的硬件可扩展性
+
+> Note that all the thread blocks operate on different parts of the vectors. They can be executed in any arbitrary order. Programmers must not make any assumptions regarding execution order. A small GPU with a small amount of execution resources may execute only one or two of these thread blocks in parallel. A larger GPU may execute 64 or 128 blocks in parallel. This gives CUDA kernels scalability in execution speed with hardware, that is, same code runs at lower speed on small GPUs and higher speed on larger GPUs.
+
+- 不同 block 处理向量的不同部分，彼此之间**可以以任意顺序执行**；程序员不能对执行顺序做任何假设。
+- 小 GPU 执行资源少，同一时刻可能只能并行执行 1～2 个 block；大 GPU 可能同时执行 64 或 128 个 block。
+- 这正是 CUDA kernel 的**硬件可扩展性（scalability）**：同一份代码在小 GPU 上慢、在大 GPU 上快，无需修改。因为编程模型只描述"有多少工作"，block 到 SM 的映射由硬件按自身资源决定。
+
+> [!warning] 顺序假设是隐蔽 bug 的来源
+> 一旦代码隐含依赖 block 的执行先后（例如假设 block 0 先写完全局数据、block 1 再读），在小 GPU 上可能"碰巧正确"，换到大 GPU 或不同调度下就会出错。跨 block 的依赖必须用多个 kernel、atomic 或 cooperative groups 显式表达。
+
 ### Kernel 内建坐标变量
 
 `blockDim`、`blockIdx` 和 `threadIdx` 是 CUDA kernel（device code）中可直接使用的**内建变量**，不是操作系统意义上的环境变量。CUDA runtime 根据 kernel launch 的配置，为每个正在执行的线程提供这些值。
@@ -61,6 +72,31 @@ add_one<<<blocks_per_grid, threads_per_block>>>(data, n);
 - `threadIdx.x` 是线程在该 block 内的偏移；
 - 两者相加得到线程在整个 grid 中的一维全局索引；
 - `if (i < n)` 用于保护最后一个不完整 block 中超出数据范围的线程。
+
+#### Kernel 自动局部变量是每线程私有的
+
+上例中的 `int i` 是 kernel 函数内部声明的 **automatic local variable（自动局部变量）**。从 CUDA 编程模型看，每个线程都有自己独立的 `i`：
+
+- 如果一次 kernel launch 逻辑上创建了 10,000 个线程，就存在 10,000 份彼此独立的 `i`；
+- 某个线程对自己 `i` 的赋值不会修改、也不会被其他线程的 `i` 观察到；
+- 即使多个线程执行同一条 `int i = ...` 语句，它们操作的仍是各自的线程私有状态；
+- 如果线程之间需要交换数据，应显式使用 shared memory、global memory 或 warp 级通信原语，而不能依靠普通局部变量。
+
+> [!note] “10,000 份”描述的是逻辑语义
+> 这不意味着 GPU 会提前在某块普通内存中分配 10,000 个 `int`，也不意味着 10,000 个线程同时驻留在硬件上。GPU 会分批调度 block/warp；只有当前 resident 的线程需要占用对应的执行资源，编译器还可能直接消除不必要的局部变量。
+
+自动局部变量的**可见范围是每线程私有**，但实际存储位置由编译器决定：
+
+| 编译结果 | 物理位置与特点 |
+| --- | --- |
+| 寄存器 | 常见情况；每个 resident 线程占用自己的寄存器，访问速度快 |
+| Local memory | 寄存器不足（register spilling）、大型局部数组、动态索引或需要取地址时可能使用；仍然每线程私有，但物理上位于 device memory，并可能经过缓存 |
+| 被优化掉 | 如果变量只作为中间表达式且无需独立存储，编译器可能不为它分配实际位置 |
+
+> [!important] Private 是作用域，不等于存储在 local memory
+> “局部变量属于每个线程”描述的是可见性和生命周期。它通常优先保存在寄存器中；CUDA 的 **local memory** 之所以叫 local，是因为其作用域属于单个线程，而不是因为它位于片上或访问速度快。
+
+官方说明参见 [CUDA Programming Guide：GPU Device Memory Spaces](https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/writing-cuda-kernels.html#gpu-device-memory-spaces) 和 [CUDA Best Practices Guide：Local Memory](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#local-memory)。
 
 #### 二维数据的全局坐标
 
@@ -157,6 +193,87 @@ $$
 
 32 的倍数只是 block size 的基础经验，并不保证性能最优。实际配置还要综合数据布局与内存访问方式、寄存器和 shared memory 用量、occupancy，以及目标 GPU 的资源限制。
 
+### 从顺序循环到线程网格：Loop Parallelism
+
+> “The loop is now replaced with the grid of threads.”
+
+教材比较顺序版本与 CUDA 版本后指出：原来由 `for` 循环表达的**迭代空间**，在 CUDA 中可以改由整个线程网格表达；最直接的映射是每个逻辑线程负责原循环的一次迭代。这种数据并行形式也称为 **loop parallelism（循环并行）**。
+
+顺序 CPU 版本：
+
+```cpp
+for (int i = 0; i < n; ++i) {
+    output[i] = input[i] * 2.0f;
+}
+```
+
+对应的 CUDA 版本：
+
+```cpp
+__global__ void scale(const float* input, float* output, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        output[i] = input[i] * 2.0f;
+    }
+}
+
+int threads = 256;
+int blocks = (n + threads - 1) / threads;
+scale<<<blocks, threads>>>(input, output, n);
+```
+
+两种写法的对应关系为：
+
+| 顺序循环 | CUDA 线程网格 |
+| --- | --- |
+| 循环的第 `i` 次迭代 | 全局编号为 `i` 的逻辑线程 |
+| 循环变量 `i` | `blockIdx.x * blockDim.x + threadIdx.x` |
+| 循环体 | 每个线程执行的 kernel 函数体 |
+| 循环上界 `n` | launch 的 grid 大小与 `if (i < n)` 边界检查 |
+| CPU 依次推进迭代 | GPU 将 block/warp 分配到 SM 并分批执行 |
+
+> [!important] 不是硬件暗中执行原来的 `for` 循环
+> “线程网格替代循环”描述的是编程模型和工作划分的等价关系，不是说 GPU 内部藏着一个循环替程序员逐次执行。通常是程序员把循环显式改写为 kernel 与 launch；runtime/driver 提交逻辑线程网格，硬件再把 block 拆成 warp，并在有限的 SM 上并行或分批调度。所有逻辑线程也不需要同时驻留。
+
+#### 为什么这给了硬件更大的调度自由度？
+
+顺序循环把迭代顺序写成 `0 → 1 → 2 → ...`；线程网格则主要描述“有哪些工作”以及它们如何分组。只要各次迭代彼此独立，CUDA 就不要求不同 block 按固定顺序执行，因此调度器可以：
+
+- 把 block 分配给任意有可用资源的 SM；
+- 按任意顺序启动不同 block；
+- 在某个 warp 等待数据时改为执行其他 ready warp；
+- 当逻辑线程数超过物理执行资源时，将它们分成多批执行；
+- 让同一个 kernel 在具有不同 SM 数量和资源规模的 GPU 上运行。
+
+这可以理解为“相信硬件”，但更准确地说是**把工作定义与执行调度分离**。双方的职责仍然不同：
+
+| 程序员负责 | CUDA runtime / 硬件负责 |
+| --- | --- |
+| 将问题拆成 grid、block 和 thread | 将 block 映射到具体 SM |
+| 保证允许重排的迭代之间没有非法依赖 | 选择和切换 ready warp |
+| 选择 block size、数据布局和访存方式 | 在资源约束下安排 resident block/warp |
+| 处理边界、同步、原子操作和跨阶段依赖 | 分批执行超过物理容量的逻辑线程 |
+| 减少分支发散与低效内存访问 | 利用大量可运行 warp 隐藏部分延迟 |
+
+> [!note] 调度自由来自独立性契约
+> 程序员实际告诉 GPU 的是：“这些 block 可以按任意顺序执行，结果仍然正确。”如果不同工作之间存在依赖，就必须通过 shared memory、同步、atomic、cooperative groups，或者拆分为多个 kernel 来显式表达，不能依赖 block 的执行先后顺序。
+
+#### Kernel 仍然可以包含循环
+
+“一个线程对应一次迭代”是最直观的映射，但不是 CUDA 的强制规则。常见的 **grid-stride loop** 会让每个线程处理多次迭代：
+
+```cpp
+__global__ void scale(const float* input, float* output, int n) {
+    for (int i = blockIdx.x * blockDim.x + threadIdx.x;
+         i < n;
+         i += blockDim.x * gridDim.x) {
+        output[i] = input[i] * 2.0f;
+    }
+}
+```
+
+此外，单个线程内部的串行计算、tile 内的数据处理和每线程负责多个元素时，也都会继续使用循环。线程网格取代的是适合并行展开的那一层外部循环，而不是消灭所有循环。进一步的数据分块与复用参见 [[MLSys/算子/CUDA Tiling]]。
+
 ## CUDA 函数执行空间限定符
 
 CUDA C++ 使用函数限定符（execution space specifier）说明函数**在哪里执行**以及**可以从哪里调用**。教材 Figure 2.13 中的三个基本限定符如下：
@@ -235,9 +352,9 @@ __host__ __device__ float clamp_zero(float x) {
 
 ## SPMD 与 SIMD 的区别
 
-CUDA 采用 **SPMD（Single Program Multiple Data，单程序多数据）**编程模型：多个并行处理单元在不同的数据上执行同一个程序（kernel），但它们在同一时刻**不一定执行同一条指令**。例如，不同线程可以根据自己的 thread ID 处理不同数据，也可能因条件分支而走不同的控制流。
+CUDA 采用 **SPMD（Single Program Multiple Data，单程序多数据）** 编程模型：多个并行处理单元在不同的数据上执行同一个程序（kernel），但它们在同一时刻**不一定执行同一条指令**。例如，不同线程可以根据自己的 thread ID 处理不同数据，也可能因条件分支而走不同的控制流。
 
-**SIMD（Single Instruction Multiple Data，单指令多数据）**则要求所有处理单元在任意时刻执行同一条指令，只是该指令作用于不同的数据（Flynn, 1972）。
+**SIMD（Single Instruction Multiple Data，单指令多数据）** 则要求所有处理单元在任意时刻执行同一条指令，只是该指令作用于不同的数据（Flynn, 1972）。
 
 | 对比维度 | SPMD | SIMD |
 | --- | --- | --- |

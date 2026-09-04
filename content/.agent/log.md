@@ -251,3 +251,27 @@ created: 2026-08-11
 - 根据教材 Figure 2.13 补充 `__host__`、`__device__`、`__global__` 函数的执行位置、调用端和调用方式，并加入完整代码示例。
 - 记录 `__global__` 必须返回 `void`、execution configuration、异步 launch 和 CUDA Dynamic Parallelism 例外。
 - 补充 `__host__ __device__` 双端编译、`__CUDA_ARCH__`，以及函数限定符和变量 memory space specifier 的区别；同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：修复中文加粗渲染
+
+- 在 SPMD 与 SIMD 定义的闭合 `**` 后补充空格，避免紧邻中文字符时 CommonMark 无法识别强调定界符。
+- 仅修复 Markdown 渲染，未改动段落语义；`.agent/index.md` 现有摘要无需调整。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：每线程自动局部变量
+
+- 补充 kernel 中 automatic local variable 的每线程私有语义：一次 launch 中每个逻辑线程拥有独立副本，线程间不能通过普通局部变量交换数据。
+- 区分逻辑副本数与同时驻留线程数，并说明局部变量可能放入寄存器、因 spilling 等原因进入每线程 local memory，或被编译器优化消除。
+- 强调 private 作用域不等于 local-memory 存储，添加 NVIDIA Programming Guide 与 Best Practices Guide 参考，并同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：Loop Parallelism 与调度自由
+
+- 整理教材“线程网格替代顺序循环”的核心观点，将循环迭代、索引、循环体和边界逐项映射到 CUDA thread、内建坐标、kernel 与边界检查。
+- 澄清这不是硬件暗中执行原 `for` 循环，而是程序员显式声明逻辑工作网格，再由 runtime 和硬件把 block/warp 映射到有限 SM 并分批调度。
+- 补充“相信硬件”的准确含义：以迭代和 block 独立性换取执行顺序、SM 分配、resident warp 与延迟隐藏方面的调度自由，同时保留程序员对划分、访存、同步和边界的责任。
+- 记录 grid-stride loop，说明线程网格只替代适合并行展开的外层循环，kernel 内仍可使用循环；关联 [[MLSys/算子/CUDA Tiling]] 并同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-04] update | Programming Massively Parallel Processors 第二章：Block 执行顺序与硬件可扩展性
+
+- 收录教材关于 thread block 的原文：各 block 处理向量不同部分、可以任意顺序执行，程序员不得假设执行顺序。
+- 记录小 GPU 可能只并行 1～2 个 block、大 GPU 可并行 64 或 128 个 block 的对比，说明 CUDA kernel 随硬件规模自动伸缩的可扩展性。
+- 补充 warning：隐含依赖 block 执行先后会在不同硬件/调度下产生隐蔽 bug，跨 block 依赖需用多 kernel、atomic 或 cooperative groups 显式表达；同步微调 `.agent/index.md` 摘要。
