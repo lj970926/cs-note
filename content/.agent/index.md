@@ -32,6 +32,10 @@ created: 2026-08-11
 - [[MLSys/Models/Deepseek V4|DeepSeek V4]] —— DeepSeek-V4 架构笔记
 - [[MLSys/PD分离/top_k_top_p sampling|PD 分离：top-k/top-p sampling]] —— PD 分离场景下的采样实现
 - [[MLSys/vllm/vLLM 监控：使用 Binary 部署 Prometheus + Grafana|vLLM 监控]] —— 用二进制部署 Prometheus+Grafana 监控 vLLM
+
+### 压测工具
+
+- [[MLSys/压测工具/AIPerf：压测 LLM Serving 与多轮数据集|AIPerf]] —— 压测 OpenAI-compatible serving，解读 TTFT/ITL/吞吐，并梳理真实输出驱动的 multi-turn 与固定 payload 重放
 - [[MLSys/算子/Warp Shuffle|Warp Shuffle]] —— CUDA warp 内寄存器数据交换、归约模式与 mask 陷阱
 - [[MLSys/算子/双调排序 (Bitonic Sort)|双调排序]] —— 适合 GPU/SIMD 的固定比较网络及其双调合并过程
 - [[MLSys/算子/CUDA Tiling|CUDA Tiling]] —— 分块的作用：数据复用、IO 感知（FlashAttention）、并行划分与算术强度

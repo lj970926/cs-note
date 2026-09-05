@@ -24,6 +24,16 @@ created: 2026-08-11
 
 > 最近 5 条：`grep "^## \[" log.md | tail -5`
 
+## [2026-09-04] update | AIPerf 笔记归档
+
+- 将 [[MLSys/压测工具/AIPerf：压测 LLM Serving 与多轮数据集]] 归入新增的 `MLSys/压测工具/`：AIPerf 是通用 LLM serving 压测工具，不限于 vLLM；保留与 [[MLSys/vllm/vLLM 监控：使用 Binary 部署 Prometheus + Grafana]] 的关联示例。
+- 更新标题、标签与索引，兼容旧标题别名。
+
+## [2026-09-04] note | AIPerf：压测 vLLM 与多轮数据集
+
+- 新建 [[MLSys/vllm/AIPerf：压测 vLLM 与多轮数据集]]：整理 AIPerf 直接压测 vLLM 的基线命令、TTFT/ITL/吞吐指标、服务端与 GPU telemetry、产物解释及并发 sweep 原则。
+- 覆盖 `single_turn`、运行时真实回复驱动的 `multi_turn`、固定完整请求的 `raw_payload`、`inputs_json` 重放，以及 trace/public dataset 的选型；关联 [[MLSys/vllm/vLLM 监控：使用 Binary 部署 Prometheus + Grafana]]，并同步更新 `.agent/index.md`。
+
 ## [2026-09-04] note | 普通对话与 Deep Research：从 Agent 架构理解差异
 
 - 新建 [[AI-agent/普通对话与 Deep Research：从 Agent 架构理解差异]]：从目标、工具调用闭环、证据要求和适用任务对比普通对话与 Deep Research；将后者解释为规划—检索—评估—再检索—综合的研究型 Agent。
