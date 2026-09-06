@@ -290,3 +290,9 @@ created: 2026-08-11
 - 收录教材关于 thread block 的原文：各 block 处理向量不同部分、可以任意顺序执行，程序员不得假设执行顺序。
 - 记录小 GPU 可能只并行 1～2 个 block、大 GPU 可并行 64 或 128 个 block 的对比，说明 CUDA kernel 随硬件规模自动伸缩的可扩展性。
 - 补充 warning：隐含依赖 block 执行先后会在不同硬件/调度下产生隐蔽 bug，跨 block 依赖需用多 kernel、atomic 或 cooperative groups 显式表达；同步微调 `.agent/index.md` 摘要。
+
+## [2026-09-06] update | include directory
+
+- 补充 `target_include_directories()` 的 `PUBLIC` / `PRIVATE` / `INTERFACE` 传播范围对比：是否自己用、是否传播给链接它的 target，以及各自典型场景。
+- 给出 `mylib` + `app` 的示例说明 PUBLIC 的继承行为，并总结经验法则（公开头文件用 PUBLIC、仅 .cpp 内部用 PRIVATE、header-only 库用 INTERFACE）。
+- 指出同一机制同样适用于 `target_link_libraries` / `target_compile_definitions` / `target_compile_options`；同步更新 `.agent/index.md` 摘要。

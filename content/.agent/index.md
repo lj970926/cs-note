@@ -112,7 +112,7 @@ created: 2026-08-11
 - [[language/Python/Python __new__ 方法|Python __new__ 方法]] —— 对象创建与初始化的分工；不可变类型子类与实例复用
 - [[language/CMake/General Rules for Using Depencies|CMake 依赖使用通则]] —— CMake 依赖管理一般规则
 - [[language/CMake/Google Test|Google Test]] —— GTest 集成
-- [[language/CMake/include directory|include directory]] —— include 目录处理
+- [[language/CMake/include directory|include directory]] —— include 目录处理与 PUBLIC/INTERFACE/PRIVATE 传播范围
 - [[language/CMake/判断编译器类型|判断编译器类型]] —— CMake 判断编译器
 - [[language/Makefile|Makefile]] —— Makefile 基础
 - [[language/shellscript/shell expansion|shell expansion]] —— shell 展开（通配/参数/命令替换）
