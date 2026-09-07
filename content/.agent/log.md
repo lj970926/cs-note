@@ -297,6 +297,12 @@ created: 2026-08-11
 - 给出 `mylib` + `app` 的示例说明 PUBLIC 的继承行为，并总结经验法则（公开头文件用 PUBLIC、仅 .cpp 内部用 PRIVATE、header-only 库用 INTERFACE）。
 - 指出同一机制同样适用于 `target_link_libraries` / `target_compile_definitions` / `target_compile_options`；同步更新 `.agent/index.md` 摘要。
 
+## [2026-09-07] note | PTC 模式与推理框架 tool_call 的兼容性
+
+- 整理 PTC 与推理框架 tool_call 的分层关系：PTC 是 harness 编排层概念，对 vLLM/SGLang 而言只是一次普通单工具 tool_call，parser 负担反而变小。
+- 记录压力转移点：长代码字符串参数的 JSON 转义与流式增量解析、constrained decoding 约束不到 TS 语法、parallel tool calls 特性用不上。
+- 指出真正瓶颈在模型侧（是否训练过程序化工具调用格式），并标注框架侧论断为未对照源码验证的通用知识；关联 [[DeepSeek Harness 四种 Agent 模式]] 与 [[vllm 源码随手记]]，更新 `.agent/index.md`。
+
 ## [2026-09-07] note | PR Review：单栏与双栏 diff 的选择
 
 - 整理单栏与双栏的阅读侧重点、按屏幕宽度与改动类型选择视图的经验，以及复杂重构需查看完整上下文的注意事项。
