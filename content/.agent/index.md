@@ -167,6 +167,7 @@ created: 2026-08-11
 
 - [[AI-agent/LLM Wiki|LLM Wiki]] —— Karpathy 的 LLM 维护个人知识库模式（本指令的方法论来源）
 - [[AI-agent/普通对话与 Deep Research：从 Agent 架构理解差异|普通对话与 Deep Research]] —— 从研究型 Agent 的规划—检索—评估—综合闭环解释两者差异，并给出任务选型
+- [[AI-agent/Subagent 的好处与适用边界|Subagent 的好处与适用边界]] —— 上下文隔离是核心收益，顺带获得并行、故障隔离与模型异构；附代价与适用边界
 - [[AI-agent/DeepSeek Harness/DeepSeek Harness 四种 Agent 模式|DeepSeek Harness 四种 Agent 模式]] —— 标准、PTC、极简、创造四个 preset 的能力差异与选型
 - [[AI-agent/DeepSeek Harness/DSH 插件系统|DSH 插件系统]] —— Cordis profile/bundle/patch、dual-face 插件、dsh.client 模块表与 HMR 机制
 - [[AI-agent/DeepSeek Harness/PTC 模式与推理框架 tool_call 的兼容性|PTC 与推理框架 tool_call 兼容性]] —— PTC 对 vLLM/SGLang 只是普通单工具调用，真正门槛在模型侧训练格式

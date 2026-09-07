@@ -307,3 +307,9 @@ created: 2026-08-11
 
 - 整理单栏与双栏的阅读侧重点、按屏幕宽度与改动类型选择视图的经验，以及复杂重构需查看完整上下文的注意事项。
 - 收录 GitHub 官方视图设置说明，关联 [[git 常用命令#查看单个文件的修改历史]]，并更新 `.agent/index.md`。
+
+## [2026-09-07] note | Subagent 的好处与适用边界
+
+- 整理大模型 Agent 委派 subagent 的六项收益：保护主上下文（对比有损 compaction）、并行加速、规避长上下文劣化、角色与模型异构、故障隔离、主 agent 认知简化。
+- 记录三项代价与适用边界：上下文不共享需自包含 prompt、只有结果回流、小任务的协调开销；总结「subagent 本质是用上下文隔离换主 agent 专注力」。
+- 关联 [[Cursor Agent Best Practice]]、[[DeepSeek Harness 四种 Agent 模式]]、[[Claude Code Loop 工程：loop、goal 与 schedule]] 与 [[普通对话与 Deep Research：从 Agent 架构理解差异]]，更新 `.agent/index.md`。
