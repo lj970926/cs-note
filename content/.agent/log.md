@@ -296,3 +296,8 @@ created: 2026-08-11
 - 补充 `target_include_directories()` 的 `PUBLIC` / `PRIVATE` / `INTERFACE` 传播范围对比：是否自己用、是否传播给链接它的 target，以及各自典型场景。
 - 给出 `mylib` + `app` 的示例说明 PUBLIC 的继承行为，并总结经验法则（公开头文件用 PUBLIC、仅 .cpp 内部用 PRIVATE、header-only 库用 INTERFACE）。
 - 指出同一机制同样适用于 `target_link_libraries` / `target_compile_definitions` / `target_compile_options`；同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-07] note | PR Review：单栏与双栏 diff 的选择
+
+- 整理单栏与双栏的阅读侧重点、按屏幕宽度与改动类型选择视图的经验，以及复杂重构需查看完整上下文的注意事项。
+- 收录 GitHub 官方视图设置说明，关联 [[git 常用命令#查看单个文件的修改历史]]，并更新 `.agent/index.md`。
