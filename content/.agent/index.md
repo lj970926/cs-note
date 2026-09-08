@@ -28,6 +28,7 @@ created: 2026-08-11
 - [[MLSys/MoE matmul 计算量与 EP 收益|MoE matmul 计算量与 EP 收益]] —— MoE 计算量分析与专家并行收益估算
 - [[MLSys/算子/多头潜在注意力 (MLA)|多头潜在注意力（MLA）]] —— DeepSeek 的低秩 K/V 联合压缩、matrix absorption、Decoupled RoPE 与推理 KV Cache 布局
 - [[MLSys/Model Quantization|Model Quantization]] —— 模型量化总览
+- [[MLSys/Recurrent Depth（深度递归）|Recurrent Depth（深度递归）]] —— 沿网络深度复用同一组参数迭代隐藏表示，并辨析与 RNN、reasoning tokens 和 Agent loop 的关系
 - [[MLSys/NIXL|NIXL]] —— NVIDIA Inference Xfer Library，推理时 KV/权重传输
 - [[MLSys/Models/DeepSeek R1|DeepSeek R1]] —— DeepSeek-R1 推理模型笔记
 - [[MLSys/Models/Deepseek V4|DeepSeek V4]] —— DeepSeek-V4 架构笔记

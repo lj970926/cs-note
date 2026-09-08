@@ -319,3 +319,9 @@ created: 2026-08-11
 - 整理网络传输时间的二分：传输时延（数据量÷带宽）与传播时延（距离÷传播速度），对应集合通信 α-β 模型 T(n)=α+nβ 与临界消息大小 n*=α/β。
 - 记录 NCCL 侧的术语对应：algbw/busbw、Ring vs Tree、Simple/LL/LL128 协议分档，以及小消息下有效 α 被协议开销放大 5–10 倍的经验结论。
 - 关联到 DeepEP 两类 kernel 的分工（小消息 decode 优化 α、大消息训练优化 β）与 hook 式通信-计算重叠，链接 [[IBGDA]]、[[DeepEP normal dispatch 各 rank 不同 token 数]]、[[vLLM DP 协调、CUDA Graph 与 DeepEP Low Latency]]，更新 `.agent/index.md`。
+
+## [2026-09-08] note | Recurrent Depth（深度递归）
+
+- 新增 [[MLSys/Recurrent Depth（深度递归）]]：将 recurrent depth 解释为沿网络深度复用参数、迭代更新隐藏表示的 depth-wise recurrence，并用公式和流程图区分普通 Transformer。
+- 对比传统 RNN 的时间 / token 方向递推，辨析 reasoning tokens、Agent loop 与 [[MLSys/算子/Linear Attention#3. RNN 形态：推理时只维护一个固定大小的记忆|Linear Attention 的序列递推]]。
+- 记录公开信息边界：截至 2026-09-08，OpenAI 官方未确认 GPT-6 Astra 采用 recurrent-depth 架构；同步更新 `.agent/index.md`。
