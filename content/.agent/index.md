@@ -23,6 +23,7 @@ created: 2026-08-11
 - [[MLSys/CUDA Graph|CUDA Graph]] —— CUDA Graph 捕获与回放，减少 kernel launch 开销
 - [[MLSys/IBGDA|IBGDA]] —— IB GPU Direct Async：GPU 直接发起 RDMA 通信
 - [[MLSys/UVA、UVM 与 GPUDirect RDMA|UVA / UVM / GDR]] —— 统一编址、统一内存管理与网卡直访 GPU 显存的职责边界，以及页表/VMM 底层机制
+- [[MLSys/通信时间的组成与 α-β 模型|通信时间与 α-β 模型]] —— 传输时延 vs 传播时延、α-β 模型、NCCL algbw/busbw、DeepEP 两类 kernel 的分工
 - [[MLSys/DeepEP normal dispatch 各 rank 不同 token 数|DeepEP normal dispatch 变长]] —— normal kernel 支持各 rank 不同 token 数，等长只是 CUDA Graph 约束
 - [[MLSys/MoE matmul 计算量与 EP 收益|MoE matmul 计算量与 EP 收益]] —— MoE 计算量分析与专家并行收益估算
 - [[MLSys/算子/多头潜在注意力 (MLA)|多头潜在注意力（MLA）]] —— DeepSeek 的低秩 K/V 联合压缩、matrix absorption、Decoupled RoPE 与推理 KV Cache 布局
