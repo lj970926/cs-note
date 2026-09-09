@@ -75,7 +75,7 @@ created: 2026-08-11
 - [[source-code/vllm/DeepSeekV4 KV Cache 管理|DeepSeekV4 KV Cache 管理]] —— vLLM 中 DeepSeek-V4 KV cache 管理
 - [[source-code/vllm/vLLM DP 协调、CUDA Graph 与 DeepEP Low Latency|vLLM DP / CUDA Graph / DeepEP]] —— DP 协调、CUDA Graph、DeepEP 低延时路径
 - [[source-code/vllm/vLLM Quantization Config、Method 与 Scheme|vLLM Quantization 类关系]] —— Config 负责模型级配置与 Method 选择，Method 接管 layer 生命周期，Scheme 是复杂后端的可选内部策略层
-- [[source-code/vllm/vllm 源码随手记|vLLM 源码随手记]] —— vLLM 源码阅读杂记（枢纽页）
+- [[source-code/vllm/vllm 源码随手记|vLLM 源码随手记]] —— vLLM 源码阅读杂记：KV cache 架构、prefix cache 全命中时的末 token 重算与 block 对齐约束等
 
 ## 语言
 

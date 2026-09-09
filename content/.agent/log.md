@@ -325,3 +325,9 @@ created: 2026-08-11
 - 新增 [[MLSys/Recurrent Depth（深度递归）]]：将 recurrent depth 解释为沿网络深度复用参数、迭代更新隐藏表示的 depth-wise recurrence，并用公式和流程图区分普通 Transformer。
 - 对比传统 RNN 的时间 / token 方向递推，辨析 reasoning tokens、Agent loop 与 [[MLSys/算子/Linear Attention#3. RNN 形态：推理时只维护一个固定大小的记忆|Linear Attention 的序列递推]]。
 - 记录公开信息边界：截至 2026-09-08，OpenAI 官方未确认 GPT-6 Astra 采用 recurrent-depth 架构；同步更新 `.agent/index.md`。
+
+## [2026-09-09] update | vLLM prefix cache 全命中时的末 token 重算
+
+- 在 [[source-code/vllm/vllm 源码随手记#Prefix cache 全命中时仍要重算最后一个 token]] 记录 prefix cache 只复用 KV state、不保存采样所需 logits，因此 prompt 全命中时仍需重算最后一个 token。
+- 说明 `allocate_slots()` 对 `num_computed_tokens` 的 block-size aligned 约束会使已计算前缀回退整块，并用 block size 16、prompt 长度 32 的例子区分“获取 logits 只需末 token”与“当前实现可能重算整块”。
+- 同步更新 `.agent/index.md` 摘要。

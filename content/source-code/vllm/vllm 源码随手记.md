@@ -309,6 +309,37 @@ classDiagram
 ## KVCacheSpec
 ![[Drawing 2026-06-04 19.22.08.excalidraw|800]]
 
+## Prefix cache 全命中时仍要重算最后一个 token
+
+```python
+# NOTE: When all tokens hit the cache, we must recompute the last token
+# to obtain logits. Thus, set max_cache_hit_length to prompt_length - 1.
+# This can trigger recomputation of an entire block, rather than just
+# the single last token, because allocate_slots() requires
+# num_computed_tokens to be block-size aligned. Removing this limitation
+# could slightly improve performance in the future.
+max_cache_hit_length = request.num_tokens - 1
+computed_blocks, num_new_computed_tokens = (
+    self.coordinator.find_longest_cache_hit(
+        request.block_hashes, max_cache_hit_length
+    )
+)
+```
+
+Prefix cache 缓存的是已计算 token 的 **KV state**，而不是用来采样下一个 token 的 **logits**。如果 prompt 的所有 token 都直接命中缓存，本轮就没有 token 经过 model forward，因而拿不到 prompt 最后一个位置的 logits，也就无法采样第一个 output token。
+
+因此，vLLM 将 `max_cache_hit_length` 限制为 `request.num_tokens - 1`，故意让最后一个 prompt token 参与重算，以产生 logits。
+
+> [!warning] 当前实现可能不只重算一个 token
+> `allocate_slots()` 要求 `num_computed_tokens` 按 KV cache block size 对齐。因此，为了留出最后一个 token，已计算前缀有时必须回退整个 block，导致该 block 全部重算。这是 slot allocation 的对齐约束，不是获取 logits 本身必须重算整块。
+
+例如，设 block size 为 16、prompt 长度为 32，且两个 block 均命中 prefix cache：
+
+- 理想情况：复用前 31 个 token，只重算第 32 个 token。
+- 当前对齐约束下：`num_computed_tokens = 31` 不按 16 对齐，只能复用第一个 block，并重算第二个 block 的 16 个 token。
+
+未来若放宽 `allocate_slots()` 的 block-aligned 限制，就可以把这种情况的重算量从整个 block 降到最后一个 token，获得小幅性能改善。block size 的选择逻辑见 [[#Kernel block size]]。
+
 # FusedMOE
 ![[Drawing 2026-06-16 20.09.42.excalidraw]]
 
