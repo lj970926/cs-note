@@ -225,6 +225,8 @@ def _get_kv_cache_config_deepseek_v4(
     return num_blocks, kv_cache_tensors
 ```
 这里的关键是根据page_size 和 layer_idx（代码里叫 tuple_idx），将拥有相同 page_size 和相同 layer_id 的 tensor 放到一个KVCacheTensor 中。(通过 shared_by参数)
+ 下面代码里的 bucketed 大概是这样的结构，按照 group 和 page_size 的二维 histgram
+![[Drawing 2026-09-09 19.43.25.excalidraw]]
 ## initialize_kv_cache_tensors
 上面得到的 KVCacheTensor 只是一些表示 KVCache size和 dtype 等的 metadata，实际的 KVCache 分配发生在 model_runner 的`initialize_kv_cache_tensors` 方法中。这里分三步走：
 * alloc：`_allocate_kv_cache_tensors` 。根据 KVCacheTensor 中预先计算的大小分配数对应的一维 raw_tensor，比较简单
