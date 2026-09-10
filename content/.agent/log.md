@@ -331,3 +331,9 @@ created: 2026-08-11
 - 在 [[source-code/vllm/vllm 源码随手记#Prefix cache 全命中时仍要重算最后一个 token]] 记录 prefix cache 只复用 KV state、不保存采样所需 logits，因此 prompt 全命中时仍需重算最后一个 token。
 - 说明 `allocate_slots()` 对 `num_computed_tokens` 的 block-size aligned 约束会使已计算前缀回退整块，并用 block size 16、prompt 长度 32 的例子区分“获取 logits 只需末 token”与“当前实现可能重算整块”。
 - 同步更新 `.agent/index.md` 摘要。
+
+## [2026-09-10] note | AI 代码 Review 策略
+
+- 新建 [[AI-agent/AI 代码 Review 策略]]：针对「AI 产出速率超过人工审查带宽」，把解法从「读得更快」重构为四层分流——机器可验证信号、独立 agent 评审、计划阶段前置拦截、高危代码人眼逐行。
+- 记录两条关键推论：「不可验证 = 不可 review」（无测试/无 lint 的改动应先补测试）；「不可 review 就不合并」；以及并行度应由 review 带宽倒推而非机器上限。
+- 综合 [[Cursor Agent Best Practice]]、[[Subagent 的好处与适用边界]]、[[Claude Code Loop 工程：loop、goal 与 schedule]]、[[PR Review：单栏与双栏 diff 的选择]]，并将 agent 自审失效挂到 [[Debug 时如何不被思维定势影响]] 的锚定效应与主动证伪上（人机同源失效模式）；同步更新 `.agent/index.md`。
