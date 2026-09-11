@@ -337,3 +337,13 @@ created: 2026-08-11
 - 新建 [[AI-agent/AI 代码 Review 策略]]：针对「AI 产出速率超过人工审查带宽」，把解法从「读得更快」重构为四层分流——机器可验证信号、独立 agent 评审、计划阶段前置拦截、高危代码人眼逐行。
 - 记录两条关键推论：「不可验证 = 不可 review」（无测试/无 lint 的改动应先补测试）；「不可 review 就不合并」；以及并行度应由 review 带宽倒推而非机器上限。
 - 综合 [[Cursor Agent Best Practice]]、[[Subagent 的好处与适用边界]]、[[Claude Code Loop 工程：loop、goal 与 schedule]]、[[PR Review：单栏与双栏 diff 的选择]]，并将 agent 自审失效挂到 [[Debug 时如何不被思维定势影响]] 的锚定效应与主动证伪上（人机同源失效模式）；同步更新 `.agent/index.md`。
+
+## [2026-09-11] note | Claude Code -p 非交互模式
+
+- 新建 [[AI-agent/claude-code/Claude Code -p 非交互模式]]：记录 `claude -p`/`--print` headless 用法——一次性提问与管道输入、`-c`/`--continue`、`-r`/`--resume`、`--output-format`（text/json/stream-json）、退出码与 `ANTHROPIC_API_KEY` 等环境变量，以及交互模式 vs 脚本调用的选型。
+- 关联 [[Claude Code 快捷键]] 与 [[Claude Code Loop 工程：loop、goal 与 schedule]]，更新 `.agent/index.md`。
+
+## [2026-09-11] update | Claude Code Loop 工程：补后台会话实现机制
+
+- 在 [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule]] 第 4 节新增「实现机制」小节：per-user 按需 supervisor 守护进程（闲置自退、respawn/孤儿 adopt/roster、预热 spare 池）、attach 走 PTY 转发故与 `--resume` 互斥、macOS `_daemon_macos_aqua_wrap`、总开关 `CLAUDE_CODE_DISABLE_AGENT_VIEW=1`。
+- 依据社区逆向 [how-claude-code-works ch.21](https://github.com/Windy3f3f3f3f/how-claude-code-works/blob/main/en/docs/21-background-fleet.md)（泄露源码 + 二进制字符串），并在笔记中标注证据边界：supervisor 状态机为推断层，非官方文档。

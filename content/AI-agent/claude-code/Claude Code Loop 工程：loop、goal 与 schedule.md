@@ -186,6 +186,19 @@ claude stop <id>    # 停止会话；记录与工作树仍保留
 - 后台 Bash 任务会在 Claude Code 退出时自动清理；它不适合需要跨终端存活的服务。
 - 若只是希望传统终端进程持续存活，`tmux` 仍然合适，见 [[命令行工具/tmux 快捷键]]。
 
+### 实现机制：底下是个按需 supervisor，不是 disown（逆向分析）
+
+社区逆向（[how-claude-code-works ch.21](https://github.com/Windy3f3f3f3f/how-claude-code-works/blob/main/en/docs/21-background-fleet.md)，基于 v2.1.88 泄露源码 + 2.1.202 二进制字符串）表明，关终端不死的原因不是简单的 `nohup`/进程组脱离，而是有一个 **per-user 的 supervisor 守护进程**接管了后台会话的生命周期：
+
+- **按需启动、闲置自退**：第一次 `/bg` 或 `claude agents` 时才拉起；没有后台会话要管时自动退出（"nothing holding this daemon open"）。on-demand 起的实例不会顶掉正在管事的 daemon。
+- **缩小版 systemd**：约 80 个 `tengu_bg_*` 事件名暴露了完整能力——worker 崩溃自动 respawn（带防重入确认）、孤儿进程 adopt 回 roster、内存紧张 retire 不重要的 worker、预热 spare worker 池省冷启动。
+- **Attach 走 PTY 转发**：`claude attach` 是接管一个活进程的所有权（非恢复状态文件），因此与 `--resume` 互斥——同一 session 不能在两处同时被接管。
+- **平台适配**：macOS 上有 `_daemon_macos_aqua_wrap`，daemon 不依赖图形会话存活。
+- **总开关**：`CLAUDE_CODE_DISABLE_AGENT_VIEW=1`（managed settings 可统一关闭）能一次性关掉 `--bg`/`/background`/daemon 整套。
+
+> [!warning] 证据边界
+> session 内层（subagent 默认后台、`run_in_background`、task-notification 回调）在泄露源码里逐行可读；但 supervisor 的内部状态机只有二进制字符串依据，事件触发条件、roster 格式、PTY 传输协议均为推断层，非官方文档。
+
 ### 选型补充
 
 | 需求 | 首选 |
