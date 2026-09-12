@@ -347,3 +347,9 @@ created: 2026-08-11
 
 - 在 [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule]] 第 4 节新增「实现机制」小节：per-user 按需 supervisor 守护进程（闲置自退、respawn/孤儿 adopt/roster、预热 spare 池）、attach 走 PTY 转发故与 `--resume` 互斥、macOS `_daemon_macos_aqua_wrap`、总开关 `CLAUDE_CODE_DISABLE_AGENT_VIEW=1`。
 - 依据社区逆向 [how-claude-code-works ch.21](https://github.com/Windy3f3f3f3f/how-claude-code-works/blob/main/en/docs/21-background-fleet.md)（泄露源码 + 二进制字符串），并在笔记中标注证据边界：supervisor 状态机为推断层，非官方文档。
+
+## [2026-09-12] note | 双指针
+
+- 新建 [[算法/双指针]]：整理双指针成立的核心前提（指针单调不回头、淘汰即永久），分三种典型形态——有序数组对撞指针、连续区间滑动窗口、链表快慢指针（靠相对位置关系而非单调性）。
+- 给出正向识别特征（连续/有序 + 性质随端点单调变化）与反向判断（需要回头找已扫位置时换哈希表/排序二分/DP）。
+- 关联 [[算法/单调栈]]（同源的均摊 O(n) 思想），在单调栈笔记补互链，更新 `.agent/index.md`。
