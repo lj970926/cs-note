@@ -358,3 +358,15 @@ created: 2026-08-11
 - 新建 [[算法/双指针]]：整理双指针成立的核心前提（指针单调不回头、淘汰即永久），分三种典型形态——有序数组对撞指针、连续区间滑动窗口、链表快慢指针（靠相对位置关系而非单调性）。
 - 给出正向识别特征（连续/有序 + 性质随端点单调变化）与反向判断（需要回头找已扫位置时换哈希表/排序二分/DP）。
 - 关联 [[算法/单调栈]]（同源的均摊 O(n) 思想），在单调栈笔记补互链，更新 `.agent/index.md`。
+
+## [2026-09-16] note | LRU 抖动（LRU Thrashing）与 KV Cache
+
+- 新建 [[LRU 抖动（LRU Thrashing）与 KV Cache]]：用容量 3、循环访问 `A → B → C → D` 的例子解释 LRU 为何会反复淘汰下一刻就要访问的对象，并区分缓存容量占比与实际命中率。
+- 映射到 LLM serving 的 session / prefix KV：活跃工作集略超 GPU KV 容量且请求均匀轮转时，会形成 eviction → prefill/recompute → 再 eviction 的反馈环，令 TTFT、传输流量与吞吐出现临界点附近的非线性退化。
+- 记录观测信号和缓解方向，关联 [[vllm 源码随手记]]、[[DeepSeekV4 KV Cache 管理]] 与 [[NIXL]]，并更新 `.agent/index.md`。
+
+## [2026-09-23] note | Claude Code statusline 脚本（含 Kimi 额度显示）
+
+- 新建 [[Claude Code statusline 脚本（含 Kimi 额度显示）]]：沉淀自用 `~/.claude/statusline.sh` 全文，含 cwd/git/模型/推理指标（首字、cache 命中、tok/s）/ctx 占用各段。
+- 重点记录 Kimi 额度段：非官方 `coding/v1/usages` 接口的字段结构（limit_5h / limit_month_total / limit_month_code）、60s 缓存 + 后台异步刷新避免阻塞渲染、按 5h 用量变色告警。
+- 记录依赖与坑（jq/bc、macOS `date -j` 与 `stat -f` 语法、接口失效时静默消失），关联 [[Claude Code Loop 工程：loop、goal 与 schedule]] 等 claude-code 笔记，并更新 `.agent/index.md`。
