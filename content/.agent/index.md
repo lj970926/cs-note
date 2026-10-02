@@ -187,6 +187,7 @@ created: 2026-08-11
 
 - [[book-notes/A Philosophy of Software Design|A Philosophy of Software Design]] —— Ousterhout 软件设计哲学
 - [[book-notes/Computer Organization and Design/Chapter 3|Computer Organization and Design Ch.3]] —— 计算机组成与设计 第3章
+- [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction|Modern CPUs Ch.1]] —— 性能低效来源、性能价值、分析与调优的关系，以及本书覆盖范围
 - [[book-notes/Linux 多线程服务端编程 使用 muduo C++ 网络库|Linux 多线程服务端编程 (muduo)]] —— muduo 网络库读书笔记
 - [[book-notes/Programming Massively Parallel Processors/Chapter 1 Introduction|Programming Massively Parallel Processors Ch.1]] —— CPU/GPU 设计取舍、GPU 架构、Amdahl 定律与 CUDA 并行编程定位
 - [[book-notes/Programming Massively Parallel Processors/Chapter2 Data parallel computing|Programming Massively Parallel Processors Ch.2]] —— CUDA 线程层级与内建变量、block 顺序不可假设与硬件可扩展性、loop parallelism 与调度自由、PTX 特殊寄存器、函数限定符、SPMD/SIMD 及 warp 对齐

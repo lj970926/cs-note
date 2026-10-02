@@ -370,3 +370,7 @@ created: 2026-08-11
 - 新建 [[Claude Code statusline 脚本（含 Kimi 额度显示）]]：沉淀自用 `~/.claude/statusline.sh` 全文，含 cwd/git/模型/推理指标（首字、cache 命中、tok/s）/ctx 占用各段。
 - 重点记录 Kimi 额度段：非官方 `coding/v1/usages` 接口的字段结构（limit_5h / limit_month_total / limit_month_code）、60s 缓存 + 后台异步刷新避免阻塞渲染、按 5h 用量变色告警。
 - 记录依赖与坑（jq/bc、macOS `date -j` 与 `stat -f` 语法、接口失效时静默消失），关联 [[Claude Code Loop 工程：loop、goal 与 schedule]] 等 claude-code 笔记，并更新 `.agent/index.md`。
+## [2026-10-02] note | Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction
+
+- 新建 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction]]：按第一章 1.1–1.7 整理性能低效来源、性能工作的成本/体验/能耗价值、分析与调优的分工、工程投入边界、全书路线和范围。
+- 将“测量目标工作负载、以证据定位瓶颈、验证收益并适时停止”总结为本章的实践闭环；关联 [[system-programming/x86 registers]]，同步更新 `.agent/index.md`。
