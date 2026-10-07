@@ -374,3 +374,13 @@ created: 2026-08-11
 
 - 新建 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction]]：按第一章 1.1–1.7 整理性能低效来源、性能工作的成本/体验/能耗价值、分析与调优的分工、工程投入边界、全书路线和范围。
 - 将“测量目标工作负载、以证据定位瓶颈、验证收益并适时停止”总结为本章的实践闭环；关联 [[system-programming/x86 registers]]，同步更新 `.agent/index.md`。
+
+## [2026-10-08] note | Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance
+
+- 新建 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance]]：收录对 §2.5 引文「System-wide high-resolution timer … since an arbitrary starting date」的问答——关机时单调时钟（TSC/HPET 计数器）确实冻结，不跨重启连续；墙上时间由 RTC 纽扣电池 + NTP 校时接力维持，测耗时应用单调时钟（`steady_clock` / `CLOCK_MONOTONIC`）。
+- 顺带记录书中 system timer（clock_gettime，约 500ns）与 TSC（__rdtsc，约 5ns）的选型原则；关联 [[Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction]]，同步更新 `.agent/index.md`。
+
+## [2026-10-08] update | Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance
+
+- 在 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance]] 新增「辨析：两种计时器其实是同一个计数器」：Linux clocksource 优先选 TSC（要求跨核同步 + invariant），`clock_gettime` 读的还是 TSC tick，只是换算成纳秒再经 vDSO/syscall 暴露；两者区别在抽象层次与读取成本，不在计数器本身。
+- 补充书中 "nanosecond resolution" 的措辞辨析：resolution 是分辨率/粒度，不等于精度，故几十纳秒级测量不可靠、短事件应用 RDTSC。
