@@ -163,6 +163,7 @@ created: 2026-08-11
 
 ## system-programming —— 系统编程
 
+- [[system-programming/TUN 模式与系统代理|TUN 模式与系统代理]] —— 虚拟网卡接管 IP 流量的原理、与系统代理的区别，以及 TUN 与规则/全局模式的独立关系
 - [[system-programming/PLT-GOT-动态链接|PLT/GOT 动态链接]] —— PLT/GOT 与延迟绑定
 - [[system-programming/macOS 下使用 QEMU 学习 RISC-V：安装环境并跑通 riscv-test|QEMU 学 RISC-V]] —— macOS 下 QEMU+RISC-V 环境
 - [[system-programming/x86 registers|x86 registers]] —— x86-64 寄存器

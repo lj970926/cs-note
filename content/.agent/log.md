@@ -384,3 +384,8 @@ created: 2026-08-11
 
 - 在 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance]] 新增「辨析：两种计时器其实是同一个计数器」：Linux clocksource 优先选 TSC（要求跨核同步 + invariant），`clock_gettime` 读的还是 TSC tick，只是换算成纳秒再经 vDSO/syscall 暴露；两者区别在抽象层次与读取成本，不在计数器本身。
 - 补充书中 "nanosecond resolution" 的措辞辨析：resolution 是分辨率/粒度，不等于精度，故几十纳秒级测量不可靠、短事件应用 RDTSC。
+
+## [2026-10-11] note | TUN 模式与系统代理
+
+- 新建 [[system-programming/TUN 模式与系统代理]]：整理 TUN 虚拟网卡接收 IP 数据包的机制、与系统代理的接管范围差异，以及“开启 TUN 不等于全局代理”的两个维度。
+- 引用 Linux 内核与 Mihomo 官方文档，关联 [[SSH 端口转发#动态(SOCKS)端口转发]]，同步更新 `.agent/index.md`。
