@@ -406,3 +406,8 @@ created: 2026-08-11
 - 基于用户提供的论文 PDF 与开头截图，新建 [[MLSys/Models/DeepSeek V4.1 Flash 模型架构 Highlights]]：沿 Basic / Architecture 展开 CED、CSA2、分层索引、FP4 KV、SWA Bounded Replay、Single-Pass mHC、Engram、DSpark 和多模态入口。
 - 从论文提取 Figure 2–5 到 `assets/MLSys/Models/DeepSeek V4.1 Flash/`；逐节标注章节与页码，区分 global / SWA / persistent KV 口径，说明 bounded replay 的近似性与性能数字的适用范围。
 - 关联现有 MLA、DeepSeek V4、KV Cache 管理、DSpark 与 DFlash 笔记，同步更新 `.agent/index.md`。
+
+## [2026-10-15] note | Rendezvous 协议：数据传输与分布式会合
+
+- 新建 [[MLSys/Rendezvous 协议：数据传输与分布式会合]]：整理 MPI / UCX 的握手与数据传输流程、Eager 对比，以及 PyTorch / torchrun 的任务成员会合；区分协议协调与 RDMA 数据搬运。
+- 引用 UCX 与 PyTorch 官方文档，关联 [[通信时间的组成与 α-β 模型]]，同步更新 `.agent/index.md`。
