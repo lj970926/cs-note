@@ -33,6 +33,7 @@ created: 2026-08-11
 - [[MLSys/LRU 抖动（LRU Thrashing）与 KV Cache|LRU 抖动与 KV Cache]] —— working set 略超缓存时，LRU 反复淘汰即将访问的数据；解释 KV cache 的命中、prefill 与 TTFT 为何会在临界点非线性退化
 - [[MLSys/Models/DeepSeek R1|DeepSeek R1]] —— DeepSeek-R1 推理模型笔记
 - [[MLSys/Models/Deepseek V4|DeepSeek V4]] —— DeepSeek-V4 架构笔记
+- [[MLSys/Models/DeepSeek V4.1 Flash 模型架构 Highlights|DeepSeek V4.1 Flash 架构 Highlights]] —— CED、CSA2 跨层复用、分层索引、FP4 KV、SWA Bounded Replay、mHC、Engram 与 DSpark，附四张论文原图
 - [[MLSys/PD分离/top_k_top_p sampling|PD 分离：top-k/top-p sampling]] —— PD 分离场景下的采样实现
 - [[MLSys/vllm/vLLM 监控：使用 Binary 部署 Prometheus + Grafana|vLLM 监控]] —— 用二进制部署 Prometheus+Grafana 监控 vLLM
 

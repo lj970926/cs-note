@@ -400,3 +400,9 @@ created: 2026-08-11
 - 整理本次讨论至 [[生活/Ego：理解自我形象与应对防御]]：以日常自我形象理解 ego，明确这是讨论视角而非严格心理学定义或个人性格判断。
 - 记录察觉保护对象、分开事件与评价、延迟回应及允许不完美的四步练习，并保留面对羞辱、抢功和越界时的合理边界。
 - 关联 [[如何快速摆脱内耗]]，同步更新 `.agent/index.md`。
+
+## [2026-10-15] ingest | DeepSeek V4.1 Flash 模型架构 Highlights
+
+- 基于用户提供的论文 PDF 与开头截图，新建 [[MLSys/Models/DeepSeek V4.1 Flash 模型架构 Highlights]]：沿 Basic / Architecture 展开 CED、CSA2、分层索引、FP4 KV、SWA Bounded Replay、Single-Pass mHC、Engram、DSpark 和多模态入口。
+- 从论文提取 Figure 2–5 到 `assets/MLSys/Models/DeepSeek V4.1 Flash/`；逐节标注章节与页码，区分 global / SWA / persistent KV 口径，说明 bounded replay 的近似性与性能数字的适用范围。
+- 关联现有 MLA、DeepSeek V4、KV Cache 管理、DSpark 与 DFlash 笔记，同步更新 `.agent/index.md`。
