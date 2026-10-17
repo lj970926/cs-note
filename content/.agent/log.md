@@ -417,3 +417,12 @@ created: 2026-08-11
 - 基于用户提供的第二版 PDF 第 23–37 页，将 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance]] 从计时器问答补全为全章重点笔记，按 §2.1–2.7 用通俗解释、对比表和例子说明公平测量、生产监控、持续测试、分布与加速比、计时器、微基准和主动基准测试。
 - 保留并整理关机与时钟问答，依据 Linux / Intel / Google Benchmark 文档修正固定计时开销、跨核 TSC 同步及防优化措施等过于绝对的表述；标清补充内容与原书页码。
 - 关联已有 objdump、Debug 复盘及 AIPerf 笔记，同步更新 `.agent/index.md`。
+
+## [2026-10-18] note | AI Pipeline 工作流学习
+
+- 新建 [[AI-agent/Harness Engineering：以 Agent 为中心的工程实践]]：记录学习搭建 AI pipeline 工作流的目标，整理上下文、工具执行、验证反馈、状态与终止条件的初步框架，保留待实践问题。
+- 附 Harness Engineering 中英文链接，关联 LLM Wiki、AI 代码 Review、Claude Code Loop 与 Subagent 笔记，同步更新 `.agent/index.md`。
+
+## [2026-10-18] update | Harness Engineering：以 Agent 为中心的工程实践
+
+- 按用户反馈，将“AI Pipeline 工作流学习”重命名为 [[AI-agent/Harness Engineering：以 Agent 为中心的工程实践]]，让标题对应原文主题；同步文件名、正文标题和索引，保留旧标题为 alias。
