@@ -411,3 +411,9 @@ created: 2026-08-11
 
 - 新建 [[MLSys/Rendezvous 协议：数据传输与分布式会合]]：整理 MPI / UCX 的握手与数据传输流程、Eager 对比，以及 PyTorch / torchrun 的任务成员会合；区分协议协调与 RDMA 数据搬运。
 - 引用 UCX 与 PyTorch 官方文档，关联 [[通信时间的组成与 α-β 模型]]，同步更新 `.agent/index.md`。
+
+## [2026-10-17] update | Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance
+
+- 基于用户提供的第二版 PDF 第 23–37 页，将 [[book-notes/Performance Analysis and Tuning on Modern CPUs - Chapter 2 Measuring Performance]] 从计时器问答补全为全章重点笔记，按 §2.1–2.7 用通俗解释、对比表和例子说明公平测量、生产监控、持续测试、分布与加速比、计时器、微基准和主动基准测试。
+- 保留并整理关机与时钟问答，依据 Linux / Intel / Google Benchmark 文档修正固定计时开销、跨核 TSC 同步及防优化措施等过于绝对的表述；标清补充内容与原书页码。
+- 关联已有 objdump、Debug 复盘及 AIPerf 笔记，同步更新 `.agent/index.md`。
