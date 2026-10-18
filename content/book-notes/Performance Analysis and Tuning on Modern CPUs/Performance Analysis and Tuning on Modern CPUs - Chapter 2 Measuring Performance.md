@@ -18,7 +18,7 @@ source: "Denis Bakhvalov, Performance Analysis and Tuning on Modern CPUs (2nd ed
 > [!abstract] 先记住这一句
 > **跑出一个数字很容易，证明这个数字可信很难。** 同一段代码每次跑的快慢都可能不同。要判断一次优化有没有用，需要公平比较、多测几次、看结果怎么分布，还要能解释为什么变快。
 
-前一章：[[Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction|Modern CPUs Ch.1]]。下面按原书 §2.1–2.7 整理；例子中的演示数据不代表实测结果，计时器的补充辨析另有来源。
+前一章：[[book-notes/Performance Analysis and Tuning on Modern CPUs/Performance Analysis and Tuning on Modern CPUs - Chapter 1 Introduction|Modern CPUs Ch.1]]。下面按原书 §2.1–2.7 整理；例子中的演示数据不代表实测结果，计时器的补充辨析另有来源。
 
 ## 1. 为什么同一个程序，每次跑得都不一样？（§2.1）
 
