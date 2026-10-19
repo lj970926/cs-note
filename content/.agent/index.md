@@ -172,6 +172,7 @@ created: 2026-08-11
 
 ## AI-agent —— AI 助手与工作流
 
+- [[AI-agent/Codex CLI 权限模式速查|Codex CLI 权限模式]] —— `--yolo` 与 `--dangerously-bypass-approvals-and-sandbox` 等价，都会跳过审批并绕过沙箱
 - [[AI-agent/Harness Engineering：以 Agent 为中心的工程实践|Harness Engineering：以 Agent 为中心的工程实践]] —— 以 OpenAI Harness Engineering 为阅读起点，记录 AI 工作流学习目标及上下文、工具、验证、状态和终止条件的初步思路
 - [[AI-agent/LLM Wiki|LLM Wiki]] —— Karpathy 的 LLM 维护个人知识库模式（本指令的方法论来源）
 - [[AI-agent/普通对话与 Deep Research：从 Agent 架构理解差异|普通对话与 Deep Research]] —— 从研究型 Agent 的规划—检索—评估—综合闭环解释两者差异，并给出任务选型

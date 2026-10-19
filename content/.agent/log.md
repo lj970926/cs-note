@@ -430,3 +430,7 @@ created: 2026-08-11
 ## [2026-10-18] update | Performance Analysis and Tuning on Modern CPUs
 
 - 将本书现有的第 1、2 章笔记集中到 `book-notes/Performance Analysis and Tuning on Modern CPUs/`，并更新 `.agent/index.md`、历史日志链接与章节间链接。
+
+## [2026-10-19] note | Codex CLI 权限模式速查
+
+- 新建 [[AI-agent/Codex CLI 权限模式速查]]，记录 `--yolo` 与 `--dangerously-bypass-approvals-and-sandbox` 的等价关系及权限影响；关联 [[Harness Engineering：以 Agent 为中心的工程实践]] 和 [[LLM Wiki]]，同步更新 `.agent/index.md`。
