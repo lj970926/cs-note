@@ -21,7 +21,7 @@ created: 2026-08-11
 ## MLSys —— 机器学习系统 / LLM 推理训练
 
 - [[MLSys/KernelAgent：硬件反馈驱动的 GPU Kernel 优化|KernelAgent]] —— 硬件测量驱动的多 Agent 优化闭环、beam search 与共享记忆；对照 H100 matvec 源码和轨迹，辨析复盘归因、SOL 与计时口径
-- [[MLSys/KDA：Agent 驱动的 CUDA Kernel 开发工作流|KDA（Kernel Design Agents）]] —— 任务契约与计划—执行—验证循环，梳理 Humanize、KernelWiki、NCU 的职责、shape-aware 调优、学习路线与验证器陷阱
+- [[MLSys/KDA：Agent 驱动的 CUDA Kernel 开发工作流|KDA（Kernel Design Agents）]] —— 从 Agent 上下文入口解释 basic-flow、draft/plan 与 Humanize 文档接入，追踪 RLCR Stop hook、Codex 评审和续跑，附 GPU 工具与学习路线
 - [[MLSys/CUDA Graph|CUDA Graph]] —— CUDA Graph 捕获与回放，减少 kernel launch 开销
 - [[MLSys/IBGDA|IBGDA]] —— IB GPU Direct Async：GPU 直接发起 RDMA 通信
 - [[MLSys/UVA、UVM 与 GPUDirect RDMA|UVA / UVM / GDR]] —— 统一编址、统一内存管理与网卡直访 GPU 显存的职责边界，以及页表/VMM 底层机制

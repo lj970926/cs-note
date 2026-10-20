@@ -11,8 +11,9 @@ aliases:
   - Kernel Design Agents
   - KDA 工作流与学习路线
 created: 2026-10-20
+updated: 2026-10-20
 source: https://github.com/NVlabs/kda
-description: 梳理 KDA 的任务契约、计划—执行—验证循环、Humanize、KernelWiki、NCU 工具职责，以及从最小算子实验到 shape-aware 调优的学习路线。
+description: 从 Agent 上下文入口梳理 KDA 的模板、draft/plan 与 Humanize 接入，追踪 RLCR Stop hook、Codex 评审和续跑机制，补充 GPU 工具与学习路线。
 ---
 
 # KDA：Agent 驱动的 CUDA Kernel 开发工作流
@@ -29,7 +30,8 @@ description: 梳理 KDA 的任务契约、计划—执行—验证循环、Human
 - [KDA 主仓库](https://github.com/NVlabs/kda/tree/acdd79343c5e9d0c7cb96289f26fd3f1051ce785)：固定到 `acdd79343c5e9d0c7cb96289f26fd3f1051ce785`，重点是 README、`docs/agent-flow.md`、`prompts/basic-flow.md` 和 `CLAUDE.md`。
 - [技术报告：Developing GPU Kernels with Agentic Loops](https://github.com/mit-han-lab/mlsys2026-flashinfer-contest/blob/main/docs/HAN_Lab_Kernel_Mafia_Technical_Report.pdf)：重点是 §3 的执行机制与 §5 的局限；此链接随上游 main 更新。
 - 仓库固定的两个子模块：[KernelWiki](https://github.com/mit-han-lab/KernelWiki/tree/76d27b56f804e7e7295d4c570e1e5d7eef4b0a75) 与 [ncu-report-skill](https://github.com/mit-han-lab/ncu-report-skill/tree/d1887948c7d53690cfe6605f59c1329b8a1c6bb5)。
-- [Humanize](https://github.com/PolyArch/humanize) 与 [2026-09-27 KDA 案例复盘](https://nvlabs.github.io/kda/blog/2026-09-27-kda-for-kda/)：补充执行工具与后续实践；应与上述固定版本区分。
+- [Humanize v1.16.0](https://github.com/PolyArch/humanize/tree/4eeb392cd2450c3df99cb898bd6b24839967bbc3)：固定到 `4eeb392cd2450c3df99cb898bd6b24839967bbc3`，用于追踪计划加载、Stop hook、Codex 评审与续跑机制；不据此假设它与技术报告运行时使用的版本完全相同。
+- [2026-09-27 KDA 案例复盘](https://nvlabs.github.io/kda/blog/2026-09-27-kda-for-kda/)：补充后续实践，应与上述固定版本区分。
 
 > [!note] 阅读边界
 > 本文是文档与源码的静态梳理，未在 GPU 上复现实验。后面的 roadmap 是基于这些资料整理的实践建议，不代表官方排期。
@@ -64,6 +66,8 @@ flowchart TD
     J --> K["交付 kernel、dispatcher、复现命令与实验记录"]
 ```
 
+图中的 verifier 表达研发职责。当前 Humanize CLI 的自动 review 检查点是 Agent 尝试结束一轮时，不能从此图推断每个候选或小改动后都会触发一次 Stop hook；具体机制见第 3.1 节。
+
 ### 2.1 任务契约先于实现
 
 [`basic-flow.md`](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/prompts/basic-flow.md) 要求明确：
@@ -90,6 +94,57 @@ Agent 先检查已有代码、baseline 和验证路径，再写 `docs/draft.md`�
 
 这是根据合法输入规格做 specialization；跳过输入依赖的实际计算、硬编码测试数据等行为仍违反任务契约。
 
+### 2.4 从 Agent 视角看：哪些文件实际进入上下文
+
+**文件在仓库里存在、文档中提到文件名、文件内容进入 Agent 上下文，是三个不同的动作。** KDA 的主路径依赖使用者传递启动提示词。
+
+| 文件 | 定位与引用 | 是否保证被 Agent 读取 |
+| --- | --- | --- |
+| `README.md` | 项目入口；要求把填好的 basic-flow 交给 Agent | 使用者会阅读；任务会话是否读取取决于显式输入或自主探索 |
+| `CLAUDE.md` | 指示使用 basic-flow；列出可选 Humanize | 仅当该文件被宿主加载或 Agent 显式读取；独立任务 workspace 未必加载 KDA 仓库的指令 |
+| `docs/agent-flow.md` | 解释整体流程与证据记录约定 | CLAUDE.md 没有引用它，官方步骤也没有要求 Agent 必须读取 |
+| `prompts/README.md` | 说明模板用法：复制进会话、替换占位符 | 使用说明，不是自动加载器 |
+| `prompts/basic-flow.md` | 实际交给 Agent 的任务启动模板 | 填好后发送内容，或明确指示 Agent 读取，才能建立输入路径 |
+
+引用依据是 [README 的启动步骤](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/README.md#L64)、[CLAUDE.md 的 starter prompt 指令](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/CLAUDE.md#L19) 和 [prompts/README.md 的复制说明](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/prompts/README.md#L13)。
+
+```mermaid
+flowchart TD
+    B["prompts/basic-flow.md：通用模板"] -->|"人填写并发送内容"| A["任务工作区中的 Agent 会话"]
+    C["KDA 仓库的 CLAUDE.md"] -.->|"仅当被加载或显式读取"| A
+    A -->|"按收到的指令检查"| W["任务源码、测试、baseline 与环境"]
+    W -->|"结合现场信息生成"| D["docs/draft.md"]
+    A -.->|"可选：自主探索或用户要求"| R["KDA 仓库的 README.md"]
+    R -.->|"发现目录条目后可能继续读取"| F["docs/agent-flow.md"]
+```
+
+实线表示文档要求的主路径，虚线表示条件路径；均不表示代码 import。KDA 中没有自动注入 basic-flow 的加载器。CLAUDE.md 中“使用某文件”的自然语言指令，也不会自行把该文件正文展开到上下文里。
+
+`agent-flow.md` 没有指向 `basic-flow.md` 的引用。Agent 可以通过探索发现它，但不能仅因文件存在就认定 Agent 已经看过。
+
+### 2.5 basic-flow、draft 与 plan 的交接
+
+| 材料 | 回答的问题 | 典型内容 |
+| --- | --- | --- |
+| 填好的 basic-flow | 要完成什么任务，怎样工作？ | 目标、约束、验证命令、接受条件与工作流要求 |
+| `docs/draft.md` | 看过现场代码后，准备怎样做？ | baseline、风险、未知问题、候选方向、优先级和首轮实验 |
+| `docs/plan.md` | 按哪些步骤执行和验收？ | 明确任务、依赖、执行顺序与验收条件 |
+
+draft 是 Agent 调研后的中间产物，可以保留假设与备选方案；plan 将其收敛成可执行步骤。文件生成本身不会自动启动下一阶段。
+
+采用 Humanize 的常见衔接为：
+
+```text
+人将填好的 basic-flow 交给 Agent
+    → Agent 读代码与环境，生成 docs/draft.md
+    → /humanize:gen-plan --input docs/draft.md --output docs/plan.md
+    → /humanize:start-rlcr-loop docs/plan.md
+```
+
+basic-flow 直接规定了 `docs/draft.md` 的路径，但只要求把草稿转成可执行计划，没有指定最终计划必须命名为 `docs/plan.md`；该名称来自整体流程的约定。Humanize 使用启动参数指定的计划文件，并非自动搜索这个固定文件名。
+
+如果将填好的模板另存为 `docs/task.md` 等文件，这是使用者自行选择的保存方式，KDA 没有要求该文件名。
+
 ## 3. 工具与组件：按职责装配
 
 | 工具或组件 | 职责 | 使用阶段 |
@@ -104,14 +159,103 @@ Agent 先检查已有代码、baseline 和验证路径，再写 `docs/draft.md`�
 
 ### 3.1 Humanize：管理迭代过程
 
-[Humanize README](https://github.com/PolyArch/humanize) 将 RLCR 解释为 Ralph-Loop with Codex Review，典型流程是生成计划、启动实现与 review 循环。阅读时的 Claude Code 命令示例为：
+[Humanize](https://github.com/PolyArch/humanize/tree/4eeb392cd2450c3df99cb898bd6b24839967bbc3) 是 PolyArch 的开源 Agent 开发工作流工具包；Claude Code 路径以插件提供命令、专项 Agent、脚本、hook 与提示词模板，仓库另有 Codex/Kimi 接入方式。它把规划、实现、独立 review、状态与经验记录组织在一起，可以用于普通软件开发。
+
+**RLCR = Ralph-Loop with Codex Review**，即带 Codex 评审的 Ralph 循环。作者也将其双关为 Reinforcement Learning with Code Review；这里是通过反馈改进实现与上下文，没有训练或更新模型权重。
+
+#### 3.1.1 KDA 在哪里引用 Humanize
+
+| KDA 中的位置 | 内容 |
+| --- | --- |
+| [README 第 57–61 行](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/README.md#L57) | 给出安装 Humanize Claude Code 插件的命令 |
+| [README 第 71 行](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/README.md#L71) | 说明可手动或使用 Humanize 将 draft 转成计划 |
+| [CLAUDE.md 第 31 行](https://github.com/NVlabs/kda/blob/acdd79343c5e9d0c7cb96289f26fd3f1051ce785/CLAUDE.md#L27) | 在 Optional Skills 中列出计划生成与实现循环用途 |
+
+核对的 KDA 主仓库没有调用 Humanize 的脚本，也没有将它作为子模块引入；子模块只有 KernelWiki 与 NCU skill。连接发生在使用者另外安装插件，并在任务会话中调用 Humanize 命令时。下述循环源码属于 Humanize 仓库。
+
+#### 3.1.2 从草稿到执行
+
+Claude Code 命令示例：
 
 ```text
 /humanize:gen-plan --input docs/draft.md --output docs/plan.md
 /humanize:start-rlcr-loop docs/plan.md
 ```
 
-该路径使用 Claude 实现、Codex review，需要对应 CLI 与可用认证。具体安装和命令以所选版本为准。可以先手动跑通同样的任务与验收步骤，再引入持续循环。
+当前 [`gen-plan` 指令](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/commands/gen-plan.md) 要求先校验草稿与项目相关性，让 Codex 分析风险与缺失要求，再由 Claude 综合计划，并通过讨论收敛分歧。计划包含目标、AC-X 验收条件、边界、依赖和任务顺序。规划阶段的允许写入主要是计划产物，实现由后续循环承担。
+
+其他功能包括展开想法的 `gen-idea`、处理计划批注的 `refine-plan`、任务中咨询其他 Agent 的 `ask-codex`/`ask-gemini`，以及循环监控。它们不要求每个任务全部使用。
+
+#### 3.1.3 plan.md 怎样被执行与评审消费
+
+在 [`scripts/setup-rlcr-loop.sh`](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/scripts/setup-rlcr-loop.sh) 中，有明确的文件传递机制：
+
+1. **参数绑定与快照**：读取命令传入的计划路径，将计划复制到循环目录，并在 `state.md` 的 `plan_file` 字段保存原路径。
+2. **首轮输入**：第 1347 行将计划快照正文拼入 `round-0-prompt.md`，第 1508 行将首轮提示词输出到工具结果，供实现 Agent 读取。
+3. **Reviewer 输入**：[`regular-review.md`](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/prompt-template/codex/regular-review.md) 使用 `@{{PLAN_FILE}}` 指向原计划，并要求 Codex 先读计划，再检查实际实现与完成声明。
+4. **下一轮重新对齐**：[`next-round-prompt.md`](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/prompt-template/claude/next-round-prompt.md) 再次引用计划、目标追踪文件及近期反馈。
+
+这里可以区分两类输入：首轮计划正文由脚本实际拼接；后续的文件路径引用配合明确读取指令，要求 Agent 再获取内容。
+
+#### 3.1.4 Stop hook 怎样驱动续跑
+
+以下追踪 Claude Code 插件路径：[hook 注册](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/hooks/hooks.json#L63) 将 Stop 事件交给 [`loop-codex-stop-hook.sh`](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/hooks/loop-codex-stop-hook.sh)。
+
+```mermaid
+flowchart TD
+    U["用户启动 start-rlcr-loop，并指定计划"] --> S["Setup：初始化状态并输出首轮提示词"]
+    S --> C["Claude：读代码、实现、测试与测量"]
+    C --> W["写 summary，准备结束本轮"]
+    W --> H["Claude Code 触发 Stop hook"]
+    H --> X["前置检查通过后，启动独立 Codex 进程"]
+    X --> V{"实现完成情况评审"}
+    V -->|"有问题"| F["返回 block 与下一轮提示词，包含评审反馈"]
+    F --> C
+    V -->|"COMPLETE"| R["进入代码 Review 阶段：检查实际 diff"]
+    R -->|"需修复"| C
+    R -->|"通过"| E["收尾检查后结束循环"]
+```
+
+具体连接点：
+
+- **宿主触发**：Claude 准备结束当前轮回答时，宿主调用 Stop hook；没有活动循环时直接放行。
+- **独立评审**：hook 通过标准输入向 `codex exec` 传入生成的 review prompt，并让其在同一个项目目录中运行。Reviewer 有自己的上下文，通过计划、summary、目标追踪文件、历史记录和实际代码了解任务，不自动继承 Claude 的完整聊天上下文。
+- **反馈续跑**：hook 读取结果、更新轮数、生成下一轮提示词，然后返回形如 `{"decision":"block","reason":"下一轮指令与评审反馈"}` 的 JSON。宿主阻止本轮结束，让原会话带着反馈继续执行。
+- **第二道检查**：实现阶段收到 COMPLETE 后，正常路径进入 `codex review`，对固定基准提交的 diff 做代码 review；有问题则继续修复，通过后进入收尾阶段。
+- **结束与异常**：除了成功完成，还有轮数上限、停滞处理与取消机制；命令失败或空 review 输出不会直接当成通过。
+
+> [!important] 自动检查发生在什么时刻
+> 当前 [`start-rlcr-loop` 命令文档](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/commands/start-rlcr-loop.md#L130) 将一轮定义为“Agent 认为整个计划已完成，写 summary 并尝试结束”后的检查点。它不等于每个任务、候选或小改动；中间阶段需要独立检查时，可以显式调用 ask-codex。此定义与技术报告中按小步骤说明职责的方式需要区分。
+
+#### 3.1.5 状态、经验与约束由谁维护
+
+```text
+.humanize/
+  bitlesson.md
+  rlcr/<timestamp>/
+    plan.md
+    state.md
+    goal-tracker.md
+    round-0-prompt.md
+    round-0-summary.md
+    round-0-review-prompt.md
+    round-0-review-result.md
+    round-1-prompt.md
+    ...
+```
+
+Goal Tracker 记录目标、验收条件、进度与计划变化；[BitLesson](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/docs/bitlesson.md) 保存项目经验，并在任务中选择相关条目复用。状态与记录让后续轮次重新对齐任务，但文件存在不等于内容一定正确。
+
+| 机制 | 主要执行者 |
+| --- | --- |
+| 理解需求、设计方案、判断遗漏 | 模型与 reviewer |
+| 建立目录、保存路径与轮数、调用 CLI | shell 脚本 |
+| 触发结束检查、传递反馈 | 宿主事件机制与 hook |
+| 编译、正确性与性能证据 | 任务自己的工具与环境 |
+
+因此它同时包含模型遵循的文字约定和程序实际执行的控制。独立 review 增加发现问题的机会，不能替代可靠的验证器和测量。
+
+上述 Claude Code 路径使用 Claude 实现、Codex review，需要相应 CLI 与可用认证。Humanize 的 [Codex 安装路径](https://github.com/PolyArch/humanize/blob/4eeb392cd2450c3df99cb898bd6b24839967bbc3/docs/install-for-codex.md) 则配置 skills、运行依赖和相应 Stop hook，具体行为取决于宿主支持与安装结果；只复制 Markdown 不能获得相同的事件控制能力。
 
 ### 3.2 KernelWiki：提供可追溯的领域知识
 

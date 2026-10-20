@@ -461,3 +461,9 @@ created: 2026-08-11
 - 基于固定版本的 KDA 主仓库、两个 skill 子模块、技术报告与后续案例，新建 [[MLSys/KDA：Agent 驱动的 CUDA Kernel 开发工作流]]，整理任务契约、计划—执行—验证循环、Humanize、KernelWiki、NCU 与 shape-aware 调优。
 - 区分公开工作流、报告实践和后续工具版本，记录实践 roadmap、实验状态与 baseline/NaN/输入分布等验收陷阱；关联 Harness Engineering、LLM Wiki、KernelAgent 与 CUDA 基础笔记，同步更新 `.agent/index.md`。
 - 本次为静态阅读与笔记整理，未在 GPU 上复现性能实验。
+
+## [2026-10-20] update | KDA：Agent 驱动的 CUDA Kernel 开发工作流
+
+- 补充 Agent 视角的文件输入关系图，明确 basic-flow 由使用者传递，agent-flow 与 KDA 的 CLAUDE.md 均非独立任务会话保证读取的材料；区分模板、draft 与 plan 的职责和手动交接。
+- 固定 Humanize v1.16.0 源码版本，记录 KDA 的三处文档引用及未在代码中调用的边界，追踪计划加载、RLCR Stop hook、独立 Codex 进程、反馈续跑、代码 review 与状态/经验文件。
+- 修正“每个候选后自动 review”的潜在误读，标注当前命令的轮次定义与技术报告职责描述的差异，同步更新 `.agent/index.md`。
