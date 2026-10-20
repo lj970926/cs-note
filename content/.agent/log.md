@@ -455,3 +455,9 @@ created: 2026-08-11
 
 - 将权限模式、Plan mode 与恢复会话三篇笔记合并为 [[AI-agent/Codex CLI 使用指南]]，保留原有内容、来源和旧标题 aliases，移除独立旧文件。
 - 更新历史日志中的链接至对应章节，将 `.agent/index.md` 的三个条目收敛为统一入口。
+
+## [2026-10-20] ingest | KDA：Agent 驱动的 CUDA Kernel 开发工作流
+
+- 基于固定版本的 KDA 主仓库、两个 skill 子模块、技术报告与后续案例，新建 [[MLSys/KDA：Agent 驱动的 CUDA Kernel 开发工作流]]，整理任务契约、计划—执行—验证循环、Humanize、KernelWiki、NCU 与 shape-aware 调优。
+- 区分公开工作流、报告实践和后续工具版本，记录实践 roadmap、实验状态与 baseline/NaN/输入分布等验收陷阱；关联 Harness Engineering、LLM Wiki、KernelAgent 与 CUDA 基础笔记，同步更新 `.agent/index.md`。
+- 本次为静态阅读与笔记整理，未在 GPU 上复现性能实验。
