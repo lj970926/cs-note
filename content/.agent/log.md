@@ -434,3 +434,14 @@ created: 2026-08-11
 ## [2026-10-19] note | Codex CLI 权限模式速查
 
 - 新建 [[AI-agent/Codex CLI 权限模式速查]]，记录 `--yolo` 与 `--dangerously-bypass-approvals-and-sandbox` 的等价关系及权限影响；关联 [[Harness Engineering：以 Agent 为中心的工程实践]] 和 [[LLM Wiki]]，同步更新 `.agent/index.md`。
+
+## [2026-10-20] note | Codex Plan mode：先规划再执行
+
+- 新建 [[AI-agent/Codex Plan mode：先规划再执行]]，依据 OpenAI 官方说明记录 App、CLI 和 IDE 插件的 `/plan` 入口、先规划再执行的工作方式及适用场景。
+- 关联 [[Cursor Agent Best Practice#Plan Mode]] 与 [[Codex CLI 权限模式速查]]，同步更新 `.agent/index.md`。
+
+## [2026-10-20] ingest | KernelAgent：硬件反馈驱动的 GPU Kernel 优化
+
+- 基于 PyTorch 文章、固定版本的 KernelAgent 主仓库与公开 H100 运行产物，新建 [[MLSys/KernelAgent：硬件反馈驱动的 GPU Kernel 优化]]，包含整体闭环和 matvec 工作划分两张 Mermaid 图。
+- 对照 manager、beam search、orchestrator、验证与测速模块，追踪二维 tile 到一行一个 program 的代码变化；标注 LLM 复盘与源码不一致、SOL 代理指标、`do_bench` 时间单位及停止条件的实际调用路径。
+- 关联 Harness Engineering、Subagent、CUDA Tiling 与性能测量读书笔记，同步更新 `.agent/index.md`；本次为静态阅读，未在 H100 上复现实验。

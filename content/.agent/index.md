@@ -20,6 +20,7 @@ created: 2026-08-11
 
 ## MLSys —— 机器学习系统 / LLM 推理训练
 
+- [[MLSys/KernelAgent：硬件反馈驱动的 GPU Kernel 优化|KernelAgent]] —— 硬件测量驱动的多 Agent 优化闭环、beam search 与共享记忆；对照 H100 matvec 源码和轨迹，辨析复盘归因、SOL 与计时口径
 - [[MLSys/CUDA Graph|CUDA Graph]] —— CUDA Graph 捕获与回放，减少 kernel launch 开销
 - [[MLSys/IBGDA|IBGDA]] —— IB GPU Direct Async：GPU 直接发起 RDMA 通信
 - [[MLSys/UVA、UVM 与 GPUDirect RDMA|UVA / UVM / GDR]] —— 统一编址、统一内存管理与网卡直访 GPU 显存的职责边界，以及页表/VMM 底层机制
@@ -173,6 +174,7 @@ created: 2026-08-11
 ## AI-agent —— AI 助手与工作流
 
 - [[AI-agent/Codex CLI 权限模式速查|Codex CLI 权限模式]] —— `--yolo` 与 `--dangerously-bypass-approvals-and-sandbox` 等价，都会跳过审批并绕过沙箱
+- [[AI-agent/Codex Plan mode：先规划再执行|Codex Plan mode]] —— 用 `/plan` 开启计划模式，在修改代码前探索实现、澄清需求并对齐实施方案
 - [[AI-agent/Harness Engineering：以 Agent 为中心的工程实践|Harness Engineering：以 Agent 为中心的工程实践]] —— 以 OpenAI Harness Engineering 为阅读起点，记录 AI 工作流学习目标及上下文、工具、验证、状态和终止条件的初步思路
 - [[AI-agent/LLM Wiki|LLM Wiki]] —— Karpathy 的 LLM 维护个人知识库模式（本指令的方法论来源）
 - [[AI-agent/普通对话与 Deep Research：从 Agent 架构理解差异|普通对话与 Deep Research]] —— 从研究型 Agent 的规划—检索—评估—综合闭环解释两者差异，并给出任务选型
