@@ -467,3 +467,10 @@ created: 2026-08-11
 - 补充 Agent 视角的文件输入关系图，明确 basic-flow 由使用者传递，agent-flow 与 KDA 的 CLAUDE.md 均非独立任务会话保证读取的材料；区分模板、draft 与 plan 的职责和手动交接。
 - 固定 Humanize v1.16.0 源码版本，记录 KDA 的三处文档引用及未在代码中调用的边界，追踪计划加载、RLCR Stop hook、独立 Codex 进程、反馈续跑、代码 review 与状态/经验文件。
 - 修正“每个候选后自动 review”的潜在误读，标注当前命令的轮次定义与技术报告职责描述的差异，同步更新 `.agent/index.md`。
+
+## [2026-10-22] note | Supermemory 与 Basic Memory：Agent 记忆方案对比
+
+- 新建 [[AI-agent/Supermemory 与 Basic Memory：Agent 记忆方案对比]]，对比两类 Agent 记忆方案的定位、数据模型与接入面：Supermemory 的 namespace / id / taskType / dreaming / searchMode 与隐式抽取，Basic Memory 的 file-first 架构、entity-observation-relation 格式与 MCP 工具面。
+- 记录各自优劣与选型分水岭（怕记错 vs 怕没记住），补充组合用法：长期知识层放 Basic Memory，会话记忆层交给 Supermemory；并与 [[AI-agent/LLM Wiki]] 模式做了对照。
+- 标注两处实施坑：Supermemory README 示例仍是 v3/v4 写法而主线已到 v5；Basic Memory 安装需 `--prerelease=allow`。
+- 来源为两者仓库 README 与官方文档（2026-10），未实际跑通验证；检索质量与性能结论引用官方口径，已记入「待确认」。

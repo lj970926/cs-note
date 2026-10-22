@@ -189,6 +189,7 @@ created: 2026-08-11
 - [[AI-agent/claude-code/Claude Code -p 非交互模式|Claude Code -p 非交互模式]] —— `claude -p`/`--print` headless 用法：管道输入、--continue/--resume、--output-format、退出码与交互/脚本选型
 - [[AI-agent/claude-code/Claude Code statusline 脚本（含 Kimi 额度显示）|Claude Code statusline 脚本]] —— 自用 statusline.sh 全文：cwd/git/模型/推理指标/ctx 占用，及 Kimi 5h+月度额度段（非官方 usages 接口、60s 缓存异步刷新、用量变色告警）
 - [[AI-agent/hermes/Hermes Gateway|Hermes Gateway]] —— Hermes 网关
+- [[AI-agent/Supermemory 与 Basic Memory：Agent 记忆方案对比|Supermemory vs Basic Memory]] —— 隐式自动抽取的记忆引擎 vs 文件优先的可读知识库；概念模型、逐项优劣、选型分水岭与组合用法
 
 ## book-notes —— 读书笔记
 
