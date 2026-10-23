@@ -474,3 +474,9 @@ created: 2026-08-11
 - 记录各自优劣与选型分水岭（怕记错 vs 怕没记住），补充组合用法：长期知识层放 Basic Memory，会话记忆层交给 Supermemory；并与 [[AI-agent/LLM Wiki]] 模式做了对照。
 - 标注两处实施坑：Supermemory README 示例仍是 v3/v4 写法而主线已到 v5；Basic Memory 安装需 `--prerelease=allow`。
 - 来源为两者仓库 README 与官方文档（2026-10），未实际跑通验证；检索质量与性能结论引用官方口径，已记入「待确认」。
+
+## [2026-10-23] ingest | Chapter 3 CPU Microarchitecture
+
+- 基于用户提供的《Performance Analysis and Tuning on Modern CPUs》第二版 PDF 第 38–76 页，新建 [[book-notes/Performance Analysis and Tuning on Modern CPUs/Chapter 3 CPU Microarchitecture]]，按 §3.1–3.9 整理流水线、依赖与重命名、ILP/SIMD/TLP、缓存与主存、虚拟内存和 PMU。
+- 核对原书流水线图和 Golden Cove 核心图，绘制简化功能关系图，区分执行与退休、TLB miss 与缺页、指令/µop/字节带宽，以及乱序执行与跨核内存顺序；附自测题和页码索引。
+- 关联第二章、x86 registers、objdump、memory order 与 LRU 抖动笔记，同步更新 `.agent/index.md`；未进行硬件性能实验。

@@ -120,6 +120,7 @@ Claude / Codex / Cursor / ChatGPT / Obsidian
 | 项目     | `list_memory_projects` `create_memory_project` `delete_project` `list_workspaces`         |
 | Schema | `schema_infer` `schema_validate` `schema_diff`                                            |
 | 兼容/诊断  | `search` `fetch` `basic_memory_diagnostics`                                               |
+|        |                                                                                           |
 
 每个工具带 MCP 行为注解（`readOnlyHint` / `destructiveHint` / `idempotentHint`），支持渐进式工具发现，避免 Agent 靠试错烧 context。
 
