@@ -112,14 +112,14 @@ Claude / Codex / Cursor / ChatGPT / Obsidian
 
 ## MCP 工具面
 
-| 类别 | 工具 |
-|---|---|
-| 内容 | `write_note` `read_note` `edit_note` `move_note` `delete_note` `read_content` `view_note` |
-| 检索 | `search_notes` `recent_activity` `list_directory` |
-| 知识图 | `build_context`（遍历 `memory://` 链接） |
-| 项目 | `list_memory_projects` `create_memory_project` `delete_project` `list_workspaces` |
-| Schema | `schema_infer` `schema_validate` `schema_diff` |
-| 兼容/诊断 | `search` `fetch` `basic_memory_diagnostics` |
+| 类别     | 工具                                                                                        |
+| ------ | ----------------------------------------------------------------------------------------- |
+| 内容     | `write_note` `read_note` `edit_note` `move_note` `delete_note` `read_content` `view_note` |
+| 检索     | `search_notes` `recent_activity` `list_directory`                                         |
+| 知识图    | `build_context`（遍历 `memory://` 链接）                                                        |
+| 项目     | `list_memory_projects` `create_memory_project` `delete_project` `list_workspaces`         |
+| Schema | `schema_infer` `schema_validate` `schema_diff`                                            |
+| 兼容/诊断  | `search` `fetch` `basic_memory_diagnostics`                                               |
 
 每个工具带 MCP 行为注解（`readOnlyHint` / `destructiveHint` / `idempotentHint`），支持渐进式工具发现，避免 Agent 靠试错烧 context。
 
@@ -135,22 +135,22 @@ Claude / Codex / Cursor / ChatGPT / Obsidian
 
 # 逐项对照
 
-| 维度 | Supermemory | Basic Memory |
-|---|---|---|
-| 存储模型 | 托管记忆图（不透明），可自托管 | Markdown 文件为真源，数据库只是索引 |
-| 人类可读/可改 | 只能通过 console/API 看，改不了 | 任何编辑器可读可改，Obsidian 直接出图 |
-| 写入方式 | 丢对话，自动抽取 | Agent 主动 `write_note` 写结构化笔记 |
-| 检索 | 混合检索 + 记忆图关系边 + 自动重排 | FTS + 本地向量（FastEmbed）+ `memory://` 图遍历 |
-| 记忆演化 | 自动矛盾消解、过期遗忘、版本化 | **无自动遗忘**，靠人和 Agent 维护 wiki 卫生 |
-| 用户画像 | 一等公民，`profile.static/dynamic` | 无此原语，需自己约定格式 |
-| 多租户 | `namespace` 原生隔离，适合 SaaS | project = 本地目录，不适合多租户 |
-| 多模态 | PDF/OCR/图片/视频/代码 | 纯文本 Markdown |
-| 外部数据源 | Drive/Gmail/Notion/GitHub/S3/Web 连接器 | 无内置连接器，靠 Git/Syncthing/Obsidian |
-| 本地运行 | 单二进制 / Docker | `uv tool install`，Python 3.12+ |
-| 跨设备同步 | 云端天然支持 | 本地手动；Cloud 才有内置同步 |
-| 协议 | MIT | AGPL-3.0 |
-| 价格 | 按量：Free $5 额度/月，Pro $19，Max $100，Scale $399 | 本地永久免费；Cloud $15/月 |
-| 生态声量 | 31k star，基准评测（LongMemEval/LoCoMo/ConvoMem #1） | 2.3k commit 活跃，专注 MCP 生态 |
+| 维度      | Supermemory                                   | Basic Memory                           |
+| ------- | --------------------------------------------- | -------------------------------------- |
+| 存储模型    | 托管记忆图（不透明），可自托管                               | Markdown 文件为真源，数据库只是索引                 |
+| 人类可读/可改 | 只能通过 console/API 看，改不了                        | 任何编辑器可读可改，Obsidian 直接出图                |
+| 写入方式    | 丢对话，自动抽取                                      | Agent 主动 `write_note` 写结构化笔记           |
+| 检索      | 混合检索 + 记忆图关系边 + 自动重排                          | FTS + 本地向量（FastEmbed）+ `memory://` 图遍历 |
+| 记忆演化    | 自动矛盾消解、过期遗忘、版本化                               | **无自动遗忘**，靠人和 Agent 维护 wiki 卫生         |
+| 用户画像    | 一等公民，`profile.static/dynamic`                 | 无此原语，需自己约定格式                           |
+| 多租户     | `namespace` 原生隔离，适合 SaaS                      | project = 本地目录，不适合多租户                  |
+| 多模态     | PDF/OCR/图片/视频/代码                              | 纯文本 Markdown                           |
+| 外部数据源   | Drive/Gmail/Notion/GitHub/S3/Web 连接器          | 无内置连接器，靠 Git/Syncthing/Obsidian        |
+| 本地运行    | 单二进制 / Docker                                 | `uv tool install`，Python 3.12+         |
+| 跨设备同步   | 云端天然支持                                        | 本地手动；Cloud 才有内置同步                      |
+| 协议      | MIT                                           | AGPL-3.0                               |
+| 价格      | 按量：Free $5 额度/月，Pro $19，Max $100，Scale $399   | 本地永久免费；Cloud $15/月                     |
+| 生态声量    | 31k star，基准评测（LongMemEval/LoCoMo/ConvoMem #1） | 2.3k commit 活跃，专注 MCP 生态               |
 
 # 各自优劣
 
