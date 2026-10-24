@@ -480,3 +480,8 @@ created: 2026-08-11
 - 基于用户提供的《Performance Analysis and Tuning on Modern CPUs》第二版 PDF 第 38–76 页，新建 [[book-notes/Performance Analysis and Tuning on Modern CPUs/Chapter 3 CPU Microarchitecture]]，按 §3.1–3.9 整理流水线、依赖与重命名、ILP/SIMD/TLP、缓存与主存、虚拟内存和 PMU。
 - 核对原书流水线图和 Golden Cove 核心图，绘制简化功能关系图，区分执行与退休、TLB miss 与缺页、指令/µop/字节带宽，以及乱序执行与跨核内存顺序；附自测题和页码索引。
 - 关联第二章、x86 registers、objdump、memory order 与 LRU 抖动笔记，同步更新 `.agent/index.md`；未进行硬件性能实验。
+
+## [2026-10-24] note | AI 时代，为什么还要深读技术书籍
+
+- 根据用户提供的思考，新建 [[其他/AI 时代，为什么还要深读技术书籍]]，保留学习四层次、心智模型、认知盲区、阅读方式、能力空心化、选书标准与成长衡量的七部分论述，修复原文对比表格。
+- 将 Prefix Cache 例子标为待验证的候选解释，关联 AI 时代的个人原则、源码阅读方法论与 Debug 复盘，同步更新 `.agent/index.md`。
