@@ -485,3 +485,9 @@ created: 2026-08-11
 
 - 根据用户提供的思考，新建 [[其他/AI 时代，为什么还要深读技术书籍]]，保留学习四层次、心智模型、认知盲区、阅读方式、能力空心化、选书标准与成长衡量的七部分论述，修复原文对比表格。
 - 将 Prefix Cache 例子标为待验证的候选解释，关联 AI 时代的个人原则、源码阅读方法论与 Debug 复盘，同步更新 `.agent/index.md`。
+
+## [2026-10-28] ingest | Ansor：自动生成高性能张量程序
+
+- 基于用户提供的 Ansor OSDI 2020 PDF，新建 [[paper/Ansor：自动生成高性能张量程序]]：从数学定义与 schedule 的区别讲起，整理 sketch 推导、SSRSRS、多级分块、rfactor、进化操作、GBDT 损失和任务预算调度。
+- 在 `assets/paper/Ansor：自动生成高性能张量程序/` 保存原论文图 2–11 和表 1、3 的高清截取；逐图解释读法，保留图注、原文章节与印刷/PDF 页码对应。
+- 区分推理性能与调优时间、最高值与整体结论，标注 CPU 型号的正文/图注矛盾、AVX-512 设置、FP32/静态 shape 等边界；关联 CUDA Tiling、FlashAttention 和 KernelAgent，并同步更新 `.agent/index.md`。未复现硬件性能实验。

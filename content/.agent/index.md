@@ -54,6 +54,7 @@ created: 2026-08-11
 
 ## paper —— 论文笔记
 
+- [[paper/Ansor：自动生成高性能张量程序|Ansor]] —— Sketch/annotation 分层空间、完整程序的进化搜索与 GBDT、子图预算分配；附 10 张原图、2 张表及实验口径与限制
 - [[paper/A White Paper on Neural Network Quantization|A White Paper on Neural Network Quantization]] —— 神经网络量化白皮书
 - [[paper/DFlash Block Diffusion for Flash Speculative Decoding|DFlash]] —— Block Diffusion 加速 Flash 投机解码
 - [[paper/DSpark-Confidence-Scheduled Speculative Decoding with Semi-Autoregressive Generation|DSpark]] —— 置信度调度的半自回归投机解码
