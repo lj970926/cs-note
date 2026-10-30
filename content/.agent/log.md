@@ -496,3 +496,9 @@ created: 2026-08-11
 
 - 新建 [[language/Python/argparse 子命令：add_subparsers 与 add_parser]]，记录「一次开槽、多次填候选」的对象关系、注册与解析的区别、循环注册示例，以及 required、dest 和 set_defaults 的用法。
 - 说明同一个 parser 只能建立一次子命令入口、子 parser 可继续嵌套，以及解析后需要显式调用处理函数；关联 [[Codex CLI 使用指南#恢复会话（resume）]] 的子命令用例，同步更新 `.agent/index.md`。
+
+## [2026-10-30] update | Harness Engineering：以 Agent 为中心的工程实践
+
+- 依据 OpenAI 官方中英文原文，将 [[AI-agent/Harness Engineering：以 Agent 为中心的工程实践]] 从学习提纲补充为阅读笔记，涵盖知识导航、应用可读性、可执行架构约束、审查反馈与持续清理。
+- 保留原有学习目标及待实践清单，区分原文经验与个人概念拆解、闭环图、任务契约和实践指标；注明效率数字及合并策略的适用边界，标注与既有 Review 笔记的取舍差异。
+- 关联 KernelAgent、KDA 等已有案例，补充来源与更新日期，同步更新 `.agent/index.md`；未复现原文内部工程与效率数据。
