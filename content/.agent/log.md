@@ -491,3 +491,8 @@ created: 2026-08-11
 - 基于用户提供的 Ansor OSDI 2020 PDF，新建 [[paper/Ansor：自动生成高性能张量程序]]：从数学定义与 schedule 的区别讲起，整理 sketch 推导、SSRSRS、多级分块、rfactor、进化操作、GBDT 损失和任务预算调度。
 - 在 `assets/paper/Ansor：自动生成高性能张量程序/` 保存原论文图 2–11 和表 1、3 的高清截取；逐图解释读法，保留图注、原文章节与印刷/PDF 页码对应。
 - 区分推理性能与调优时间、最高值与整体结论，标注 CPU 型号的正文/图注矛盾、AVX-512 设置、FP32/静态 shape 等边界；关联 CUDA Tiling、FlashAttention 和 KernelAgent，并同步更新 `.agent/index.md`。未复现硬件性能实验。
+
+## [2026-10-30] note | argparse 子命令：add_subparsers 与 add_parser
+
+- 新建 [[language/Python/argparse 子命令：add_subparsers 与 add_parser]]，记录「一次开槽、多次填候选」的对象关系、注册与解析的区别、循环注册示例，以及 required、dest 和 set_defaults 的用法。
+- 说明同一个 parser 只能建立一次子命令入口、子 parser 可继续嵌套，以及解析后需要显式调用处理函数；关联 [[Codex CLI 使用指南#恢复会话（resume）]] 的子命令用例，同步更新 `.agent/index.md`。
