@@ -32,6 +32,7 @@ created: 2026-08-11
 - [[MLSys/算子/多头潜在注意力 (MLA)|多头潜在注意力（MLA）]] —— DeepSeek 的低秩 K/V 联合压缩、matrix absorption、Decoupled RoPE 与推理 KV Cache 布局
 - [[MLSys/Model Quantization|Model Quantization]] —— 模型量化总览
 - [[MLSys/Recurrent Depth（深度递归）|Recurrent Depth（深度递归）]] —— 沿网络深度复用同一组参数迭代隐藏表示，并辨析与 RNN、reasoning tokens 和 Agent loop 的关系
+- [[MLSys/Mamba 的状态转移与短卷积]] —— Mamba-1 / Mamba-2 的缓存 shape、状态转移与短卷积，解释时间窗口展开后为何等价于逐点卷积
 - [[MLSys/NIXL|NIXL]] —— NVIDIA Inference Xfer Library，推理时 KV/权重传输
 - [[MLSys/LRU 抖动（LRU Thrashing）与 KV Cache|LRU 抖动与 KV Cache]] —— working set 略超缓存时，LRU 反复淘汰即将访问的数据；解释 KV cache 的命中、prefill 与 TTFT 为何会在临界点非线性退化
 - [[MLSys/Models/DeepSeek R1|DeepSeek R1]] —— DeepSeek-R1 推理模型笔记
