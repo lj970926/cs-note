@@ -512,3 +512,7 @@ created: 2026-08-11
 
 - 根据用户粘贴的讨论新建 [[MLSys/vLLM vs SGLang：Prefix Cache 管理机制对比]]，补全 Trie 压缩与 token 路径示例，整理链式 Block Hash、最长前缀匹配、淘汰与调度的取舍。
 - 用官方文档和源码核对匹配粒度与配置条件，记录 103 token 的对齐示例和多轮 Agent 压测口径，同步更新 `.agent/index.md`。
+
+## [2026-11-13] update | vLLM vs SGLang：Prefix Cache 管理机制对比
+
+- 补充 [[MLSys/vLLM vs SGLang：Prefix Cache 管理机制对比]] 中 SGLang 的两处哈希用途，说明树内局部键如何依赖当前节点，以及 HiCache 外部存储如何用上一页哈希编码前缀。

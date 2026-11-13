@@ -11,6 +11,7 @@ aliases:
   - Radix Tree
   - 基数树
 created: 2026-11-13
+updated: 2026-11-13
 description: 从压缩 Trie 的最长前缀匹配出发，对比 vLLM 的链式 Block Hash 与 SGLang 的 Radix Cache，记录命中粒度、淘汰、调度和压测口径。
 ---
 
@@ -55,6 +56,11 @@ root
 ```
 
 新请求 `[A B C D X]` 沿 `[A B C]`、`[D]` 命中四个 token。若这四个 token 的 KV 都可用，prefill 只需为后缀 `[X]` 执行前向计算，`X` 仍会对已缓存的前缀做 attention。插入或匹配发生在压缩边中间时，可以把该边拆开并保留已有 KV 的索引。[SGLang 论文 §3](https://arxiv.org/html/2312.07104v2#S3) · [SGLang RadixCache 源码](https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/mem_cache/radix_cache.py)
+
+### SGLang 的哈希是否包含此前的 token？
+
+- **树内查找。** 普通 token 模式下，`child_key` 用当前位置的第一个 token 或一页 token 查当前节点的 `children`，选中子边后再比较边上的 token。已走过的路径限定了此前的前缀，无需把它混入子节点键。例如 `A → X` 和 `B → X` 都可以用 `X` 作为局部键，因为它们查的是不同节点的 `children`。[SGLang RadixCache 源码](https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/mem_cache/radix_cache.py)
+- **HiCache 外部存储。** KV 页需要能通过存储键区分不同前缀下的相同 token。页哈希沿链计算，当前页使用上一页的哈希和本页 token。若上一页哈希已经存在，可以直接接着算，无需重新扫描此前所有 token。[SGLang 页哈希源码](https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/mem_cache/utils.py)
 
 ## 3. vLLM 如何用 Block Hash 表示同一前缀
 
