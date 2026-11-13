@@ -34,6 +34,7 @@ created: 2026-08-11
 - [[MLSys/Recurrent Depth（深度递归）|Recurrent Depth（深度递归）]] —— 沿网络深度复用同一组参数迭代隐藏表示，并辨析与 RNN、reasoning tokens 和 Agent loop 的关系
 - [[MLSys/Mamba 的状态转移与短卷积]] —— Mamba-1 / Mamba-2 的缓存 shape、状态转移与短卷积，解释时间窗口展开后为何等价于逐点卷积
 - [[MLSys/NIXL|NIXL]] —— NVIDIA Inference Xfer Library，推理时 KV/权重传输
+- [[MLSys/vLLM vs SGLang：Prefix Cache 管理机制对比|vLLM vs SGLang Prefix Cache]] —— 从 Radix Tree 路径压缩和链式 Block Hash 出发，对比前缀匹配粒度、KV 淘汰、调度与多轮压测口径
 - [[MLSys/LRU 抖动（LRU Thrashing）与 KV Cache|LRU 抖动与 KV Cache]] —— working set 略超缓存时，LRU 反复淘汰即将访问的数据；解释 KV cache 的命中、prefill 与 TTFT 为何会在临界点非线性退化
 - [[MLSys/Models/DeepSeek R1|DeepSeek R1]] —— DeepSeek-R1 推理模型笔记
 - [[MLSys/Models/Deepseek V4|DeepSeek V4]] —— DeepSeek-V4 架构笔记

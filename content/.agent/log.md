@@ -507,3 +507,8 @@ created: 2026-08-11
 
 - 新建 [[MLSys/Mamba 的状态转移与短卷积]]，整理 SSM 全称、Mamba-1 / Mamba-2 的推理缓存形状和逐 token 状态转移。
 - 用同一个点积说明时间轴上的 `kernel_size=4` 与窗口展开后通道轴上的分组 `kernel_size=1` 如何等价，并记录二维卷积的对应布局。
+
+## [2026-11-13] note | vLLM vs SGLang：Prefix Cache 管理机制对比
+
+- 根据用户粘贴的讨论新建 [[MLSys/vLLM vs SGLang：Prefix Cache 管理机制对比]]，补全 Trie 压缩与 token 路径示例，整理链式 Block Hash、最长前缀匹配、淘汰与调度的取舍。
+- 用官方文档和源码核对匹配粒度与配置条件，记录 103 token 的对齐示例和多轮 Agent 压测口径，同步更新 `.agent/index.md`。
