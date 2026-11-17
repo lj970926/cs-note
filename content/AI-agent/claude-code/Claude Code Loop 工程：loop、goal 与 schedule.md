@@ -6,6 +6,7 @@ tags:
   - loop-engineering
   - 工具链
 created: 2026-07-25
+updated: 2026-11-17
 aliases: []
 ---
 
@@ -65,41 +66,32 @@ Anthropic 在 2026 年 6-7 月官方提出 "loop engineering" 概念：不再逐
 ### 基本用法
 
 ```bash
-/goal All tests in `npm test` pass and `git status` is clean, or stop after 20 turns
+/goal All tests pass and the final `npm test` result is shown in the conversation, or stop after 20 turns
 ```
 
-本质是产品化的 **Ralph loop**：给一个可验证的完成条件，Claude 跨 turn 持续工作直到条件成立。自 v2.1.139 起可用。
+给出完成条件后，Claude 会在当前会话里跨轮工作。自 v2.1.139 起可用。
 
 ### 机制上值得注意的三点
 
-1. **完成判定不是干活的模型自己做的**
-   每个 turn 结束后，一个独立的小模型（默认 Haiku）读 session transcript，只回答一个问题："目标达成了吗，yes/no？" No 就带着理由进入下一 turn，yes 则清除 goal。底层就是一个 session 作用域的 **Stop hook**。
+1. **由另一次模型调用判断是否达标**。底层是会话级的 Stop hook。每轮结束时，Claude Code 将目标和对话记录交给评估模型（默认 Claude Haiku）。尚未达标就把理由交给 Claude，进入下一轮。达标则清除目标并记为成功，判定目标无法达成则清除并记为失败。可通过 `ANTHROPIC_DEFAULT_HAIKU_MODEL` 指定小模型，该设置也影响 Claude Code 中其他使用小模型的功能。
 
-2. **评估器不能调工具**
-   它只能读 transcript，没法自己重跑测试——分不清"真的绿了"和"工作模型自称绿了"。
-   → **条件里最好明确要求 Claude 把验证证据（测试输出等）呈现在对话里。**
+2. **评估模型根据对话里的证据判断**。它无法自行跑测试或读文件，所以完成条件可以要求 Claude 把测试结果、失败数量或退出码展示在对话里。
 
-3. **没有默认 turn 上限**
-   不写 `or stop after N turns` 就真的没有天花板。配合 auto mode 无人值守跑的话风险自负。
+3. **轮数或时长可以写进条件**。例如 `or stop after 20 turns`，由 Claude 报告进度，评估模型据此判断。连续多轮没有工具调用时，Claude Code 也可能暂停循环并保留目标。
 
 ### 适合场景
 
 有可测量终点的重活：迁移模块直到所有调用点编译通过、清完一个 issue 队列、重构到文件低于某个行数上限。
 
-### 诚实的批评
+### Ralph Loop 与 /goal 的区别
 
-`/goal` 只产品化了 Ralph loop 三要素（状态外置、上下文丢弃、外部完成判定）中的最后一个，而且是弱化版：
+Ralph Loop 把「Agent 结束一轮后，用户再发消息催它继续」自动化。比如 Claude 修了 10 个失败测试里的 6 个就汇报进度，循环可以自动发起下一轮。
 
-- 单 session 长上下文会随运行时间累积劣化
-- 评估器无法独立执行验证
+- **Geoffrey Huntley 的原版**用 Bash 循环，每轮重新启动 Agent。各轮使用新的对话上下文，代码、Git diff 和进度文件留在工作目录里，供下一轮接着做。外层脚本可加测试验收与轮数上限。[Huntley 原文](https://ghuntley.com/ralph/)
+- **Claude Code 的 `/ralph-loop` 插件**在当前会话续跑。用户用 `--completion-promise "DONE"` 约定标记，由干活的 Claude 在回复里输出 `<promise>DONE</promise>`。Stop hook 匹配到标记就结束循环。没匹配到就重送原提示词，达到 `--max-iterations` 设置的上限也会停。[插件说明](https://claude.com/marketplace/plugins/ralph-loop) · [Stop hook 源码](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/ralph-loop/hooks/stop-hook.sh)
+- **`/goal`** 也在当前会话续跑。如果 Claude 修了 6 个就误报 `DONE`，插件会接受这个标记。若 `/goal` 的评估模型从对话里看到还有 4 个失败，就会说明原因并让 Claude 继续。[Claude Code 官方文档](https://code.claude.com/docs/en/goal#how-evaluation-works)
 
-短程、有界的目标是纯收益；**通宵无人值守的长跑，目前官方实现反而不如自己写 fresh-context bash 循环**。
-
-> [!note] 官方还有一个 ralph-wiggum 插件
-> 同样形状、更粗糙的判定器——Stop hook 匹配精确的完成字符串：
-> ```
-> /ralph-loop "Implement the spec in specs/auth.md" --max-iterations 30 --completion-promise "RALPH_COMPLETE"
-> ```
+[[KDA：Agent 驱动的 CUDA Kernel 开发工作流]] 里的 RLCR 则在 Claude 尝试结束时调用 Codex 独立评审，并把未通过的意见交回原会话。
 
 ---
 
@@ -218,7 +210,7 @@ claude stop <id>    # 停止会话；记录与工作树仍保留
 | 原语                        | 开启                   | 停止                                                       |
 | ------------------------- | -------------------- | -------------------------------------------------------- |
 | `/loop`                   | 带间隔运行即生效             | `Esc`；prompt 里自带 until 条件；关 session                      |
-| `/goal`                   | 一条命令，session 级立即生效   | ① 评估模型判 yes 自动清除 ② 达到 turn 上限 ③ 对话中说"放弃这个目标" ④ 杀 session |
+| `/goal`                   | 一条命令，session 级立即生效   | 评估模型判断达标或无法达成，满足条件中写明的停止条款，或手动 `/goal clear` |
 | `/schedule`（session cron） | `/schedule "..."` 创建 | `disable` / `delete`；7 天自动过期；关 session                   |
 | `/schedule`（云端 routine）   | `/schedule` 创建       | **必须**用 `disable` / `delete`，关终端不影响                      |
 

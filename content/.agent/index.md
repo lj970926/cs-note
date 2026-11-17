@@ -188,7 +188,7 @@ created: 2026-08-11
 - [[AI-agent/DeepSeek Harness/PTC 模式与推理框架 tool_call 的兼容性|PTC 与推理框架 tool_call 兼容性]] —— PTC 对 vLLM/SGLang 只是普通单工具调用，真正门槛在模型侧训练格式
 - [[AI-agent/Cursor Agent Best Practice|Cursor Agent Best Practice]] —— Cursor Agent 工作流最佳实践
 - [[AI-agent/AI 代码 Review 策略|AI 代码 Review 策略]] —— AI 产出超过人工审查带宽时的四层分流：可验证信号、独立 agent 评审、计划前置拦截、高危人读
-- [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule|Claude Code Loop 工程]] —— loop/goal/schedule 与后台会话、后台命令的用法和选型；含后台会话的 supervisor 实现机制（逆向）
+- [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule|Claude Code Loop 工程]] —— Ralph Loop 原版、插件完成标记与 /goal 的 Haiku 评估；另含 /loop、/schedule、后台命令与后台会话 supervisor 实现
 - [[AI-agent/claude-code/Claude Code 快捷键|Claude Code 快捷键]] —— 输入框编辑（Ctrl+U/K/W）、会话控制（Esc、Shift+Tab）与特殊前缀（#/!/@//）
 - [[AI-agent/claude-code/Claude Code -p 非交互模式|Claude Code -p 非交互模式]] —— `claude -p`/`--print` headless 用法：管道输入、--continue/--resume、--output-format、退出码与交互/脚本选型
 - [[AI-agent/claude-code/Claude Code statusline 脚本（含 Kimi 额度显示）|Claude Code statusline 脚本]] —— 自用 statusline.sh 全文：cwd/git/模型/推理指标/ctx 占用，及 Kimi 5h+月度额度段（非官方 usages 接口、60s 缓存异步刷新、用量变色告警）

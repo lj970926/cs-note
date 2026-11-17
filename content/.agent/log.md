@@ -516,3 +516,8 @@ created: 2026-08-11
 ## [2026-11-13] update | vLLM vs SGLang：Prefix Cache 管理机制对比
 
 - 补充 [[MLSys/vLLM vs SGLang：Prefix Cache 管理机制对比]] 中 SGLang 的两处哈希用途，说明树内局部键如何依赖当前节点，以及 HiCache 外部存储如何用上一页哈希编码前缀。
+
+## [2026-11-17] update | Claude Code Loop 工程：loop、goal 与 schedule
+
+- 补充 [[AI-agent/claude-code/Claude Code Loop 工程：loop、goal 与 schedule]] 中 Ralph Loop 自动续跑的用途、原版 Bash 循环和插件的区别，以及 Stop hook 如何识别 Claude 输出的完成标记。
+- 按官方文档更新 `/goal` 的三种判定结果、默认 Haiku 与证据来源，并同步更新索引。
