@@ -525,3 +525,11 @@ created: 2026-08-11
 ## [2026-11-19] note | Agent Harness 文章收集
 
 - 新建 [[AI-agent/Agent Harness 文章收集]]，收录 Anthropic 的上下文工程文章，关联已有 Harness Engineering 阅读笔记并更新索引。
+
+## [2026-11-19] update | Agent Harness 文章收集
+
+- 在 [[AI-agent/Agent Harness 文章收集]] 的「多 Agent 协作」小节收录 Anthropic 的 Claude Research 架构文章，并更新索引。
+
+## [2026-11-19] ingest | Agent 上下文工程：Anthropic 阅读笔记
+
+- 根据 Anthropic 原文新建 [[AI-agent/Agent 上下文工程：Anthropic 阅读笔记]]，整理上下文选择、按需检索和三种长任务策略，补充仓库迁移示例，并更新文章收藏与索引。

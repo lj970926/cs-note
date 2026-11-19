@@ -178,7 +178,8 @@ created: 2026-08-11
 
 ## AI-agent —— AI 助手与工作流
 
-- [[AI-agent/Agent Harness 文章收集|Agent Harness 文章收集]] —— 收录 Agent Harness 相关文章，首篇为 Anthropic 的上下文工程实践
+- [[AI-agent/Agent Harness 文章收集|Agent Harness 文章收集]] —— 收录 Agent Harness 相关文章，涵盖上下文工程与多 Agent 研究系统
+- [[AI-agent/Agent 上下文工程：Anthropic 阅读笔记|Agent 上下文工程：Anthropic 阅读笔记]] —— 逐轮管理模型输入，介绍按需检索、上下文压缩、结构化笔记与子 Agent
 - [[AI-agent/Codex CLI 使用指南|Codex CLI 使用指南]] —— 汇总 `resume` 会话恢复与目录筛选、`/plan` 计划模式，以及 `--yolo` 等权限参数
 - [[AI-agent/Harness Engineering：以 Agent 为中心的工程实践|Harness Engineering：以 Agent 为中心的工程实践]] —— OpenAI 原文阅读：可导航知识、运行反馈、可执行架构约束、审查与持续清理；辨析吞吐量策略边界，附个人闭环与任务契约模板
 - [[AI-agent/LLM Wiki|LLM Wiki]] —— Karpathy 的 LLM 维护个人知识库模式（本指令的方法论来源）
